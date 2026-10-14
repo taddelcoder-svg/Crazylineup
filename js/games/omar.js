@@ -2,7 +2,7 @@
 // Omar reitet mit seinem Kamel durch die Sahara und liefert Waren zwischen Marrakech,
 // Aït-Ben-Haddou, Oase Tinfou, Zagora und Merzouga. Wasser ist knapp: Brunnen und
 // Minztee füllen auf. Galopp kostet Wasser. Tag-Nacht-Wechsel und Sandstürme.
-// Steuern: A/D bzw. ←/→ lenken, W/↑/Shift Galopp. Am Handy Tasten unten.
+// Steuern: A/D bzw. ←/→ lenken, W/↑/Shift Galopp, S/↓ bremsen. Am Handy Lenkschieber + Galopp-Knopf.
 (function () {
   'use strict';
   var BEST_KEY = 'crazylineup.omar.best';
@@ -57,10 +57,12 @@
     ' background:rgba(120,50,20,.75);color:#fff;font:700 20px/1 sans-serif;cursor:pointer;z-index:20}',
     '.om-pad{position:absolute;left:0;right:0;bottom:0;display:none;justify-content:space-between;align-items:flex-end;padding:0 14px calc(14px + env(safe-area-inset-bottom));z-index:15;pointer-events:none}',
     '.om-pad.an{display:flex}',
-    '.om-pad .grp{display:flex;gap:12px}',
-    '.om-pad button{pointer-events:auto;width:76px;height:76px;border-radius:50%;border:3px solid rgba(255,240,210,.6);background:rgba(60,30,10,.4);color:#fff;font:800 26px/1 sans-serif;touch-action:none}',
-    '.om-pad button.galopp{width:96px;height:96px;font:800 16px/1 "Barlow Semi Condensed",sans-serif;letter-spacing:.05em}',
-    '.om-pad button.gedrueckt{background:rgba(232,176,74,.6)}',
+    '.om-lenk{pointer-events:auto;position:relative;width:min(54vw,290px);height:86px;border-radius:43px;border:3px solid rgba(255,240,210,.55);background:rgba(60,30,10,.42);touch-action:none}',
+    '.om-lenk::before{content:"◀   LENKEN   ▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 13px/1 "Barlow Semi Condensed",sans-serif;letter-spacing:.08em;color:rgba(255,240,210,.6)}',
+    '.om-lenk i{position:absolute;top:50%;left:50%;width:68px;height:68px;margin:-34px 0 0 -34px;border-radius:50%;background:rgba(255,240,210,.88);box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s ease-out}',
+    '.om-lenk.aktiv i{transition:none;background:#ffd27a}',
+    '.om-pad button{pointer-events:auto;width:98px;height:98px;border-radius:50%;border:3px solid rgba(255,240,210,.6);background:rgba(60,30,10,.42);color:#fff;font:800 16px/1 "Barlow Semi Condensed",sans-serif;letter-spacing:.05em;touch-action:none;-webkit-user-select:none;user-select:none}',
+    '.om-pad button.gedrueckt{background:rgba(232,176,74,.7)}',
     '.om-ebene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:30;transition:opacity .45s}',
     '.om-ebene.aus{opacity:0;pointer-events:none}',
     '@media (min-width:900px){.om-ebene{justify-content:flex-start;padding-left:6vw}}',
@@ -114,10 +116,10 @@
         '<div class="om-kompass"><svg viewBox="0 0 40 40" data-el="pfeil"><path d="M20 3 L30 30 L20 24 L10 30 Z" fill="#ffd27a" stroke="#3a2010" stroke-width="2" stroke-linejoin="round"/></svg><span data-el="dist">0 m</span></div>' +
         '<div class="om-wasser" data-el="wasserBox"><span>💧 WASSER</span><div><i data-el="wasser"></i></div></div>' +
         '<div class="om-meldung" data-el="meldung"></div>' +
-        '<div class="om-tipp" data-el="tipp">Folge dem Kompass · A/D lenken · W/Shift Galopp</div>' +
+        '<div class="om-tipp" data-el="tipp">Folge dem Kompass · A/D lenken · W/Shift Galopp · S bremsen</div>' +
       '</div>' +
-      '<div class="om-pad"><div class="grp"><button data-pad="l" aria-label="Links">◀</button><button data-pad="r" aria-label="Rechts">▶</button></div>' +
-      '<button class="galopp" data-pad="g" aria-label="Galopp">GALOPP</button></div>' +
+      '<div class="om-pad"><div class="om-lenk" data-el="lenk" aria-label="Lenken"><i></i></div>' +
+      '<button data-el="galopp" aria-label="Galopp">GALOPP</button></div>' +
       '<button class="om-knopf" style="left:calc(12px + env(safe-area-inset-left))" data-act="exit" aria-label="Zurück zum Menü">‹</button>' +
       '<button class="om-knopf" style="right:calc(12px + env(safe-area-inset-right))" data-act="ton" aria-label="Ton an/aus"></button>' +
       '<div class="om-ebene" data-el="ebene"></div></div>';
@@ -260,19 +262,63 @@
     for (i = 0; i < bp.count; i++) { var f = 1 + Math.sin(bp.getX(i) * 7.1 + bp.getZ(i) * 3.3) * 0.12 + Math.sin(bp.getY(i) * 9.7) * 0.08; bp.setXYZ(i, bp.getX(i) * f, bp.getY(i) * f, bp.getZ(i) * f); }
     bergGeo.computeVertexNormals();
     var bergM2 = std(0x8a5a44, { flatShading: true, roughness: 1 });
+    var berge = new THREE.Group(); scene.add(berge);
     for (i = 0; i < 60; i++) {
       var a = i / 60 * Math.PI * 2 + rnd(-0.04, 0.04), rr = rnd(370, 470), hb = rnd(35, 95);
       var berg = new THREE.Mesh(bergGeo, i % 3 ? bergM : bergM2);
       berg.scale.set(rnd(55, 95), hb, rnd(40, 70));
       berg.position.set(Math.cos(a) * rr, -hb * 0.25, Math.sin(a) * rr); berg.rotation.y = -a + rnd(-0.4, 0.4);
-      scene.add(berg);
+      berge.add(berg);
     }
+
+    // Statische Teile einer Gruppe je Material zu einem Mesh verschmelzen (spart Zeichenaufrufe)
+    function verschmelzen(gruppe) {
+      gruppe.updateMatrixWorld(true);
+      var nachMat = new Map();
+      gruppe.traverse(function (o) {
+        if (!o.isMesh) return;
+        var l = nachMat.get(o.material);
+        if (!l) nachMat.set(o.material, l = { teile: [], schatten: false });
+        l.teile.push(o); if (o.castShadow) l.schatten = true;
+      });
+      nachMat.forEach(function (l, mat) {
+        if (l.teile.length < 2) return;
+        var stuecke = l.teile.map(function (m) {
+          var gm = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone();
+          gm.applyMatrix4(m.matrixWorld);
+          m.parent.remove(m);
+          return gm;
+        });
+        var n = 0; stuecke.forEach(function (gm) { n += gm.attributes.position.count; });
+        var pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2), o3 = 0;
+        stuecke.forEach(function (gm) {
+          var c = gm.attributes.position.count;
+          pos.set(gm.attributes.position.array, o3 * 3);
+          nor.set(gm.attributes.normal.array, o3 * 3);
+          if (gm.attributes.uv) uv.set(gm.attributes.uv.array, o3 * 2);
+          o3 += c; gm.dispose();
+        });
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        geo.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+        geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+        geo.computeBoundingSphere();
+        var mm = new THREE.Mesh(geo, mat); mm.castShadow = l.schatten; mm.receiveShadow = true;
+        gruppe.add(mm);
+      });
+    }
+    verschmelzen(berge);
 
     // ---------- Orte ----------
     var lehm = std(0xffffff, { map: lehmTex, roughness: 0.95 }), lehmDunkel = std(0x9a5a34, { roughness: 1 });
     var palmeStamm = std(0x6a4a2a), palmeBlatt = std(0x3a6a2a, { side: THREE.DoubleSide, flatShading: true });
     var lampen = [];
+    // Hindernisse je Ort: Kisten (achsparallel, halbe Breite/Tiefe) und Kreise
+    var aktOrt = null;
+    function kiste(x, z, hx, hz) { aktOrt.kisten.push({ x: x, z: z, hx: hx, hz: hz }); }
+    function kreis(x, z, r) { aktOrt.kreise.push({ x: x, z: z, r: r }); }
     function palme(g, x, z) {
+      kreis(x, z, 0.45);
       var h = rnd(5, 8), st = schatten(new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.3, h, 6), palmeStamm));
       st.position.set(x, hoehe(x, z) + h / 2, z); st.rotation.z = rnd(-0.15, 0.15); g.add(st);
       for (var b = 0; b < 7; b++) {
@@ -284,18 +330,21 @@
     function lampe(g, x, y, z, farbe) {
       var lk = glow(farbe || 0xffb060, 3, 0); lk.position.set(x, y, z); g.add(lk); lampen.push(lk);
     }
+    var fensterGeo = new THREE.PlaneGeometry(0.6, 0.9), fensterM = new THREE.MeshBasicMaterial({ color: 0x2a1408 }), zinneGeo = new THREE.BoxGeometry(0.6, 0.7, 0.6);
     function haus(g, x, z, w, h, d, zinnen) {
       var y0 = hoehe(x, z);
+      kiste(x, z, w / 2, d / 2);
       var hm = schatten(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), lehm)); hm.position.set(x, y0 + h / 2 - 0.2, z); g.add(hm);
-      if (zinnen) for (var k = -w / 2 + 0.4; k < w / 2; k += 1.2) { var zn = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.7, 0.6), lehm); zn.position.set(x + k, y0 + h + 0.15, z + d / 2 - 0.3); g.add(zn); var zn2 = zn.clone(); zn2.position.z = z - d / 2 + 0.3; g.add(zn2); }
+      if (zinnen) for (var k = -w / 2 + 0.4; k < w / 2; k += 1.2) { var zn = new THREE.Mesh(zinneGeo, lehm); zn.position.set(x + k, y0 + h + 0.15, z + d / 2 - 0.3); g.add(zn); var zn2 = zn.clone(); zn2.position.z = z - d / 2 + 0.3; g.add(zn2); }
       for (var f = 0; f < 3; f++) {
-        var fe = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 0.9), new THREE.MeshBasicMaterial({ color: 0x2a1408 }));
+        var fe = new THREE.Mesh(fensterGeo, fensterM);
         fe.position.set(x - w / 4 + f * w / 4, y0 + h * 0.62, z + d / 2 + 0.02); g.add(fe);
         lampe(g, fe.position.x, fe.position.y, fe.position.z + 0.2, 0xffa850);
       }
     }
     function brunnen(g, x, z) {
       var y0 = hoehe(x, z);
+      kreis(x, z, 1.55);
       var ring = schatten(new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.5, 1, 14, 1, true), std(0xd8c8a8, { side: THREE.DoubleSide })));
       ring.position.set(x, y0 + 0.5, z); g.add(ring);
       var w = new THREE.Mesh(new THREE.CircleGeometry(1.3, 16), std(0x2a6a9a, { roughness: 0.15, metalness: 0.3 })); w.rotation.x = -Math.PI / 2; w.position.set(x, y0 + 0.7, z); g.add(w);
@@ -303,10 +352,11 @@
     var ortGruppen = {};
     ORTE.forEach(function (o) {
       var g = new THREE.Group(); scene.add(g); ortGruppen[o.id] = g;
+      o.kisten = []; o.kreise = []; aktOrt = o;
       var x = o.x, z = o.z;
       if (o.art === 'kasbah') {
         haus(g, x - 6, z - 4, 9, 7, 7, true); haus(g, x + 5, z - 6, 7, 10, 7, true); haus(g, x + 1, z + 7, 10, 5, 6, true);
-        var turm = schatten(new THREE.Mesh(new THREE.BoxGeometry(3, 14, 3), lehm)); turm.position.set(x - 11, hoehe(x - 11, z) + 7, z + 3); g.add(turm);
+        var turm = schatten(new THREE.Mesh(new THREE.BoxGeometry(3, 14, 3), lehm)); turm.position.set(x - 11, hoehe(x - 11, z) + 7, z + 3); g.add(turm); kiste(x - 11, z + 3, 1.5, 1.5);
         palme(g, x + 12, z + 6); palme(g, x - 13, z - 10); palme(g, x + 10, z - 13);
       } else if (o.art === 'oase') {
         var see = new THREE.Mesh(new THREE.CircleGeometry(10, 32), std(0x2a7aa8, { roughness: 0.08, metalness: 0.4 }));
@@ -318,13 +368,13 @@
         for (var t2 = 0; t2 < 9; t2++) {
           var tx = x - 14 + (t2 % 3) * 9, tz = z + 4 + Math.floor(t2 / 3) * 7, ty = hoehe(tx, tz);
           var dach = schatten(new THREE.Mesh(new THREE.ConeGeometry(3.4, 1.6, 4), std(cols[t2 % cols.length], { side: THREE.DoubleSide })));
-          dach.position.set(tx, ty + 3, tz); dach.rotation.y = Math.PI / 4; g.add(dach);
+          dach.position.set(tx, ty + 3, tz); dach.rotation.y = Math.PI / 4; g.add(dach); kiste(tx, tz, 1.95, 1.95);
           [[-1.9, -1.9], [1.9, -1.9], [-1.9, 1.9], [1.9, 1.9]].forEach(function (pp) { var st = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 2.4, 4), palmeStamm); st.position.set(tx + pp[0], ty + 1.2, tz + pp[1]); g.add(st); });
           lampe(g, tx, ty + 2.3, tz, 0xffb060);
         }
         // Koutoubia-Minarett
         var my = hoehe(x, z - 12);
-        var min = schatten(new THREE.Mesh(new THREE.BoxGeometry(5, 26, 5), lehm)); min.position.set(x, my + 13, z - 12); g.add(min);
+        var min = schatten(new THREE.Mesh(new THREE.BoxGeometry(5, 26, 5), lehm)); min.position.set(x, my + 13, z - 12); g.add(min); kiste(x, z - 12, 2.5, 2.5);
         var kr = new THREE.Mesh(new THREE.BoxGeometry(5.6, 1, 5.6), std(0x1f6a6a)); kr.position.set(x, my + 22, z - 12); g.add(kr);
         var lat = schatten(new THREE.Mesh(new THREE.BoxGeometry(2.2, 4, 2.2), lehm)); lat.position.set(x, my + 28, z - 12); g.add(lat);
         var kup = new THREE.Mesh(new THREE.SphereGeometry(1.1, 10, 8), std(0xe8b04a, { metalness: 0.6, roughness: 0.3 })); kup.position.set(x, my + 30.6, z - 12); g.add(kup);
@@ -335,18 +385,19 @@
         for (var c2 = 0; c2 < 6; c2++) {
           var ca = c2 / 6 * Math.PI * 2, cx = x + Math.cos(ca) * 9, cz = z + Math.sin(ca) * 9, cy = hoehe(cx, cz);
           var zelt = schatten(new THREE.Mesh(new THREE.CylinderGeometry(0.1, 3, 2.8, 4), std(c2 % 2 ? 0x3a2418 : 0x5a3a24, { flatShading: true })));
-          zelt.position.set(cx, cy + 1.4, cz); zelt.rotation.y = ca; g.add(zelt);
+          zelt.position.set(cx, cy + 1.4, cz); zelt.rotation.y = ca; g.add(zelt); kreis(cx, cz, 2.5);
           var deko = new THREE.Mesh(new THREE.CylinderGeometry(3.02, 3.02, 0.25, 4, 1, true), std(0xffffff, { map: deckeTex, side: THREE.DoubleSide }));
           deko.position.set(cx, cy + 0.35, cz); deko.rotation.y = ca; g.add(deko);
         }
         var feuer = glow(0xff8a30, 6, 0.9); feuer.position.set(x, hoehe(x, z) + 1, z); g.add(feuer); g.userData.feuer = feuer;
-        var holz = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 1.6, 5), palmeStamm); holz.rotation.z = Math.PI / 2; holz.position.set(x, hoehe(x, z) + 0.2, z); g.add(holz);
+        var holz = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 1.6, 5), palmeStamm); holz.rotation.z = Math.PI / 2; holz.position.set(x, hoehe(x, z) + 0.2, z); g.add(holz); kreis(x, z, 1.1);
         palme(g, x + 14, z - 6);
       }
       if (o.wasser) brunnen(g, x + (o.art === 'oase' ? 0 : -3), z + (o.art === 'oase' ? 13 : 13));
       var schild = new THREE.Sprite(new THREE.SpriteMaterial({ map: textTex(o.name), transparent: true, depthTest: false, fog: false }));
       schild.scale.set(16, 4, 1); schild.position.set(x, hoehe(x, z) + 20, z); schild.renderOrder = 5; g.add(schild);
       o.schild = schild;
+      verschmelzen(g);
     });
 
     // Zielstrahl
@@ -466,7 +517,7 @@
       var startOrt = ORTE[4];
       g = {
         modus: 'intro', t: 0, tag: 0.1, x: startOrt.x - 20, z: startOrt.z - 20, kurs: Math.PI * 0.25, tempo: 0, lenk: 0, wasser: 100,
-        geld: 0, lief: 0, ort: startOrt, auftrag: null, sturm: 0, sturmIn: rnd(50, 80), schritt: 0, ende: false, langsam: 0
+        geld: 0, lief: 0, ort: startOrt, auftrag: null, sturm: 0, sturmIn: rnd(50, 80), schritt: 0, ende: false, langsam: 0, randT: -99, galopp: false
       };
       tees.forEach(teeSetzen);
       neuerAuftrag();
@@ -495,24 +546,51 @@
     }
 
     // ---------- Eingabe ----------
-    var tasten = {}, padZ = {};
+    // Tasten über e.code (Layout-unabhängig, Shift ändert nichts), Rückfall über e.key.
+    var CODES = { KeyA: 'l', ArrowLeft: 'l', KeyD: 'r', ArrowRight: 'r', KeyW: 'g', ArrowUp: 'g', ShiftLeft: 'g', ShiftRight: 'g', KeyS: 'b', ArrowDown: 'b' };
+    var KEYS = { a: 'l', arrowleft: 'l', d: 'r', arrowright: 'r', w: 'g', arrowup: 'g', shift: 'g', s: 'b', arrowdown: 'b' };
+    var tasten = {}, touch = { lenk: 0, galopp: false };
+    function taste(e) { return CODES[e.code] || KEYS[(e.key || '').toLowerCase()]; }
     function kd(e) {
-      var k = e.key.toLowerCase();
-      if (k === 'escape') { stop(); onExit(); return; }
-      if (g.modus !== 'reiten' && (k === 'enter' || k === ' ')) { var b = ebene.querySelector('[data-act=los]'); if (b) { e.preventDefault(); b.click(); } return; }
-      tasten[k] = true;
-      if (['arrowleft', 'arrowright', 'arrowup', 'arrowdown', ' '].indexOf(k) >= 0) e.preventDefault();
+      if (e.key === 'Escape') { stop(); onExit(); return; }
+      if (g.modus !== 'reiten' && (e.key === 'Enter' || e.key === ' ')) { var b = ebene.querySelector('[data-act=los]'); if (b) { e.preventDefault(); b.click(); } return; }
+      var t = taste(e);
+      if (t) { tasten[t] = true; e.preventDefault(); }
     }
-    function ku(e) { tasten[e.key.toLowerCase()] = false; }
-    pad.addEventListener('pointerdown', function (e) { var b = e.target.closest('[data-pad]'); if (!b) return; e.preventDefault(); padZ[e.pointerId] = b.getAttribute('data-pad'); try { b.releasePointerCapture(e.pointerId); } catch (x) {} padRender(); });
-    pad.addEventListener('pointerover', function (e) { if (padZ[e.pointerId] === undefined) return; var b = e.target.closest('[data-pad]'); if (!b) return; var w = b.getAttribute('data-pad'); if (w !== 'g' && padZ[e.pointerId] !== 'g') { padZ[e.pointerId] = w; padRender(); } });
-    function padLos(e) { if (padZ[e.pointerId] !== undefined) { delete padZ[e.pointerId]; padRender(); } }
-    function padRender() {
-      var v = {}; Object.keys(padZ).forEach(function (k) { v[padZ[k]] = true; });
-      pad.querySelectorAll('[data-pad]').forEach(function (b) { b.classList.toggle('gedrueckt', !!v[b.getAttribute('data-pad')]); });
-      tasten.padl = !!v.l; tasten.padr = !!v.r; tasten.padg = !!v.g;
+    function ku(e) { var t = taste(e); if (t) tasten[t] = false; }
+    // Fenster verliert den Fokus: sonst bleiben gedrückte Tasten "hängen"
+    function allesLos() { tasten = {}; touch.galopp = false; lenkLos(); galoppBtn.classList.remove('gedrueckt'); }
+    function sichtbar() { if (document.hidden) allesLos(); }
+
+    // Handy: analoger Lenkschieber + Galopp-Knopf (jeweils eigener Finger)
+    var lenkEl = $('lenk'), lenkKnopf = lenkEl.querySelector('i'), lenkId = null, galoppBtn = $('galopp'), galoppId = null;
+    function lenkSetzen(e) {
+      var r = lenkEl.getBoundingClientRect(), halb = r.width / 2 - 24;
+      var v = clamp((e.clientX - (r.left + r.width / 2)) / halb, -1, 1);
+      touch.lenk = Math.abs(v) < 0.08 ? 0 : v;
+      lenkKnopf.style.transform = 'translateX(' + (v * (r.width / 2 - 38)) + 'px)';
     }
-    if (window.matchMedia && matchMedia('(pointer: coarse)').matches) pad.classList.add('an');
+    function lenkLos(e) {
+      if (e && e.pointerId !== lenkId) return;
+      lenkId = null; touch.lenk = 0; lenkKnopf.style.transform = ''; lenkEl.classList.remove('aktiv');
+    }
+    lenkEl.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); lenkId = e.pointerId;
+      try { lenkEl.setPointerCapture(e.pointerId); } catch (x) {}
+      lenkEl.classList.add('aktiv'); lenkSetzen(e);
+    });
+    lenkEl.addEventListener('pointermove', function (e) { if (e.pointerId === lenkId) lenkSetzen(e); });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (n) { lenkEl.addEventListener(n, lenkLos); });
+    galoppBtn.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); galoppId = e.pointerId; touch.galopp = true; galoppBtn.classList.add('gedrueckt');
+      try { galoppBtn.setPointerCapture(e.pointerId); } catch (x) {}
+    });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (n) {
+      galoppBtn.addEventListener(n, function (e) { if (e.pointerId !== galoppId) return; galoppId = null; touch.galopp = false; galoppBtn.classList.remove('gedrueckt'); });
+    });
+    pad.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    function touchAn() { pad.classList.add('an'); $('tipp').textContent = 'Folge dem Kompass · Schieber lenkt · GALOPP gedrückt halten'; }
+    if (window.matchMedia && matchMedia('(pointer: coarse)').matches) touchAn();
 
     // ---------- Nachbearbeitung ----------
     var composer = null;
@@ -545,8 +623,9 @@
       abend: { z: '#2a2a6a', h: '#e87a5a', s: '#ff7a3a', f: '#b86a5a', li: 0.6, he: 0.35 },
       nacht: { z: '#060a24', h: '#1a2450', s: '#9ab0ff', f: '#141c3a', li: 0.28, he: 0.22 }
     };
-    var cA = new THREE.Color(), cB = new THREE.Color();
-    function mischPal(a, b, t, key) { cA.set(PAL[a][key]); cB.set(PAL[b][key]); return cA.lerp(cB, t).clone(); }
+    Object.keys(PAL).forEach(function (n) { ['z', 'h', 's', 'f'].forEach(function (k) { PAL[n][k] = new THREE.Color(PAL[n][k]); }); });
+    var STURM_Z = new THREE.Color('#c89a6a'), STURM_H = new THREE.Color('#d8a874'), sd = new THREE.Vector3();
+    function mischPal(a, b, t, key, out) { return out.copy(PAL[a][key]).lerp(PAL[b][key], t); }
     function tageszeit() {
       var a = g.tag * Math.PI * 2, el = Math.sin(a);
       var von, nach, t;
@@ -556,85 +635,130 @@
       else if (el > -0.25) { von = 'nacht'; nach = 'abend'; t = (el + 0.25) / 0.2; }
       else { von = 'nacht'; nach = 'nacht'; t = 0; }
       var sturmT = g.sturm;
-      himmelU.uZenit.value.copy(mischPal(von, nach, t, 'z')).lerp(new THREE.Color('#c89a6a'), sturmT * 0.8);
-      himmelU.uHorizont.value.copy(mischPal(von, nach, t, 'h')).lerp(new THREE.Color('#d8a874'), sturmT);
-      himmelU.uSonnenFarbe.value.copy(mischPal(von, nach, t, 's')).multiplyScalar(el > -0.05 ? 1 : 0.15);
-      var sd = new THREE.Vector3(Math.cos(a) * 0.8, Math.max(el, -0.3), -0.55).normalize();
+      mischPal(von, nach, t, 'z', himmelU.uZenit.value).lerp(STURM_Z, sturmT * 0.8);
+      mischPal(von, nach, t, 'h', himmelU.uHorizont.value).lerp(STURM_H, sturmT);
+      mischPal(von, nach, t, 's', himmelU.uSonnenFarbe.value).multiplyScalar(el > -0.05 ? 1 : 0.15);
+      sd.set(Math.cos(a) * 0.8, Math.max(el, -0.3), -0.55).normalize();
       if (el < -0.05) sd.set(-Math.cos(a) * 0.8, Math.max(-el, 0.1), -0.55).normalize(); // Mond
       himmelU.uSonne.value.copy(sd);
       var nacht = smooth(0.0, -0.25, el);
       sternMat.opacity = nacht * (1 - sturmT); mond.material.opacity = nacht * 0.9 * (1 - sturmT);
       mond.position.copy(sd).multiplyScalar(1100);
-      sonne.color.copy(mischPal(von, nach, t, 's'));
+      mischPal(von, nach, t, 's', sonne.color);
       sonne.intensity = lerp(PAL[von].li, PAL[nach].li, t) * (1 - sturmT * 0.5);
       hemi.intensity = lerp(PAL[von].he, PAL[nach].he, t);
       sonne.position.set(g.x + sd.x * 80, sd.y * 80 + 5, g.z + sd.z * 80);
       sonne.target.position.set(g.x, 0, g.z);
-      var fog = mischPal(von, nach, t, 'f').lerp(new THREE.Color('#d8a874'), sturmT);
-      scene.fog.color.copy(fog);
+      mischPal(von, nach, t, 'f', scene.fog.color).lerp(STURM_H, sturmT);
       scene.fog.near = lerp(70, 6, sturmT); scene.fog.far = lerp(380, 55, sturmT);
-      lampen.forEach(function (l) { l.material.opacity = nacht * 0.95; });
+      for (var n = 0; n < lampen.length; n++) lampen[n].material.opacity = nacht * 0.95;
       laterne.material.opacity = nacht;
       return nacht;
     }
 
-    // ---------- Schleife ----------
-    var camPos = new THREE.Vector3(), camZiel = new THREE.Vector3(), blick = new THREE.Vector3();
-    function update(dt) {
+    // ---------- Kollision ----------
+    var KR = 1.35; // Radius des Kamels (Rumpf und Kopf werden einzeln geprüft)
+    var schub = { x: 0, z: 0 };
+    function ausweichen(px, pz) {
+      schub.x = 0; schub.z = 0;
+      for (var n = 0; n < ORTE.length; n++) {
+        var o = ORTE[n];
+        if (Math.abs(px - o.x) > 45 || Math.abs(pz - o.z) > 45) continue;
+        for (var a = 0; a < o.kreise.length; a++) {
+          var k = o.kreise[a], dx = px - k.x, dz = pz - k.z, d = Math.hypot(dx, dz), min = k.r + KR;
+          if (d < min) { if (d < 1e-4) { dx = 1; d = 1; } schub.x += dx / d * (min - d); schub.z += dz / d * (min - d); px += dx / d * (min - d); pz += dz / d * (min - d); }
+        }
+        for (var b = 0; b < o.kisten.length; b++) {
+          var q = o.kisten[b];
+          var cx = clamp(px, q.x - q.hx, q.x + q.hx), cz = clamp(pz, q.z - q.hz, q.z + q.hz);
+          var ex = px - cx, ez = pz - cz, e2 = Math.hypot(ex, ez), mx = 0, mz = 0;
+          if (e2 >= KR) continue;
+          if (e2 > 1e-4) { mx = ex / e2 * (KR - e2); mz = ez / e2 * (KR - e2); }
+          else { // Mittelpunkt steckt in der Kiste: kürzester Weg hinaus
+            var links = px - (q.x - q.hx), rechts = (q.x + q.hx) - px, vorn = pz - (q.z - q.hz), hinten = (q.z + q.hz) - pz;
+            var m = Math.min(links, rechts, vorn, hinten);
+            if (m === links) mx = -(links + KR); else if (m === rechts) mx = rechts + KR; else if (m === vorn) mz = -(vorn + KR); else mz = hinten + KR;
+          }
+          schub.x += mx; schub.z += mz; px += mx; pz += mz;
+        }
+      }
+      return schub;
+    }
+    function kollision() {
+      var fx = Math.sin(g.kurs), fz = -Math.cos(g.kurs);
+      var s1 = ausweichen(g.x, g.z); g.x += s1.x; g.z += s1.z;
+      var s2 = ausweichen(g.x + fx * 1.9, g.z + fz * 1.9); g.x += s2.x; g.z += s2.z;
+      var r = Math.hypot(g.x, g.z);
+      if (r > RADIUS) {
+        g.x *= RADIUS / r; g.z *= RADIUS / r;
+        if (g.modus === 'reiten' && g.t - g.randT > 6) { g.randT = g.t; melde('Zu weit draußen!', 'Hier gibt es nur Steine und Berge.'); }
+      }
+    }
+
+    // ---------- Physik (feste Teilschritte) ----------
+    function physik(dt) {
       var reiten = g.modus === 'reiten';
       g.t += dt;
       g.tag = (g.tag + dt / 300) % 1;
-      // Eingabe
-      var links = tasten.a || tasten.arrowleft || tasten.padl, rechts = tasten.d || tasten.arrowright || tasten.padr;
-      var galopp = (tasten.w || tasten.arrowup || tasten.shift || tasten.padg) && g.wasser > 0;
-      var bremse = tasten.s || tasten.arrowdown;
-      if (!reiten) { links = rechts = galopp = bremse = false; }
-      g.lenk = lerp(g.lenk, (rechts ? 1 : 0) - (links ? 1 : 0), dt * 6);
-      var soll = reiten ? (bremse ? 2 : galopp ? 15 : 8) : 0;
+      var lenkZiel = 0, galopp = false, bremse = false;
+      if (reiten) {
+        lenkZiel = clamp((tasten.r ? 1 : 0) - (tasten.l ? 1 : 0) + touch.lenk, -1, 1);
+        galopp = (tasten.g || touch.galopp) && g.wasser > 0;
+        bremse = !!tasten.b;
+      }
+      g.galopp = galopp;
+      g.lenk += (lenkZiel - g.lenk) * (1 - Math.exp(-dt * 12));
+      var soll = reiten ? (bremse ? 1.5 : galopp ? 15 : 8) : 0;
       // Steigung bremst
       var vorX = g.x + Math.sin(g.kurs) * 2, vorZ = g.z - Math.cos(g.kurs) * 2;
       var steig = hoehe(vorX, vorZ) - hoehe(g.x, g.z);
-      soll *= clamp(1 - steig * 0.25, 0.55, 1.15);
+      soll *= clamp(1 - steig * 0.25, 0.6, 1.15);
       if (g.wasser <= 0) soll = Math.min(soll, 3);
-      g.tempo = lerp(g.tempo, soll, dt * (soll > g.tempo ? 1.4 : 2.5));
-      g.kurs += g.lenk * dt * lerp(1.6, 1.1, g.tempo / 15);
+      g.tempo += (soll - g.tempo) * (1 - Math.exp(-dt * (soll > g.tempo ? 1.8 : 3.2)));
+      // Wendig bei wenig Tempo, ruhiger im Galopp; auch im Stand drehbar
+      g.kurs = winkel(g.kurs + g.lenk * dt * lerp(1.9, 1.35, clamp(g.tempo / 15, 0, 1)));
       // Sturm drückt seitlich
       var windX = g.sturm * Math.sin(g.t * 0.3) * 2.2, windZ = g.sturm * 1.2;
       g.x += (Math.sin(g.kurs) * g.tempo + windX) * dt;
       g.z += (-Math.cos(g.kurs) * g.tempo + windZ) * dt;
-      var r = Math.hypot(g.x, g.z);
-      if (r > RADIUS) { g.x *= RADIUS / r; g.z *= RADIUS / r; g.tempo *= 0.9; if (reiten && Math.random() < 0.02) melde('Zu weit draußen!', 'Hier gibt es nur Steine und Berge.'); }
+      kollision();
+      g.schritt += dt * g.tempo * 0.55;
+      if (!reiten) { g.sturm += ((g.sturmZiel || 0) - g.sturm) * (1 - Math.exp(-dt * 0.7)); return; }
       // Wasser
-      if (reiten) {
-        g.wasser -= dt * (0.55 + (galopp ? 1.6 : 0) + (g.tempo > 1 ? 0.35 : 0) + g.sturm * 0.6);
-        g.wasser = Math.max(0, g.wasser);
-        ORTE.forEach(function (o) {
-          if (!o.wasser) return;
-          var bx = o.x + (o.art === 'oase' ? 0 : -3), bz = o.z + 13;
-          if (Math.hypot(g.x - bx, g.z - bz) < (o.art === 'oase' ? 16 : 7)) { if (g.wasser < 99.5 && Math.random() < 0.08) staubWolke(g.x, hoehe(g.x, g.z) + 2, g.z, 1, 0.8); g.wasser = Math.min(100, g.wasser + dt * 35); }
-        });
-        tees.forEach(function (t) {
-          if (!t.visible) return;
-          t.rotation.y += dt * 2; t.position.y = hoehe(t.position.x, t.position.z) + 1.4 + Math.sin(g.t * 3 + t.position.x) * 0.2;
-          if (Math.hypot(g.x - t.position.x, g.z - t.position.z) < 3) {
-            g.wasser = Math.min(100, g.wasser + 30); g.geld += 5; teeSetzen(t);
-            melde('Minztee! +💧', 'Erfrischend.'); Pixel.sfx.tone(880, 0.08, 'triangle', 0.06); Pixel.sfx.tone(1175, 0.15, 'triangle', 0.06, null, 0.08);
-          }
-        });
-        // Auftrag
-        var a = g.auftrag;
-        a.rest -= dt;
-        if (Math.hypot(g.x - a.ziel.x, g.z - a.ziel.z) < 22) geliefert();
-        if (g.wasser <= 0) { g.langsam += dt; if (g.langsam > 6) ende(); } else g.langsam = 0;
-        // Sandsturm
-        g.sturmIn -= dt;
-        if (g.sturmIn <= 0) { g.sturmZiel = 1; g.sturmDauer = rnd(12, 18); g.sturmIn = rnd(70, 110); melde('Sandsturm!', 'Halt dich an den Kompass.'); Pixel.sfx.noise(1.2, 0.25, 500); }
-        if (g.sturmDauer > 0) { g.sturmDauer -= dt; if (g.sturmDauer <= 0) g.sturmZiel = 0; }
-      }
-      g.sturm = lerp(g.sturm, g.sturmZiel || 0, dt * 0.7);
+      g.wasser -= dt * (0.55 + (galopp ? 1.6 : 0) + (g.tempo > 1 ? 0.35 : 0) + g.sturm * 0.6);
+      g.wasser = Math.max(0, g.wasser);
+      ORTE.forEach(function (o) {
+        if (!o.wasser) return;
+        var bx = o.x + (o.art === 'oase' ? 0 : -3), bz = o.z + 13;
+        if (Math.hypot(g.x - bx, g.z - bz) < (o.art === 'oase' ? 16 : 7)) { if (g.wasser < 99.5 && Math.random() < 0.08) staubWolke(g.x, hoehe(g.x, g.z) + 2, g.z, 1, 0.8); g.wasser = Math.min(100, g.wasser + dt * 35); }
+      });
+      tees.forEach(function (t) {
+        if (!t.visible) return;
+        if (Math.hypot(g.x - t.position.x, g.z - t.position.z) < 3.2) {
+          g.wasser = Math.min(100, g.wasser + 30); g.geld += 5; teeSetzen(t);
+          melde('Minztee! +💧', 'Erfrischend.'); Pixel.sfx.tone(880, 0.08, 'triangle', 0.06); Pixel.sfx.tone(1175, 0.15, 'triangle', 0.06, null, 0.08);
+        }
+      });
+      // Auftrag
+      var a = g.auftrag;
+      a.rest -= dt;
+      if (Math.hypot(g.x - a.ziel.x, g.z - a.ziel.z) < 22) geliefert();
+      if (g.wasser <= 0) { g.langsam += dt; if (g.langsam > 6) ende(); } else g.langsam = 0;
+      // Sandsturm
+      g.sturmIn -= dt;
+      if (g.sturmIn <= 0) { g.sturmZiel = 1; g.sturmDauer = rnd(12, 18); g.sturmIn = rnd(70, 110); melde('Sandsturm!', 'Halt dich an den Kompass.'); Pixel.sfx.noise(1.2, 0.25, 500); }
+      if (g.sturmDauer > 0) { g.sturmDauer -= dt; if (g.sturmDauer <= 0) g.sturmZiel = 0; }
+      g.sturm += ((g.sturmZiel || 0) - g.sturm) * (1 - Math.exp(-dt * 0.7));
+    }
+
+    // ---------- Darstellung (einmal pro Bild) ----------
+    var blick = new THREE.Vector3(), blickS = new THREE.Vector3(), hand = new THREE.Vector3(), maul = new THREE.Vector3();
+    var cam3 = { yaw: 0, h: 0, init: false };
+    function daempf(dt, k) { return 1 - Math.exp(-dt * k); }
+    function darstellen(dt) {
+      var reiten = g.modus === 'reiten';
       // Kamel
       var y = hoehe(g.x, g.z);
-      g.schritt += dt * g.tempo * 0.55;
       var hub = Math.abs(Math.sin(g.schritt * 2)) * Math.min(1, g.tempo / 8) * 0.18;
       kamel.position.set(g.x, y + hub, g.z);
       kamel.rotation.y = -g.kurs;
@@ -655,10 +779,12 @@
       oKopf.rotation.y = -g.lenk * 0.4;
       oArme.forEach(function (arm, n) { arm.rotation.x = (g.ende ? -2.6 : 0) + Math.sin(g.t * 2 + n) * 0.03; });
       // Zügel von den Händen zum Maul
-      var hand = V(0, 0, 0), maul = V(0, 0, 0);
+      kamel.updateMatrixWorld(true);
       oArme[0].children[2].getWorldPosition(hand); schnauze.getWorldPosition(maul);
       var zp = zuegel.geometry.attributes.position;
       zp.setXYZ(0, hand.x, hand.y, hand.z); zp.setXYZ(1, (hand.x + maul.x) / 2, (hand.y + maul.y) / 2 - 0.25, (hand.z + maul.z) / 2); zp.setXYZ(2, maul.x, maul.y, maul.z); zp.needsUpdate = true;
+      // Tee schwebt
+      tees.forEach(function (t) { if (t.visible) { t.rotation.y += dt * 2; t.position.y = hoehe(t.position.x, t.position.z) + 1.4 + Math.sin(g.t * 3 + t.position.x) * 0.2; } });
       // Staub
       if (g.tempo > 6 && Math.random() < g.tempo / 25) staubWolke(g.x - Math.sin(g.kurs) * 1.2, y + 0.2, g.z + Math.cos(g.kurs) * 1.2, 1, g.tempo > 11 ? 2.2 : 1.4);
       staub.forEach(function (q) {
@@ -667,10 +793,13 @@
         q.s.position.addScaledVector(q.v, dt); var k = q.t / q.life, sc2 = q.g * (1 + k * 2);
         q.s.scale.set(sc2, sc2, 1); q.s.material.opacity = 0.32 * (1 - k);
       });
-      sturm.position.set(g.x, y, g.z); sturmMat.opacity = g.sturm * 0.75;
-      var sp2 = sturmGeo.attributes.position;
-      for (var k = 0; k < sp2.count; k += 1) { var nx = sp2.getX(k) + dt * 30 * g.sturm; if (nx > 40) nx -= 80; sp2.setX(k, nx); }
-      sp2.needsUpdate = true;
+      sturm.visible = g.sturm > 0.01;
+      if (sturm.visible) {
+        sturm.position.set(g.x, y, g.z); sturmMat.opacity = g.sturm * 0.75;
+        var sp2 = sturmGeo.attributes.position;
+        for (var k = 0; k < sp2.count; k++) { var nx = sp2.getX(k) + dt * 30 * g.sturm; if (nx > 40) nx -= 80; sp2.setX(k, nx); }
+        sp2.needsUpdate = true;
+      }
       // Ziel
       var z = g.auftrag.ziel;
       strahl.position.set(z.x, hoehe(z.x, z.z) + 60, z.z);
@@ -678,27 +807,30 @@
       var mg = ortGruppen.merzouga.userData.feuer; if (mg) { var fs = 6 + Math.sin(g.t * 13) * 0.6 + Math.sin(g.t * 7) * 0.4; mg.scale.set(fs, fs, 1); }
       var nacht = tageszeit();
       if (composer && composer.gradePass) composer.gradePass.uniforms.uSturm.value = g.sturm;
-      // Kamera
+      // Kamera: folgt dem Kurs gedämpft hinter dem Kamel, Höhe getrennt geglättet
       if (reiten) {
-        var hinten = 9 + g.tempo * 0.2, hoch = 4.2;
-        camZiel.set(g.x - Math.sin(g.kurs) * hinten, y + hoch + 1.5, g.z + Math.cos(g.kurs) * hinten);
-        camZiel.y = Math.max(camZiel.y, hoehe(camZiel.x, camZiel.z) + 2.5);
+        if (!cam3.init) { cam3.yaw = g.kurs; cam3.h = cam.position.y; blickS.copy(blick); cam3.init = true; }
+        cam3.yaw += winkel(g.kurs - cam3.yaw) * daempf(dt, 3.5);
+        var hinten = 9.5 + g.tempo * 0.18;
+        var cx = g.x - Math.sin(cam3.yaw) * hinten, cz = g.z + Math.cos(cam3.yaw) * hinten;
+        var zielH = Math.max(y + 5.7, hoehe(cx, cz) + 2.5);
         // Sichtlinie zum Kamel frei halten (Dünenkamm dazwischen)
-        for (var sl = 0.25; sl < 1; sl += 0.25) {
-          var sx = lerp(camZiel.x, g.x, sl), sz = lerp(camZiel.z, g.z, sl), sy = lerp(camZiel.y, y + 3, sl), sh = hoehe(sx, sz) + 1.2;
-          if (sy < sh) camZiel.y += (sh - sy) / (1 - sl);
+        for (var sl = 1; sl < 6; sl++) {
+          var f = sl / 6, sx = lerp(cx, g.x, f), sz = lerp(cz, g.z, f), sy = lerp(zielH, y + 3, f), sh = hoehe(sx, sz) + 1.2;
+          if (sy < sh) zielH += (sh - sy) / (1 - f);
         }
-        if (camPos.distanceTo(camZiel) > 40) camPos.copy(camZiel); else camPos.lerp(camZiel, Math.min(1, dt * 3));
-        cam.position.copy(camPos);
-        blick.set(g.x + Math.sin(g.kurs) * 6, y + 3, g.z - Math.cos(g.kurs) * 6);
+        cam3.h += (zielH - cam3.h) * daempf(dt, zielH > cam3.h ? 7 : 2.5);
+        cam.position.set(cx, cam3.h, cz);
+        blick.set(g.x + Math.sin(cam3.yaw) * 6, y + 3, g.z - Math.cos(cam3.yaw) * 6);
+        blickS.x = blick.x; blickS.z = blick.z; blickS.y += (blick.y - blickS.y) * daempf(dt, 5);
+        cam.lookAt(blickS);
       } else {
         var an = g.t * 0.15, hochK = box.clientHeight > box.clientWidth;
         cam.position.set(g.x + Math.sin(an) * 9, y + 4.2, g.z + Math.cos(an) * 9);
         blick.set(g.x, y + (hochK ? 1.2 : 3.2), g.z);
         if (!hochK && box.clientWidth >= 900) { var rx = Math.cos(an) * 3.5, rz = -Math.sin(an) * 3.5; blick.x -= rx; blick.z -= rz; }
-        camPos.copy(cam.position);
+        cam.lookAt(blick);
       }
-      cam.lookAt(blick);
       // HUD
       if (reiten) {
         $('geld').textContent = g.geld + ' DH';
@@ -721,7 +853,7 @@
     var last = performance.now(), mess = { n: 0, sum: 0 };
     function tick(now) {
       if (!alive) return;
-      var roh = (now - last) / 1000, dt = Math.min(0.05, roh); last = now;
+      var roh = (now - last) / 1000; last = now;
       if (roh < 0.5) { mess.n++; mess.sum += roh; }
       if (mess.n >= 90) {
         if (mess.sum / mess.n > 0.03) {
@@ -731,7 +863,10 @@
         }
         mess.n = 0; mess.sum = 0;
       }
-      update(dt); render();
+      // Bei niedriger Bildrate in Teilschritten rechnen statt Zeitlupe
+      var dt = Math.min(Math.max(roh, 0), 0.25), rest = dt;
+      while (rest > 1e-6) { var st = Math.min(rest, 1 / 30); physik(st); rest -= st; }
+      darstellen(dt); render();
       raf = requestAnimationFrame(tick);
     }
 
@@ -754,7 +889,7 @@
       if (g.ende) { reset(); }
       g.modus = 'reiten'; g.ende = false;
       ebene.classList.add('aus'); hud.classList.add('an'); $('tipp').style.opacity = 0.9;
-      camPos.copy(cam.position);
+      cam3.init = false; allesLos();
       Pixel.sfx.tone(294, 0.15, 'triangle', 0.06); Pixel.sfx.tone(370, 0.15, 'triangle', 0.06, null, 0.15); Pixel.sfx.tone(440, 0.3, 'triangle', 0.06, null, 0.3);
     }
     function ende() {
@@ -791,7 +926,8 @@
       alive = false; cancelAnimationFrame(raf);
       window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku);
       window.removeEventListener('resize', resize);
-      window.removeEventListener('pointerup', padLos); window.removeEventListener('pointercancel', padLos);
+      window.removeEventListener('blur', allesLos); document.removeEventListener('visibilitychange', sichtbar);
+      window.removeEventListener('touchstart', touchAn);
       root.removeEventListener('click', onClick);
       scene.traverse(function (o) {
         if (o.geometry) o.geometry.dispose();
@@ -804,10 +940,11 @@
     tonBtn.textContent = Pixel.isMuted() ? '🔇' : '🔊';
     window.addEventListener('keydown', kd); window.addEventListener('keyup', ku);
     window.addEventListener('resize', resize);
-    window.addEventListener('pointerup', padLos); window.addEventListener('pointercancel', padLos);
+    window.addEventListener('blur', allesLos); document.addEventListener('visibilitychange', sichtbar);
+    window.addEventListener('touchstart', touchAn, { passive: true });
     root.addEventListener('click', onClick);
     reset(); resize(); intro();
-    window.__omar = { g: function () { return g; }, cam: cam, kamel: kamel };
+    window.__omar = { g: function () { return g; }, cam: cam, kamel: kamel, renderer: renderer };
     raf = requestAnimationFrame(tick);
     return stop;
   }
