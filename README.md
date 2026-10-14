@@ -22,6 +22,7 @@ Auf Render läuft es als Docker-Dienst (nginx, siehe `Dockerfile`).
 | `js/pixel.js` | Pixel-Sprites, 3x5-Pixelschrift, Soundeffekte, Speicher |
 | `js/sprites.js` | Pixel-Charaktere der Klasse |
 | `js/games/<id>.js` | Ein Minigame, registriert sich als `window.CLGames[id] = { start(root, onExit) }` |
+| `js/modelle/` | 3D-Modelle aus Claude Design (`kamel.js`, `boot.js`) und `werkzeug.js` zum Zusammenfassen der Teile |
 | `vendor/` | three.js r128 + Nachbearbeitung, Schriften (alle mit Lizenzdatei) |
 
 ## Neues Minigame hinzufügen

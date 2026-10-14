@@ -306,6 +306,7 @@
 
     // ---------- Boot + Timo ----------
     var boot = new THREE.Group(); scene.add(boot);
+    // Einfacher Rumpf für die Ruderboote (Hindernisse)
     function hullShape(sc) {
       var s = new THREE.Shape();
       s.moveTo(-0.95 * sc, -1.6 * sc); s.lineTo(0.95 * sc, -1.6 * sc); s.lineTo(0.98 * sc, 0.5 * sc);
@@ -318,24 +319,14 @@
       gm.rotateX(-Math.PI / 2);
       var m = new THREE.Mesh(gm, mat); m.position.y = y; return m;
     }
-    var weiss = std(0xd6dbe6, { roughness: 0.45 }), blau = std(0x1553a8, { roughness: 0.4 }), holz = std(0x8a5a34, { roughness: 0.7 });
-    boot.add(extr(hullShape(0.93), 0.28, -0.12, blau));
-    boot.add(extr(hullShape(1), 0.3, 0.16, weiss));
-    var rand = hullShape(1); rand.holes.push(hullShape(0.86));
-    boot.add(extr(rand, 0.32, 0.46, weiss));
-    var streif = extr(hullShape(1.005), 0.05, 0.6, std(0xff8a3c, { roughness: 0.5 })); boot.add(streif);
-    boot.add(extr(hullShape(0.87), 0.02, 0.46, holz));
-    var motor = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.55, 0.45), std(0x22252e, { roughness: 0.4, metalness: 0.4 }));
-    motor.position.set(0, 0.85, 1.78); boot.add(motor);
-    var deckel = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.08, 0.47), std(0xff8a3c, { roughness: 0.5 })); deckel.position.set(0, 1.15, 1.78); boot.add(deckel);
-    var schaft = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.8, 0.15), std(0x22252e)); schaft.position.set(0, 0.3, 1.85); boot.add(schaft);
-    // Positionslichter
-    var navR = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 6), new THREE.MeshBasicMaterial({ color: 0xff3040 }));
-    navR.position.set(-0.62, 0.82, -1.0); boot.add(navR);
-    var navG = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 6), new THREE.MeshBasicMaterial({ color: 0x30ff70 }));
-    navG.position.set(0.62, 0.82, -1.0); boot.add(navG);
-    var gR = glow(0xff3040, 0.6, 0.8); gR.position.copy(navR.position); boot.add(gR);
-    var gG = glow(0x30ff70, 0.6, 0.8); gG.position.copy(navG.position); boot.add(gG);
+    // Boot-Modell aus Claude Design (js/modelle/boot.js), ohne Windschutzscheibe: Timo liegt im Cockpit
+    var bootModell = buildBoat(THREE, { cockpit: false }); boot.add(bootModell);
+    var bootRig = bootModell.userData.rig;
+    var weiss = std(0xd6dbe6, { roughness: 0.45 });
+    var gR = glow(0xff3040, 0.7, 0.85); bootModell.userData.lights.navRed.getWorldPosition(gR.position); boot.add(gR);
+    var gG = glow(0x30ff70, 0.7, 0.85); bootModell.userData.lights.navGreen.getWorldPosition(gG.position); boot.add(gG);
+    var gW = glow(0xfff0d0, 0.8, 0.7); bootModell.userData.lights.sternLight.getWorldPosition(gW.position); boot.add(gW);
+    Modell3D.verschmelzen(bootModell, [bootRig.motor, bootRig.propeller]);
         var bootStreifen = [streak(0xff3040, 0.35, 4, 0.5), streak(0x30ff70, 0.35, 4, 0.5)];
     scene.add(bootStreifen[0]); scene.add(bootStreifen[1]);
 
@@ -351,7 +342,7 @@
     }
     function kugel(r, mat, p) { var m = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 10), mat); if (p) m.position.copy(p); return m; }
     var V = function (x, y, z) { return new THREE.Vector3(x, y, z); };
-    var timo = new THREE.Group(); timo.position.set(0, 0.6, -0.35); timo.rotation.y = Math.PI; timo.scale.setScalar(1.12); boot.add(timo);
+    var timo = new THREE.Group(); timo.position.set(0, 0.62, -0.75); timo.rotation.y = Math.PI; timo.scale.setScalar(1.12); boot.add(timo);
     // Beine (Knie hoch, Füße vorne im Boot)
     [-1, 1].forEach(function (s) {
       var h = V(s * 0.15, 0, 0), k = V(s * 0.2, 0.26, -0.52), f = V(s * 0.22, -0.04, -1.02);
@@ -690,6 +681,8 @@
       boot.visible = !(g.unverw > 0 && Math.floor(g.unverw * 12) % 2 === 0);
       g.wackel = Math.max(0, g.wackel - dt);
       bootStreifen[0].position.set(g.x - 0.62, 0.03, 1.2); bootStreifen[1].position.set(g.x + 0.62, 0.03, 1.2);
+      bootRig.propeller.rotation.z += dt * (20 + g.tempo * 1.5);
+      bootRig.motor.rotation.y = clamp(g.vx * 0.08, -0.45, 0.45);
 
       // Timo-Pose
       if (pose.schreck > 0) { pose.schreck -= dt; if (pose.schreck <= 0) { ziel.lehne = 1.0; ziel.kopf = 0.5; ziel.arme = 0; } }

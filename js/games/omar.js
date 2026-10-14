@@ -271,43 +271,7 @@
       berge.add(berg);
     }
 
-    // Statische Teile einer Gruppe je Material zu einem Mesh verschmelzen (spart Zeichenaufrufe)
-    function verschmelzen(gruppe) {
-      gruppe.updateMatrixWorld(true);
-      var nachMat = new Map();
-      gruppe.traverse(function (o) {
-        if (!o.isMesh) return;
-        var l = nachMat.get(o.material);
-        if (!l) nachMat.set(o.material, l = { teile: [], schatten: false });
-        l.teile.push(o); if (o.castShadow) l.schatten = true;
-      });
-      nachMat.forEach(function (l, mat) {
-        if (l.teile.length < 2) return;
-        var stuecke = l.teile.map(function (m) {
-          var gm = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone();
-          gm.applyMatrix4(m.matrixWorld);
-          m.parent.remove(m);
-          return gm;
-        });
-        var n = 0; stuecke.forEach(function (gm) { n += gm.attributes.position.count; });
-        var pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2), o3 = 0;
-        stuecke.forEach(function (gm) {
-          var c = gm.attributes.position.count;
-          pos.set(gm.attributes.position.array, o3 * 3);
-          nor.set(gm.attributes.normal.array, o3 * 3);
-          if (gm.attributes.uv) uv.set(gm.attributes.uv.array, o3 * 2);
-          o3 += c; gm.dispose();
-        });
-        var geo = new THREE.BufferGeometry();
-        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-        geo.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
-        geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
-        geo.computeBoundingSphere();
-        var mm = new THREE.Mesh(geo, mat); mm.castShadow = l.schatten; mm.receiveShadow = true;
-        gruppe.add(mm);
-      });
-    }
-    verschmelzen(berge);
+    Modell3D.verschmelzen(berge);
 
     // ---------- Orte ----------
     var lehm = std(0xffffff, { map: lehmTex, roughness: 0.95 }), lehmDunkel = std(0x9a5a34, { roughness: 1 });
@@ -397,7 +361,7 @@
       var schild = new THREE.Sprite(new THREE.SpriteMaterial({ map: textTex(o.name), transparent: true, depthTest: false, fog: false }));
       schild.scale.set(16, 4, 1); schild.position.set(x, hoehe(x, z) + 20, z); schild.renderOrder = 5; g.add(schild);
       o.schild = schild;
-      verschmelzen(g);
+      Modell3D.verschmelzen(g);
     });
 
     // Zielstrahl
@@ -428,40 +392,23 @@
       m.position.copy(a).add(b).multiplyScalar(0.5); m.quaternion.setFromUnitVectors(V(0, 1, 0), d.normalize()); return m;
     }
     function kugel(r, mat, p) { var m = schatten(new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat)); if (p) m.position.copy(p); return m; }
-    var fell = std(0xc8945a, { roughness: 0.95 }), fellD = std(0xa8743e, { roughness: 0.95 }), dunkel = new THREE.MeshBasicMaterial({ color: 0x1a1008 });
+    var dunkel = new THREE.MeshBasicMaterial({ color: 0x1a1008 });
+    // Kamel-Modell aus Claude Design (js/modelle/kamel.js)
     var kamel = new THREE.Group(); scene.add(kamel);
     var koerper = new THREE.Group(); kamel.add(koerper);
-    var rumpf = kugel(1, fell, V(0, 2.2, 0)); rumpf.scale.set(0.85, 0.75, 1.5); koerper.add(rumpf);
-    var hoecker = kugel(0.75, fell, V(0, 2.85, 0.1)); hoecker.scale.set(0.9, 0.8, 1.1); koerper.add(hoecker);
-    var hals = new THREE.Group(); hals.position.set(0, 2.5, -1.25); koerper.add(hals);
-    hals.add(limb(V(0, 0, 0), V(0, 1.3, -0.9), 0.32, fell));
-    var kopfK = new THREE.Group(); kopfK.position.set(0, 1.35, -0.95); hals.add(kopfK);
-    var kk = kugel(0.36, fell, V(0, 0, -0.15)); kk.scale.set(0.8, 0.75, 1.2); kopfK.add(kk);
-    var schnauze = kugel(0.26, fellD, V(0, -0.12, -0.6)); schnauze.scale.set(0.9, 0.75, 1.1); kopfK.add(schnauze);
-    [-1, 1].forEach(function (s) {
-      kopfK.add(kugel(0.06, dunkel, V(s * 0.22, 0.1, -0.35)));
-      var ohr = kugel(0.09, fellD, V(s * 0.22, 0.3, 0.05)); ohr.scale.set(0.6, 1.3, 0.6); kopfK.add(ohr);
-    });
-    var schwanz = limb(V(0, 2.3, 1.45), V(0, 1.5, 1.7), 0.07, fellD); koerper.add(schwanz);
-    var beine = [];
-    [[-0.45, -0.9], [0.45, -0.9], [-0.45, 0.95], [0.45, 0.95]].forEach(function (b, n) {
-      var piv = new THREE.Group(); piv.position.set(b[0], 1.85, b[1]); koerper.add(piv);
-      piv.add(limb(V(0, 0, 0), V(0, -0.95, 0), 0.17, fell));
-      var knie = new THREE.Group(); knie.position.y = -0.95; piv.add(knie);
-      knie.add(kugel(0.16, fellD));
-      knie.add(limb(V(0, 0, 0), V(0, -0.9, 0), 0.12, fell));
-      var huf = kugel(0.17, fellD, V(0, -0.9, -0.04)); huf.scale.set(1, 0.4, 1.3); knie.add(huf);
-      beine.push({ piv: piv, knie: knie, phase: [0, Math.PI, Math.PI * 0.5, Math.PI * 1.5][n] });
-    });
-    // Sattel + Gepäck
-    var decke = schatten(new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 1.6, 16, 1, true, -Math.PI * 0.55, Math.PI * 1.1), std(0xffffff, { map: deckeTex, side: THREE.DoubleSide })));
-    decke.rotation.x = Math.PI / 2; decke.rotation.z = Math.PI; decke.position.set(0, 2.62, 0.1); decke.scale.set(0.82, 1, 0.75); koerper.add(decke);
-    var paket = []; [-1, 1].forEach(function (s) {
-      var pk = schatten(new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.6, 0.7), std(0x8a5a2a))); pk.position.set(s * 1.0, 2.1, 0.7); koerper.add(pk); paket.push(pk);
-    });
-    var laterne = glow(0xffb060, 2.4, 0); laterne.position.set(0.95, 2.6, 0.9); koerper.add(laterne);
+    var kamelModell = buildCamel(THREE); koerper.add(kamelModell);
+    var rig = kamelModell.userData.rig;
+    var hals = rig.neck, kopfK = rig.head, schwanz = rig.tail;
+    var schnauze = new THREE.Object3D(); schnauze.position.set(0, -0.1, -0.62); kopfK.add(schnauze);
+    // Kamele gehen im Pass: Beine einer Seite gleichzeitig
+    var beine = [
+      { piv: rig.legFL, knie: rig.kneeFL, phase: 0 }, { piv: rig.legBL, knie: rig.kneeBL, phase: 0.35 },
+      { piv: rig.legFR, knie: rig.kneeFR, phase: Math.PI }, { piv: rig.legBR, knie: rig.kneeBR, phase: Math.PI + 0.35 }
+    ];
+    var laterne = glow(0xffb060, 2.4, 0); laterne.position.set(0, -0.29, 0); rig.lantern.add(laterne);
+    Modell3D.verschmelzen(kamelModell, [rig.legFL, rig.kneeFL, rig.legFR, rig.kneeFR, rig.legBL, rig.kneeBL, rig.legBR, rig.kneeBR, rig.neck, rig.head, rig.tail, rig.lantern]);
     // Omar
-    var omar = new THREE.Group(); omar.position.set(0, 3.2, 0.15); koerper.add(omar);
+    var omar = new THREE.Group(); omar.position.set(0, 3.3, 0.1); koerper.add(omar);
     var hoodie = std(0x161618, { roughness: 0.95 }), haut = std(0xd9a47c, { roughness: 0.7 }), jeans = std(0x2a3040), haar = std(0x1e1410, { roughness: 1 });
     [-1, 1].forEach(function (s) {
       omar.add(limb(V(s * 0.17, 0, 0), V(s * 0.62, -0.3, -0.25), 0.12, jeans));
@@ -492,6 +439,8 @@
       if (lk.position.z < -0.12 && lk.position.y < 0.18) continue;
       oKopf.add(lk);
     }
+    var zuegelHand = new THREE.Object3D(); zuegelHand.position.set(0.14, -0.3, -0.66); oArme[0].add(zuegelHand);
+    Modell3D.verschmelzen(omar, [oKoerper, oArme[0], oArme[1], oKopf]);
 
     // Zügel
     var zuegel = new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(0, 0, 0), V(0, 0, 0), V(0, 0, 0)]), new THREE.LineBasicMaterial({ color: 0x3a2010 }));
@@ -767,20 +716,23 @@
       koerper.rotation.z = -g.lenk * g.tempo * 0.012;
       var amp = Math.min(1, g.tempo / 6) * (g.tempo > 11 ? 0.75 : 0.5);
       beine.forEach(function (b) {
-        var s = Math.sin(g.schritt * 2 + b.phase);
-        b.piv.rotation.x = s * amp; b.knie.rotation.x = Math.max(0, -Math.cos(g.schritt * 2 + b.phase)) * amp * 1.4;
+        var w = g.schritt * 2 + b.phase;
+        b.piv.rotation.x = Math.sin(w) * amp; b.knie.rotation.x = -Math.max(0, Math.cos(w)) * amp * 1.5;
       });
-      hals.rotation.x = Math.sin(g.schritt * 2) * 0.08 * Math.min(1, g.tempo / 6) - (g.tempo > 11 ? 0.15 : 0);
-      kopfK.rotation.y = -g.lenk * 0.3;
-      schwanz.rotation.z = Math.sin(g.t * 3) * 0.2;
-      omar.position.y = 3.2 + Math.sin(g.schritt * 2 + 0.6) * 0.06 * Math.min(1, g.tempo / 6);
+      var bewegt = Math.min(1, g.tempo / 6);
+      hals.rotation.x = Math.sin(g.schritt * 4) * 0.05 * bewegt + (g.tempo > 11 ? 0.18 : 0);
+      hals.rotation.y = -g.lenk * 0.15;
+      kopfK.rotation.y = -g.lenk * 0.25; kopfK.rotation.x = -hals.rotation.x * 0.7;
+      schwanz.rotation.z = Math.sin(g.t * 3) * 0.25;
+      rig.lantern.rotation.z = Math.sin(g.schritt * 2) * 0.25 * bewegt; rig.lantern.rotation.x = -g.tempo * 0.012;
+      omar.position.y = 3.3 + Math.sin(g.schritt * 4 + 0.6) * 0.05 * bewegt;
       oKoerper.rotation.x = g.tempo > 11 ? -0.25 : -0.05;
       oKoerper.rotation.z = g.lenk * 0.12;
       oKopf.rotation.y = -g.lenk * 0.4;
       oArme.forEach(function (arm, n) { arm.rotation.x = (g.ende ? -2.6 : 0) + Math.sin(g.t * 2 + n) * 0.03; });
       // Zügel von den Händen zum Maul
       kamel.updateMatrixWorld(true);
-      oArme[0].children[2].getWorldPosition(hand); schnauze.getWorldPosition(maul);
+      zuegelHand.getWorldPosition(hand); schnauze.getWorldPosition(maul);
       var zp = zuegel.geometry.attributes.position;
       zp.setXYZ(0, hand.x, hand.y, hand.z); zp.setXYZ(1, (hand.x + maul.x) / 2, (hand.y + maul.y) / 2 - 0.25, (hand.z + maul.z) / 2); zp.setXYZ(2, maul.x, maul.y, maul.z); zp.needsUpdate = true;
       // Tee schwebt

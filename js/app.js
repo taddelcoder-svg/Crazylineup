@@ -19,7 +19,7 @@
       vorwurf: 'Chillt auch bei 40 Knoten',
       sprite: function () { return Sprites.timo('happy'); },
       best: 'crazylineup.timo.best', einheit: 'Pkt',
-      scripts: PP.concat(['js/games/timo.js'])
+      scripts: PP.concat(['js/modelle/werkzeug.js', 'js/modelle/boot.js', 'js/games/timo.js'])
     },
     {
       id: 'leon', person: 'Leon', title: 'Der lange Hals', grösse: '1,95',
@@ -40,7 +40,7 @@
       vorwurf: 'Liefert alles, solange das Kamel mitmacht',
       sprite: function () { return Sprites.omar('happy'); },
       best: 'crazylineup.omar.best', einheit: 'DH',
-      scripts: PP.concat(['js/games/omar.js'])
+      scripts: PP.concat(['js/modelle/werkzeug.js', 'js/modelle/kamel.js', 'js/games/omar.js'])
     }
   ];
   window.CLKatalog = GAMES;
