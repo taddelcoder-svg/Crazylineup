@@ -27,6 +27,13 @@
       sprite: function () { return Sprites.leon('happy'); },
       best: 'crazylineup.leon.best', einheit: 'Pkt',
       scripts: PP.concat(['js/games/leon.js'])
+    },
+    {
+      id: 'mo', person: 'Mo', title: 'Ganz klein', grösse: '0,03',
+      vorwurf: 'Passt unter jeder Tür durch',
+      sprite: function () { return Sprites.mo('steh'); },
+      best: 'crazylineup.mo.best', einheit: 'Pkt',
+      scripts: ['js/games/mo.js']
     }
   ];
   window.CLKatalog = GAMES;

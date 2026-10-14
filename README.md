@@ -11,6 +11,7 @@ Auf Render läuft es als Docker-Dienst (nginx, siehe `Dockerfile`).
 | Matteo | Meinungen ablehnen – Kanzler Matteo stempelt fremde Meinungen ab | 2D-Pixel (Canvas) |
 | Timo | Bootfahren – Flussfahrt zur blauen Stunde | 3D (three.js, Bloom) |
 | Leon | Der lange Hals – Snacks im Klassenzimmer schnappen, ohne erwischt zu werden | 3D (three.js) |
+| Mo | Ganz klein – Jump'n'Run/Escape-Room in 3 Levels: Schreibtisch, Bücherregal, unter der Tür durch | 2D-Pixel (Canvas) |
 
 ## Aufbau
 

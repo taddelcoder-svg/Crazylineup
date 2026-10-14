@@ -130,6 +130,35 @@
     shock: { 7: '.sSWWSSSSSSWWSs.', 11: '..SSSSmOOmSSSS..' }
   };
 
+
+  // Mo: winzig, wilde Locken, orange Oakley-Sonnenbrille, schwarzes Shirt (12x16, mit Laufbildern)
+  var MO_PAL = {
+    H: '#6b4a2e', h: '#9a7048', S: '#f0c4a4', s: '#d8a888', G: '#ff9a1c', g: '#f4f4f4', m: '#c27870',
+    T: '#18181c', t: '#34343e', L: '#2a3040', K: '#f2f2f2'
+  };
+  var MO_KOPF = [
+    '.h..H.Hh..h.',
+    '..HHHHHHHH..',
+    '.HHhHHHHHhH.',
+    'HHHHHHHHHHHH',
+    'HHSSSSSSSSHH',
+    'HgGGGggGGGgH',
+    '.SSSSSSSSSS.',
+    '.SSSSmmSSSS.',
+    '..SSSSSSSS..',
+    '.TTTTTTTTTT.',
+    'STTTTTTTTTTS',
+    'STTtTTTTtTTS',
+    '..TTTTTTTT..'
+  ];
+  var MO_BEINE = {
+    steh: ['..LLL..LLL..', '..LLL..LLL..', '.KKKK..KKKK.'],
+    laufA: ['..LLL..LLL..', '.LLL....LLL.', 'KKK......KKK'],
+    laufB: ['...LLLLLL...', '...LLL.LL...', '..KKK..KK...'],
+    sprung: ['..LLLLLLLL..', '..LLL..LLL..', '..KKK..KKK..'],
+    fall: ['..LLL..LLL..', '.LL......LL.', '.KK......KK.']
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -143,6 +172,10 @@
     leon: function (mood) {
       mood = mood || 'neutral';
       return Pixel.sprite('leon-' + mood, withMood(LEON, LEON_MOODS, mood), LEON_PAL);
+    },
+    mo: function (bild) {
+      bild = MO_BEINE[bild] ? bild : 'steh';
+      return Pixel.sprite('mo-' + bild, MO_KOPF.concat(MO_BEINE[bild]), MO_PAL);
     },
     timo: function (mood) {
       mood = mood || 'neutral';
