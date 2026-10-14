@@ -509,16 +509,16 @@
 
     function spawnReihe(z) {
       var typen = ['boje', 'stamm', 'fels', 'ente', 'ruderboot', 'boje', 'fels'];
-      var lv = clamp(g.t / 120, 0, 1);
-      var anzahl = Math.random() < 0.35 + lv * 0.4 ? 2 : 1;
+      var lv = clamp(g.t / 80, 0, 1);
+      var anzahl = 1 + (Math.random() < 0.55 + lv * 0.4 ? 1 : 0) + (Math.random() < lv * 0.5 ? 1 : 0);
       var frei = rnd(-4.8, 4.8); // freie Gasse bleibt immer
       for (var n = 0; n < anzahl; n++) {
         var typ = pick(typen), x, tries = 0;
-        do { x = rnd(-5.8, 5.8); tries++; } while (Math.abs(x - frei) < 2.6 && tries < 10);
-        if (Math.abs(x - frei) < 2.6) continue;
+        do { x = rnd(-5.8, 5.8); tries++; } while (Math.abs(x - frei) < 2.2 && tries < 10);
+        if (Math.abs(x - frei) < 2.2) continue;
         var o = holen(typ);
         o.position.set(x, 0, z + rnd(-3, 3));
-        if (o.userData.drift) o.userData.vx = rnd(-0.8, 0.8);
+        if (o.userData.drift) o.userData.vx = rnd(-1.8, 1.8);
         hind.push(o);
       }
       if (Math.random() < 0.3) { var r = holen('ring'); r.position.set(frei, 0, z + rnd(-4, 4)); hind.push(r); }
@@ -537,7 +537,7 @@
       if (g.unverw > 0) return;
       d.getroffen = true;
       g.leben--; renderLeben();
-      g.unverw = 1.6; g.tempo *= 0.55; g.kombo = 0; g.wackel = 0.6;
+      g.unverw = 1.0; g.tempo *= 0.55; g.kombo = 0; g.wackel = 0.6;
       ziel.lehne = 0.15; ziel.kopf = -0.2; ziel.arme = 1; pose.schreck = 1.2;
       zeige(pick(['AUTSCH!', 'PLATSCH!', 'HEY!', 'MEIN BOOT!']), 'aua');
       var rot = $('rot'); rot.classList.add('an'); setTimeout(function () { rot.classList.remove('an'); }, 60);
@@ -618,8 +618,8 @@
       g.t += dt;
       var fahrt = g.modus === 'fahrt';
       if (fahrt) {
-        var lv = clamp(g.t / 120, 0, 1);
-        var soll = lerp(15, 34, lv);
+        var lv = clamp(g.t / 80, 0, 1);
+        var soll = lerp(20, 44, lv);
         g.tempo = lerp(g.tempo, soll, dt * (g.tempo < soll ? 0.5 : 2));
         var s = lenkung();
         g.vx = lerp(g.vx, s * 8.5, dt * 6);
@@ -641,10 +641,10 @@
         g.naechste -= dz; g.naechsteBruecke -= dz;
         if (g.naechsteBruecke <= 0) {
           var br = holen('bruecke'); br.position.set(0, 0, -170); hind.push(br);
-          g.naechsteBruecke = rnd(170, 240); g.naechste = Math.max(g.naechste, 22);
+          g.naechsteBruecke = rnd(120, 170); g.naechste = Math.max(g.naechste, 22);
         } else if (g.naechste <= 0) {
           spawnReihe(g.t < 6 ? -110 : -170);
-          g.naechste = lerp(22, 11, clamp(g.t / 120, 0, 1)) * rnd(0.8, 1.2);
+          g.naechste = lerp(15, 7, clamp(g.t / 80, 0, 1)) * rnd(0.8, 1.2);
         }
       }
       var bz = -0.25;

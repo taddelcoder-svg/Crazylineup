@@ -253,7 +253,7 @@
         binWob: 0, shake: 0, running: false, over: false, bubble: null, bubbleT: 0
       };
     }
-    function level() { return Math.min(1, g.t / 110); }
+    function level() { return Math.min(1, g.t / 70); }
     function mult() { return Math.min(5, 1 + Math.floor(g.combo / 5)); }
 
     function setMood(m, d) { g.mood = m; g.moodT = d || 0.6; }
@@ -273,9 +273,9 @@
     // ---------------- Akten ----------------
     function spawn() {
       var lv = level(), r = Math.random(), type;
-      if (r < 0.2) type = 'good';
-      else if (r < 0.2 + 0.05 + 0.12 * lv) type = 'eil';
-      else if (r < 0.2 + 0.05 + 0.12 * lv + 0.04 + 0.1 * lv && g.t > 20) type = 'gesetz';
+      if (r < 0.26) type = 'good';
+      else if (r < 0.26 + 0.12 + 0.14 * lv) type = 'eil';
+      else if (r < 0.26 + 0.12 + 0.14 * lv + 0.08 + 0.12 * lv && g.t > 10) type = 'gesetz';
       else type = 'bad';
       var el = document.createElement('div');
       el.className = 'akte ' + type;
@@ -291,7 +291,7 @@
         el: el, type: type, w: w, h: h, t: 0, state: 'fly',
         x0: rnd(6, Math.max(7, SW - w - 6)), y0: -h - 10,
         tx: hd.x - w / 2 + rnd(-24, 24), ty: hd.y - h / 2,
-        dur: lerp(7.2, 3.2, lv) * (type === 'eil' ? 0.58 : type === 'gesetz' ? 1.35 : 1) * rnd(0.9, 1.1),
+        dur: lerp(5.0, 2.2, lv) * (type === 'eil' ? 0.55 : type === 'gesetz' ? 1.35 : 1) * rnd(0.9, 1.1),
         hits: type === 'gesetz' ? 2 : 1, wob: rnd(0, 6.28), rot: rnd(-7, 7), x: 0, y: 0
       };
       el.addEventListener('pointerdown', function (e) { e.preventDefault(); e.stopPropagation(); tap(p); });
@@ -386,9 +386,9 @@
         g.t += dt;
         g.spawnIn -= dt;
         var flying = g.papers.filter(function (p) { return p.state === 'fly'; }).length;
-        if (g.spawnIn <= 0 && flying < 7) {
+        if (g.spawnIn <= 0 && flying < 10) {
           spawn();
-          g.spawnIn = lerp(2.0, 0.72, level()) * rnd(0.8, 1.2);
+          g.spawnIn = lerp(1.35, 0.45, level()) * rnd(0.8, 1.2);
         }
         g.papers.forEach(function (p) {
           if (p.state !== 'fly') return;
