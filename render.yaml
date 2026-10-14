@@ -1,7 +1,7 @@
-# Render-Blueprint: statische Seite, per Docker (nginx) ausgeliefert.
+# Render-Blueprint: reine statische Seite, kein Build nötig.
 services:
   - type: web
     name: crazylineup
-    runtime: docker
-    plan: free
-    healthCheckPath: /healthz
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .

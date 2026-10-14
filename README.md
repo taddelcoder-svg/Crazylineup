@@ -2,7 +2,7 @@
 
 Ein Minigame für jeden aus der Klasse. Reines HTML/CSS/JS ohne Build:
 `python3 -m http.server` im Ordner starten und `http://localhost:8000` öffnen.
-Auf Render läuft es als Docker-Dienst (nginx, siehe `Dockerfile`).
+Auf Render läuft es als Static Site (kein Build, siehe `render.yaml`).
 
 ## Minigames
 
