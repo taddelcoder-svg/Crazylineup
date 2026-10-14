@@ -39,7 +39,7 @@ canvas.px { image-rendering: pixelated; image-rendering: crisp-edges; }
 .ico { font: 20px/1 sans-serif; width: 42px; height: 42px; border-radius: 0; border: 3px solid #000; background: #3b3746; color: #fff; cursor: pointer;
   box-shadow: inset -3px -3px 0 rgba(0, 0, 0, .35), inset 3px 3px 0 rgba(255, 255, 255, .15); }
 
-.wall { position: relative; flex: 1; display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 18px;
+.wall { position: relative; flex: 1; display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; align-items: flex-end; gap: 18px;
   padding: 26px 16px 40px; min-height: 420px;
   background:
     repeating-linear-gradient(to bottom, transparent 0 39px, var(--linie) 39px 41px),
@@ -52,7 +52,7 @@ canvas.px { image-rendering: pixelated; image-rendering: crisp-edges; }
   opacity: 0; transition: opacity .2s; }
 .suspect:hover::before, .suspect:focus-visible::before { opacity: 1; }
 .suspect:focus-visible { outline: 3px dashed var(--gelb); outline-offset: 2px; }
-.suspect canvas { width: 96px; height: 168px; image-rendering: pixelated; filter: drop-shadow(0 6px 0 rgba(0, 0, 0, .35)); transition: transform .15s; }
+.suspect canvas { width: 96px; height: auto; image-rendering: pixelated; filter: drop-shadow(0 6px 0 rgba(0, 0, 0, .35)); transition: transform .15s; }
 .suspect:hover canvas { transform: translateY(-6px); }
 .suspect:active canvas { transform: translateY(2px) scale(.98); }
 .plate { font-family: 'Press Start 2P', monospace; font-size: 11px; background: #111; color: #fff; padding: 8px 10px; border: 3px solid #ddd; letter-spacing: .05em; white-space: nowrap; }

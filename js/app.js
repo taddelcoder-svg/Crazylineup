@@ -20,6 +20,13 @@
       sprite: function () { return Sprites.timo('happy'); },
       best: 'crazylineup.timo.best', einheit: 'Pkt',
       scripts: PP.concat(['js/games/timo.js'])
+    },
+    {
+      id: 'leon', person: 'Leon', title: 'Der lange Hals', grösse: '1,95',
+      vorwurf: 'Kein Pausenbrot ist vor ihm sicher',
+      sprite: function () { return Sprites.leon('happy'); },
+      best: 'crazylineup.leon.best', einheit: 'Pkt',
+      scripts: PP.concat(['js/games/leon.js'])
     }
   ];
   window.CLKatalog = GAMES;
@@ -52,12 +59,14 @@
       b.style.setProperty('--d', (i * 0.08) + 's');
       var best = +Pixel.get(g.best, 0);
       b.innerHTML =
-        '<canvas width="16" height="28"></canvas>' +
+        '<canvas></canvas>' +
         '<div class="plate"><span class="nr">' + String(i + 1).padStart(2, '0') + '</span>' + g.person.toUpperCase() + '</div>' +
         '<div class="charge"><b>' + g.title + '</b><small>' + g.vorwurf + '</small>' +
         (best ? '<em>Rekord: ' + best + ' ' + g.einheit + '</em>' : '') + '</div>';
-      var cv = b.querySelector('canvas');
-      cv.getContext('2d').drawImage(g.sprite(), 0, 0);
+      var cv = b.querySelector('canvas'), img = g.sprite();
+      cv.width = img.width; cv.height = img.height;
+      cv.style.height = img.height * 6 + 'px';
+      cv.getContext('2d').drawImage(img, 0, 0);
       b.addEventListener('click', function () { play(g); });
       wall.appendChild(b);
     });

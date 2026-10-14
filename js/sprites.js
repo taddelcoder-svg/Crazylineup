@@ -83,6 +83,53 @@
     shock: { 7: '.HSWWSSSSSSWWSH.', 11: '.SSSSSmOOmSSSSS.' }
   };
 
+
+  var LEON_PAL = {
+    H: '#2a1a12', h: '#4a3020', S: '#e8b896', s: '#d29c7a', W: '#ffffff', E: '#2a2018',
+    m: '#a85a52', O: '#3a1010', T: '#e8707a', B: '#141418', b: '#2c2c34',
+    P: '#1e2433', X: '#f2f2f2', x: '#c8c8c8'
+  };
+  var LEON = [
+    '................',
+    '....HHHHHHHH....',
+    '...HHHHHHHHHH...',
+    '..HHHHhHHHHHHH..',
+    '..HHHHHHHHHHHH..',
+    '..HHHHHHHHHHHH..',
+    '.sSHHHHHHHHHHSs.',
+    '.sSSSSSSSSSSSSs.',
+    '..SWESSSSSSEWS..',
+    '..SSSSSssSSSSS..',
+    '..SSSSSSSSSSSS..',
+    '..SSSSmmmmSSSS..',
+    '...SSSSSSSSSS...',
+    '....ssSSSSss....',
+    '......SSSS......',
+    '......SSSS......',
+    '......sSSs......',
+    '......SSSS......',
+    '......SSSS......',
+    '......sSSs......',
+    '..BBBBBSSBBBBB..',
+    '.BBBBBBBBBBBBBB.',
+    'BBBbBBBBBBBBbBBB',
+    'BBBbBBBBBBBBbBBB',
+    'BBBBBBBBBBBBBBBB',
+    'SBBBBBBBBBBBBBBS',
+    'S.BBBBBBBBBBBB.S',
+    '..PPPPPPPPPPPP..',
+    '..PPPPP..PPPPP..',
+    '..PPPPP..PPPPP..',
+    '..PPPP....PPPP..',
+    '.XXXXX....XXXXX.',
+    '.XxXXX....XXxXX.'
+  ];
+  var LEON_MOODS = {
+    neutral: {},
+    happy: { 8: '..SEESSSSSSEES..', 11: '..SSSOWWWWOSSS..', 12: '...SSSTTTTSSS...' },
+    shock: { 7: '.sSWWSSSSSSWWSs.', 11: '..SSSSmOOmSSSS..' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -92,6 +139,10 @@
     matteo: function (mood) {
       mood = mood || 'neutral';
       return Pixel.sprite('matteo-' + mood, withMood(MATTEO, MATTEO_MOODS, mood), MATTEO_PAL);
+    },
+    leon: function (mood) {
+      mood = mood || 'neutral';
+      return Pixel.sprite('leon-' + mood, withMood(LEON, LEON_MOODS, mood), LEON_PAL);
     },
     timo: function (mood) {
       mood = mood || 'neutral';
