@@ -1,62 +1,79 @@
+/* Schriften: Pixelify Sans, Press Start 2P, Barlow Semi Condensed (alle SIL OFL 1.1, selbst ausgeliefert) */
+@font-face { font-family: 'Pixelify Sans'; font-weight: 400; font-display: swap; src: url(vendor/pixelify-sans-400.woff2) format('woff2'); }
+@font-face { font-family: 'Pixelify Sans'; font-weight: 700; font-display: swap; src: url(vendor/pixelify-sans-700.woff2) format('woff2'); }
+@font-face { font-family: 'Press Start 2P'; font-weight: 400; font-display: swap; src: url(vendor/press-start-2p-400.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Semi Condensed'; font-weight: 600; font-display: swap; src: url(vendor/barlow-semi-condensed-600.woff2) format('woff2'); }
+@font-face { font-family: 'Barlow Semi Condensed'; font-weight: 800; font-display: swap; src: url(vendor/barlow-semi-condensed-800.woff2) format('woff2'); }
+
 :root {
-  --bg: #14121f;
-  --panel: #221e35;
+  --nacht: #15131d;
+  --wand: #2a2733;
+  --linie: rgba(255, 255, 255, .14);
+  --papier: #f4ecd8;
+  --tinte: #241a12;
+  --gelb: #ffd23f;
+  --rot: #e8343f;
+  --gruen: #3fae5a;
   --text: #f4f1ff;
-  --muted: #a9a3c7;
-  --accent: #ffcf3f;
-  --bad: #ff5a6e;
-  --good: #3ddc84;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-body { overscroll-behavior: none; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
-#app { height: 100dvh; max-width: 560px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; position: relative; }
+html, body {
+  margin: 0; height: 100%; background: var(--nacht); color: var(--text); overflow: hidden;
+  font-family: 'Pixelify Sans', system-ui, sans-serif;
+  touch-action: manipulation; user-select: none; -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent; overscroll-behavior: none;
+}
+[hidden] { display: none !important; }
+canvas.px { image-rendering: pixelated; image-rendering: crisp-edges; }
 
-h1 { margin: 8px 0 0; text-align: center; font-size: 2.2rem; color: var(--accent); letter-spacing: .04em; text-transform: uppercase; }
-.sub { text-align: center; color: var(--muted); margin: 4px 0 20px; }
-.cards { display: grid; gap: 12px; }
-.game-card { display: flex; gap: 14px; align-items: center; text-align: left; width: 100%; padding: 12px;
-  border: 2px solid transparent; border-radius: 16px; background: var(--panel); color: inherit; cursor: pointer; font: inherit; }
-.game-card:hover, .game-card:focus-visible { border-color: var(--accent); outline: none; }
-.game-card .portrait { width: 84px; height: 100px; flex: none; }
-.game-card .meta { display: flex; flex-direction: column; gap: 2px; }
-.game-card .meta b { font-size: 1.2rem; }
-.game-card .meta span { color: var(--accent); }
-.game-card .meta small { color: var(--muted); }
+/* ---------- Menü: Gegenüberstellung ---------- */
+#menu { position: fixed; inset: 0; display: flex; flex-direction: column; overflow-y: auto;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 230, 160, .16), transparent 60%),
+    var(--wand); }
+#menu header { text-align: center; padding: calc(22px + env(safe-area-inset-top)) 16px 8px; }
+#menu h1 { margin: 0; font-family: 'Press Start 2P', monospace; font-weight: 400; font-size: clamp(26px, 8vw, 54px);
+  line-height: 1.15; color: var(--gelb); text-shadow: 4px 4px 0 #8a3b12, 8px 8px 0 rgba(0, 0, 0, .35); letter-spacing: .02em; }
+#menu header p { margin: 12px 0 0; font-size: 18px; opacity: .75; }
+.topbar { position: absolute; right: 12px; top: calc(12px + env(safe-area-inset-top)); display: flex; gap: 8px; }
+.ico { font: 20px/1 sans-serif; width: 42px; height: 42px; border-radius: 0; border: 3px solid #000; background: #3b3746; color: #fff; cursor: pointer;
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, .35), inset 3px 3px 0 rgba(255, 255, 255, .15); }
 
-.btn { background: var(--accent); color: #1a1500; border: 0; border-radius: 12px; padding: 12px 20px; font: inherit; font-weight: 700; cursor: pointer; }
-.btn.small { padding: 6px 12px; font-size: .9rem; }
-.btn.ghost { background: transparent; color: var(--text); border: 2px solid var(--muted); }
+.wall { position: relative; flex: 1; display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 18px;
+  padding: 26px 16px 40px; min-height: 420px;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 39px, var(--linie) 39px 41px),
+    linear-gradient(transparent, rgba(0, 0, 0, .25)); }
+.suspect { position: relative; width: 168px; padding: 14px 10px 12px; border: 0; background: transparent; color: inherit; cursor: pointer;
+  font: inherit; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  animation: rein .5s var(--d) both cubic-bezier(.2, 1.4, .4, 1); }
+@keyframes rein { from { opacity: 0; transform: translateY(30px); } }
+.suspect::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 35%, rgba(255, 240, 190, .22), transparent 70%);
+  opacity: 0; transition: opacity .2s; }
+.suspect:hover::before, .suspect:focus-visible::before { opacity: 1; }
+.suspect:focus-visible { outline: 3px dashed var(--gelb); outline-offset: 2px; }
+.suspect canvas { width: 96px; height: 168px; image-rendering: pixelated; filter: drop-shadow(0 6px 0 rgba(0, 0, 0, .35)); transition: transform .15s; }
+.suspect:hover canvas { transform: translateY(-6px); }
+.suspect:active canvas { transform: translateY(2px) scale(.98); }
+.plate { font-family: 'Press Start 2P', monospace; font-size: 11px; background: #111; color: #fff; padding: 8px 10px; border: 3px solid #ddd; letter-spacing: .05em; white-space: nowrap; }
+.plate .nr { color: var(--gelb); margin-right: 8px; }
+.charge { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+.charge b { color: var(--gelb); font-size: 18px; }
+.charge small { opacity: .7; font-size: 14px; }
+.charge em { font-style: normal; font-size: 13px; color: #9fe3a8; }
 
-/* Spiel */
-.hud { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.hud .score { font-size: 1.1rem; }
-.hud .lives { letter-spacing: 2px; }
-.hint { color: var(--muted); font-size: .85rem; text-align: center; margin: 8px 0; }
-.arena { position: relative; flex: 1; min-height: 0; overflow: hidden; border-radius: 16px;
-  background: linear-gradient(#1d1a30, #2c2547); }
-.arena.shake { animation: shake .3s; }
-@keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-.matteo-wrap { position: absolute; left: 50%; bottom: 0; width: min(46%, 200px); aspect-ratio: 200 / 260; transform: translateX(-50%); pointer-events: none; }
-.matteo svg, .matteo-wrap svg { width: 100%; height: 100%; display: block; overflow: visible; }
+/* ---------- Spielfläche ---------- */
+#game { position: fixed; inset: 0; overflow: hidden; background: #000; }
+.loading { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 16px; align-items: center; justify-content: center;
+  font-family: 'Press Start 2P', monospace; font-size: 14px; text-align: center; padding: 16px; }
 
-.matteo .m, .char .m { display: none; }
-.matteo[data-mood="neutral"] .m-neutral, .char[data-mood="neutral"] .m-neutral,
-.matteo[data-mood="shock"] .m-shock, .char[data-mood="shock"] .m-shock,
-.matteo[data-mood="happy"] .m-happy, .char[data-mood="happy"] .m-happy,
-.matteo[data-mood="reject"] .m-reject { display: inline; }
-.char svg { width: 100%; height: 100%; display: block; }
-canvas { display: block; touch-action: none; }
-
-.bubble { position: absolute; left: 0; top: 0; max-width: 190px; padding: 10px 14px; border-radius: 16px;
-  font-weight: 600; font-size: .95rem; line-height: 1.2; text-align: center; cursor: pointer; touch-action: none;
-  background: #fff; color: #1b1b1b; border: 3px solid var(--bad); box-shadow: 0 4px 0 rgba(0,0,0,.35);
-  transition: opacity .35s, transform .35s ease-out; will-change: transform; }
-.bubble.good { border-color: var(--good); }
-.bubble.slapped, .bubble.wrong { transition: opacity .35s, transform .35s ease-out; pointer-events: none; }
-
-.overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(10,8,20,.75); }
-.overlay.hidden { display: none; }
-.overlay .card { background: var(--panel); border-radius: 18px; padding: 24px; text-align: center; min-width: 260px; }
-.overlay h2 { margin: 0 0 8px; }
+/* ---------- Pixel-UI (Matteo) ---------- */
+.px-btn { font-family: 'Press Start 2P', monospace; font-size: 13px; padding: 14px 18px; border: 4px solid var(--tinte); background: var(--gelb); color: var(--tinte);
+  cursor: pointer; box-shadow: inset -4px -4px 0 rgba(0, 0, 0, .25), inset 4px 4px 0 rgba(255, 255, 255, .5), 0 4px 0 var(--tinte); }
+.px-btn:active { transform: translateY(3px); box-shadow: inset -4px -4px 0 rgba(0, 0, 0, .25), 0 1px 0 var(--tinte); }
+.px-btn.alt { background: #d8cfb8; }
+.px-panel { background: var(--papier); color: var(--tinte); border: 4px solid var(--tinte); padding: 22px 20px; width: min(420px, calc(100vw - 32px));
+  box-shadow: 0 0 0 4px #c9b98f, 0 0 0 8px var(--tinte), 10px 14px 0 8px rgba(0, 0, 0, .45); text-align: center; position: relative; }
+.px-panel h2 { font-family: 'Press Start 2P', monospace; font-weight: 400; font-size: clamp(15px, 4.4vw, 20px); line-height: 1.4; margin: 0 0 12px; }
+.px-panel p { font-size: 18px; line-height: 1.3; margin: 8px 0; }
+.px-panel .reihe { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }

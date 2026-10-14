@@ -1,16 +1,28 @@
 # Crazy Lineup
 
-Ein Minigame für jeden aus der Klasse. Reines HTML/CSS/JS, kein Build nötig:
-`index.html` im Browser öffnen oder z. B. `python3 -m http.server` starten.
+Ein Minigame für jeden aus der Klasse. Reines HTML/CSS/JS ohne Build:
+`python3 -m http.server` im Ordner starten und `http://localhost:8000` öffnen.
+Auf Render läuft es als Docker-Dienst (nginx, siehe `Dockerfile`).
 
 ## Minigames
 
-| Person | Minigame |
-|--------|----------|
-| Matteo | Meinungen ablehnen |
-| Timo | Bootfahren |
+| Person | Minigame | Stil |
+|--------|----------|------|
+| Matteo | Meinungen ablehnen – Kanzler Matteo stempelt fremde Meinungen ab | 2D-Pixel (Canvas) |
+| Timo | Bootfahren – Flussfahrt zur blauen Stunde | 3D (three.js, Bloom) |
+
+## Aufbau
+
+| Datei | Inhalt |
+|---|---|
+| `js/app.js` | Menü (Gegenüberstellung) und Katalog; lädt die Skripte eines Spiels erst beim Start |
+| `js/pixel.js` | Pixel-Sprites, 3x5-Pixelschrift, Soundeffekte, Speicher |
+| `js/sprites.js` | Pixel-Charaktere der Klasse |
+| `js/games/<id>.js` | Ein Minigame, registriert sich als `window.CLGames[id] = { start(root, onExit) }` |
+| `vendor/` | three.js r128 + Nachbearbeitung, Schriften (alle mit Lizenzdatei) |
 
 ## Neues Minigame hinzufügen
 
-1. Datei `js/minigames/<name>.js` anlegen und `window.Minigames.push({ id, person, title, blurb, start(root, onExit) })` aufrufen. `start` gibt eine `stop()`-Funktion zurück.
-2. Das Script in `index.html` vor `js/app.js` einbinden.
+1. Pixel-Charakter in `js/sprites.js` ergänzen.
+2. `js/games/<id>.js` anlegen; `start` gibt eine `stop()`-Funktion zurück.
+3. Eintrag im Katalog in `js/app.js` mit `scripts` und `best` (localStorage-Schlüssel für den Rekord).
