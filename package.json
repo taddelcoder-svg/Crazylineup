@@ -1,0 +1,10 @@
+{
+  "name": "crazylineup",
+  "private": true,
+  "description": "Crazy Lineup – Minigames für die Klasse",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo kein Build nötig"
+  },
+  "engines": { "node": ">=18" }
+}

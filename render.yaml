@@ -1,7 +1,10 @@
-# Render-Blueprint: reine statische Seite, kein Build nötig.
+# Render-Blueprint: Web Service mit kleinem Node-Server (keine Abhängigkeiten, kein Build).
+# Alternativ läuft es als Docker-Dienst (Dockerfile, nginx).
 services:
   - type: web
-    name: crazylineup
-    runtime: static
-    buildCommand: ""
-    staticPublishPath: .
+    name: crazylineups
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: node server.js
+    healthCheckPath: /healthz
