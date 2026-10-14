@@ -159,6 +159,46 @@
     fall: ['..LLL..LLL..', '.LL......LL.', '.KK......KK.']
   };
 
+
+  // Omar: dunkle Locken, kurzer Bart, schwarzer Hoodie
+  var OMAR_PAL = {
+    H: '#1e1410', h: '#3a2a1e', S: '#d9a47c', s: '#c08a64', W: '#ffffff', E: '#2a1a10', B: '#2a1e18',
+    m: '#a8625a', O: '#3a1010', K: '#141418', k: '#2c2c34', w: '#d8d8d8', P: '#2a3040', X: '#f2f2f2', x: '#c8c8c8'
+  };
+  var OMAR = [
+    '...H.HH.HH.H....',
+    '..HHHhHHHHhHH...',
+    '.HHhHHHHHHHHhH..',
+    '.HHHHHhHHhHHHH..',
+    '.HHHHHHHHHHHHHH.',
+    '.HHSHHSSHHSSHHH.',
+    '.HSSSSSSSSSSSSH.',
+    'sSSWESSSSSSEWSSs',
+    'sSSSSSSssSSSSSSs',
+    '.SSSSSSSSSSSSSS.',
+    '.SBSSSmmmmSSSBS.',
+    '..BBSSSSSSSSBB..',
+    '...BBBBBBBBBB...',
+    '......ssss......',
+    '..KKKKKssKKKKK..',
+    '.KKKKKkKKkKKKKK.',
+    'KKKkKwwwwwwKkKKK',
+    'KKKkKKKKKKKKkKKK',
+    'KKKKKKKKKKKKKKKK',
+    'SKKKKKKKKKKKKKKS',
+    'S.KKKKKKKKKKKK.S',
+    '..PPPPPPPPPPPP..',
+    '..PPPPP..PPPPP..',
+    '..PPPPP..PPPPP..',
+    '..PPPP....PPPP..',
+    '.XXXXX....XXXXX.',
+    '.XxXXX....XXxXX.'
+  ];
+  var OMAR_MOODS = {
+    neutral: {},
+    happy: { 7: 'sSSEESSSSSSEESSs', 10: '.SBSSOWWWWOSSBS.' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -176,6 +216,10 @@
     mo: function (bild) {
       bild = MO_BEINE[bild] ? bild : 'steh';
       return Pixel.sprite('mo-' + bild, MO_KOPF.concat(MO_BEINE[bild]), MO_PAL);
+    },
+    omar: function (mood) {
+      mood = mood || 'neutral';
+      return Pixel.sprite('omar-' + mood, withMood(OMAR, OMAR_MOODS, mood), OMAR_PAL);
     },
     timo: function (mood) {
       mood = mood || 'neutral';

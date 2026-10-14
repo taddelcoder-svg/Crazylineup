@@ -34,6 +34,13 @@
       sprite: function () { return Sprites.mo('steh'); },
       best: 'crazylineup.mo.best', einheit: 'Pkt',
       scripts: ['js/games/mo.js']
+    },
+    {
+      id: 'omar', person: 'Omar', title: 'Sahara Express', grösse: '1,80',
+      vorwurf: 'Liefert alles, solange das Kamel mitmacht',
+      sprite: function () { return Sprites.omar('happy'); },
+      best: 'crazylineup.omar.best', einheit: 'DH',
+      scripts: PP.concat(['js/games/omar.js'])
     }
   ];
   window.CLKatalog = GAMES;
