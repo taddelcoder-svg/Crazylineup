@@ -41,11 +41,13 @@ h1 { margin: 8px 0 0; text-align: center; font-size: 2.2rem; color: var(--accent
 .matteo-wrap { position: absolute; left: 50%; bottom: 0; width: min(46%, 200px); aspect-ratio: 200 / 260; transform: translateX(-50%); pointer-events: none; }
 .matteo svg, .matteo-wrap svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
-.matteo .m { display: none; }
-.matteo[data-mood="neutral"] .m-neutral,
-.matteo[data-mood="shock"] .m-shock,
-.matteo[data-mood="happy"] .m-happy,
+.matteo .m, .char .m { display: none; }
+.matteo[data-mood="neutral"] .m-neutral, .char[data-mood="neutral"] .m-neutral,
+.matteo[data-mood="shock"] .m-shock, .char[data-mood="shock"] .m-shock,
+.matteo[data-mood="happy"] .m-happy, .char[data-mood="happy"] .m-happy,
 .matteo[data-mood="reject"] .m-reject { display: inline; }
+.char svg { width: 100%; height: 100%; display: block; }
+canvas { display: block; touch-action: none; }
 
 .bubble { position: absolute; left: 0; top: 0; max-width: 190px; padding: 10px 14px; border-radius: 16px;
   font-weight: 600; font-size: .95rem; line-height: 1.2; text-align: center; cursor: pointer; touch-action: none;

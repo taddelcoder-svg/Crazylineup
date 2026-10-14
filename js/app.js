@@ -20,7 +20,7 @@
         '<div class="meta"><b>' + g.person + '</b><span>' + g.title + '</span><small>' + g.blurb + '</small></div>';
       c.addEventListener('click', function () { play(g); });
       cards.appendChild(c);
-      if (g.id === 'matteo-meinungen') window.Matteo.mount(c.querySelector('.portrait'), 'happy');
+      if (g.portrait) g.portrait(c.querySelector('.portrait'));
     });
   }
 

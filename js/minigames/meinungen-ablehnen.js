@@ -217,6 +217,7 @@
     person: 'Matteo',
     title: 'Meinungen ablehnen',
     blurb: 'Lehne die falschen Meinungen ab, bevor sie Matteo erreichen.',
+    portrait: function (el) { window.Matteo.mount(el, 'happy'); },
     start: start
   });
 })();

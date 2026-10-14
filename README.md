@@ -8,6 +8,7 @@ Ein Minigame für jeden aus der Klasse. Reines HTML/CSS/JS, kein Build nötig:
 | Person | Minigame |
 |--------|----------|
 | Matteo | Meinungen ablehnen |
+| Timo | Bootfahren |
 
 ## Neues Minigame hinzufügen
 
