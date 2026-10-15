@@ -279,6 +279,31 @@
     traurig: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSSOOOOSSSSS.', 12: '..SSSOSSSSOSSS..' }
   };
 
+  // Moritz: blonder Wuschelpony, Zahnspange, Zunge raus, schwarzes Shirt mit Print
+  var MORITZ_PAL = {
+    H: '#e8c068', h: '#f6dc98', S: '#f2c8b0', s: '#dcaa90', W: '#ffffff', E: '#5a4a3a', B: '#9aa0a8', O: '#401818', R: '#e87a8a',
+    T: '#1c1c20', t: '#34343c', P: '#e8e8e8', p: '#8a8a8a', J: '#8a96a8', K: '#f2f2f2', k: '#c8c8c8'
+  };
+  var MORITZ = [
+    '....hHhHHhH.....', '..hHHHHHHHHHh...', '.hHHHHHHHHHHHh..', '.HHHHHHHHHHHHHH.', 'hHHHHHHHHHHHHHHh', '.HHSSHHHHHHHHSH.',
+    '.HSSSSSHHHHHSSH.', '.SSSSSSSSSSHSSS.', 'sSSEESSSSSSEESSs', 'sSSSSSSssSSSSSSs', '.SSRSSSSSSSSRSS.', '.SSSSOBBBBOSSSS.',
+    '..SSSORRRROSSS..', '...ssSRRRSsss...', '......ssss......', '..TTTTTssTTTTT..', '.TTTTTTTTTTTTTT.', 'TTTtTTPPPTTTtTTT',
+    'TTTtTTPpPTTTtTTT', 'TTTTTTPPPTTTTTTT', 'STTTTTTTTTTTTTTS', 'S.TTTTTTTTTTTT.S', '..JJJJJJJJJJJJ..', '..JJJJJ..JJJJJ..',
+    '..JJJJJ..JJJJJ..', '..JJJJ....JJJJ..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'
+  ];
+  // Damon: dunkler Kurzhaarschnitt mit Fade, weißes Metal-Shirt mit rotem Logo, graue Jeans
+  var DAMON_PAL = {
+    H: '#3a2618', h: '#5a3a26', f: '#7a6050', S: '#eec2a4', s: '#d6a486', W: '#ffffff', E: '#2a1a10', M: '#a86058',
+    T: '#f2f2f0', t: '#d0d0d0', R: '#c81e2a', r: '#8a1018', K: '#202020', k: '#5a5a5a', J: '#a8a8a8', j: '#8a8a8a', B: '#141418', b: '#3a3a3a'
+  };
+  var DAMON = [
+    '....hHHHHHHh....', '...hHHHHHHHHh...', '..HHHHHHHHHHHH..', '..fHHHHHHHHHHf..', '..fSSSSSSSSSSf..', '.fSHHHSSSSHHHSf.',
+    'sSSWESSSSSSWESSs', 'sSSSSSSssSSSSSSs', '.SSSSSSsSSSSSSS.', '.SSSSMMMMMSSSSS.', '..SSSSSSSSSSSS..', '..sSSSSSSSSSSs..',
+    '....ssssssss....', '......ssss......', '..TTTTTssTTTTT..', '.TTTTTTTTTTTTTT.', 'TTTRRrRRRrRRTTTT', 'TTTtRRrRrRRRtTTT',
+    'TTTtTKKkKKKTtTTT', 'TTTTTKKWWKKTTTTT', 'STTTTTKKKKTTTTTS', 'S.TTTTTTTTTTTT.S', '..JJJJJJJJJJJJ..', '..JJJJJ..JJJJJ..',
+    '..JJJjJ..JjJJJ..', '..JJJJ....JJJJ..', '.BBBBB....BBBBB.', '.BbBBB....BBbBB.'
+  ];
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -308,6 +333,13 @@
     julian: function (mood) {
       mood = mood || 'neutral';
       return Pixel.sprite('julian-' + mood, withMood(JULIAN, JULIAN_MOODS, mood), JULIAN_PAL);
+    },
+    doppeldate: function () {
+      var c = document.createElement('canvas'); c.width = 34; c.height = 28;
+      var x = c.getContext('2d');
+      x.drawImage(Pixel.sprite('moritz-menue', MORITZ, MORITZ_PAL), 0, 0);
+      x.drawImage(Pixel.sprite('damon-menue', DAMON, DAMON_PAL), 18, 0);
+      return c;
     },
     timo: function (mood) {
       mood = mood || 'neutral';

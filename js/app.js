@@ -55,6 +55,13 @@
       sprite: function () { return Sprites.julian(); },
       best: 'crazylineup.julian.best', einheit: 'Pkt',
       scripts: PP.concat(['js/games/julian.js'])
+    },
+    {
+      id: 'doppeldate', person: 'Damon & Moritz', title: 'Chaos-Dinner', grösse: '1,86 / 1,70',
+      vorwurf: 'Ein Tisch, zwei Typen, null Plan',
+      sprite: function () { return Sprites.doppeldate(); },
+      best: 'crazylineup.doppeldate.best', einheit: 'Pkt',
+      scripts: ['js/games/doppeldate.js']
     }
   ];
   window.CLKatalog = GAMES;
@@ -93,7 +100,8 @@
         (best ? '<em>Rekord: ' + best + ' ' + g.einheit + '</em>' : '') + '</div>';
       var cv = b.querySelector('canvas'), img = g.sprite();
       cv.width = img.width; cv.height = img.height;
-      cv.style.height = img.height * 6 + 'px';
+      var sk = Math.min(6, 160 / img.width); // breite Figuren (zwei Personen) etwas kleiner
+      cv.style.width = img.width * sk + 'px'; cv.style.height = img.height * sk + 'px';
       cv.getContext('2d').drawImage(img, 0, 0);
       b.addEventListener('click', function () { play(g); });
       wall.appendChild(b);
