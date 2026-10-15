@@ -69,6 +69,13 @@
       sprite: function () { return Sprites.ecki('steh'); },
       best: 'crazylineup.ecki.best', einheit: 'Pkt',
       scripts: ['js/games/ecki.js']
+    },
+    {
+      id: 'philipp', person: 'Philipp', title: 'Lernt nie (angeblich)', grösse: '1,80',
+      vorwurf: 'Hat angeblich noch nie gelernt',
+      sprite: function () { return Sprites.philipp('cool'); },
+      best: 'crazylineup.philipp.best', einheit: 'Pkt',
+      scripts: ['js/games/philipp.js']
     }
   ];
   window.CLKatalog = GAMES;

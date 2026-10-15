@@ -328,6 +328,40 @@
     duck: ['..JJJJJJJJJJJJ..', '.KKKKJJ..JJKKKK.', '.KkKK......KKkK.']
   };
 
+  // Philipp: Möchtegern-Gangster-Look – dunkler Wuschel-Pony, Sonnenbrille im Haar, grüner Hoodie mit weißem Streifen, Bauchtasche, Goldkette
+  var PHILIPP_PAL = {
+    H: '#241812', h: '#3e2c22', S: '#e2b48c', s: '#c69270', E: '#2a1a10', W: '#ffffff', M: '#a86058', O: '#3a1a14',
+    G: '#1e4a3c', g: '#163a2e', T: '#f2f2f2', t: '#202020', B: '#141414', b: '#3a3a3a', K: '#e8c040', Y: '#101014', y: '#5a7a9a'
+  };
+  var PHILIPP = [
+    '.....hHHHHhHHH......', '...HHHHHHHHHHHHHH...', '..HHHYyYYYYYYyYHHH..', '..HHHHHHHHHHHHHHHH..', '.HHHHhHHHHHHhHHHHHH.',
+    '.HHSHHHSHHHSHHHSHHH.', '..HSSSSSSSSSSSSSSH..', '..HSHHSSSSSSSSHHSH..', '..SSWESSSSSSSSWESS..', 'sSSSSSSSSssSSSSSSSSs',
+    '.SSSSSSSSssSSSSSSSS.', '..SSSSSSSSMMMMSSSS..', '...sSSSSSSSSSSSSs...', '....ssSSSSSSSSss....', '.......ssssss.......',
+    '...GGGGKGssGKGGGG...', '..GGGGGGKKKKGGGGGG..', '.TtGbGGGGGGGGGGGGtT.', 'TtTGGbGGGGGGGGGGGTtT', 'TTtGGGbGGGGGGGGGGtTT',
+    'TtTGGGGbBBBBGGGGGTtT', 'TTtGGGGBBBBBBGGGGtTT', 'TtTGGGGBBbBBBGGGGTtT', 'gTTGGGGGGGGGGGGGGTTg'
+  ];
+  var PHILIPP_MOODS = {
+    lernen: { 7: '..HSSSSSSSSSSSSSSH..', 8: '..SSHHSSSSSSSSHHSS..', 11: '..SSSSSSSMMMSSSSSS..' },
+    erwischt: { 7: '..HHHSSSSSSSSSSHHH..', 8: '..SWEWSSSSSSSSWEWS..', 11: '..SSSSSSSOOOOSSSSS..', 12: '...sSSSSSOOSSSSSs...' },
+    cool: { 2: '..HHHHHHHHHHHHHHHH..', 7: '..HSYYYYYSSYYYYYSH..', 8: '..SYyYYYYSSYYYyYYS..', 11: '..SSSSSSSSSMMMMSSS..' },
+    stolz: { 2: '..HHHHHHHHHHHHHHHH..', 7: '..HSYYYYYSSYYYYYSH..', 8: '..SYyYYYYSSYYYyYYS..', 11: '..SSSSSMWWWWMSSSSS..' },
+    traurig: { 7: '..HSSHHSSSSSSHHSSH..', 8: '..SSEESSSSSSSSEESS..', 11: '..SSSSSSSSSSSSSSSS..', 12: '...sSSSSMMMMSSSSs...' }
+  };
+  // Philipps Jungs (Hintergrund-Figuren, keine echten Personen): 14 breit, Augen schauen nach vorn, links, rechts oder runter
+  var JUNGE = [
+    '....HHHHHH....', '..HHHHHHHHHH..', '..HHHHHHHHHH..', '..HSSSSSSSSH..', '..SSESSSSESS..', '.sSSSSSSSSSSs.',
+    '..SSSSMMSSSS..', '...SSSSSSSS...', '.....ssss.....', '..CCCCCCCCCC..', '.CCCCCCCCCCCC.', 'CCCCCCCCCCCCCC', 'CCCCCCCCCCCCCC', 'CCCCCCCCCCCCCC'
+  ];
+  var JUNGE_BLICK = {
+    vorne: {}, links: { 4: '..SESSSSESSS..' }, rechts: { 4: '..SSSESSSSES..' }, runter: { 4: '..SSSSSSSSSS..', 5: '.sSSESSSSESSs.' },
+    schock: { 4: '..SWEWSSWEWS..', 6: '..SSSSOOSSSS..' }
+  };
+  var JUNGE_PAL = [
+    { H: '#c89a4a', S: '#f0c8a8', s: '#d8a888', E: '#202020', W: '#fff', M: '#a85a5a', O: '#3a1a1a', C: '#c83a3a' },
+    { H: '#1a1a1e', S: '#8a5a3a', s: '#704830', E: '#101010', W: '#fff', M: '#5a2a2a', O: '#2a1010', C: '#3a6ac8' },
+    { H: '#5a3a22', S: '#e8b898', s: '#c89878', E: '#202020', W: '#fff', M: '#a85a5a', O: '#3a1a1a', C: '#e8a82a' }
+  ];
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -368,6 +402,14 @@
     ecki: function (bild, mood) {
       bild = ECKI_BEINE[bild] ? bild : 'steh'; mood = ECKI_MOODS[mood] ? mood : 'neutral';
       return Pixel.sprite('ecki-' + bild + '-' + mood, withMood(ECKI_KOPF, ECKI_MOODS, mood).concat(ECKI_BEINE[bild]), ECKI_PAL);
+    },
+    philipp: function (mood) {
+      mood = PHILIPP_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('philipp-' + mood, withMood(PHILIPP, PHILIPP_MOODS, mood), PHILIPP_PAL);
+    },
+    junge: function (nr, blick) {
+      blick = JUNGE_BLICK[blick] ? blick : 'vorne';
+      return Pixel.sprite('junge-' + nr + '-' + blick, withMood(JUNGE, JUNGE_BLICK, blick), JUNGE_PAL[nr % JUNGE_PAL.length]);
     },
     timo: function (mood) {
       mood = mood || 'neutral';
