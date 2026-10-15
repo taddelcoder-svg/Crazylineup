@@ -62,6 +62,13 @@
       sprite: function () { return Sprites.doppeldate(); },
       best: 'crazylineup.doppeldate.best', einheit: 'Pkt',
       scripts: ['js/games/doppeldate.js']
+    },
+    {
+      id: 'ecki', person: 'Ecki', title: 'Ecki muss mal!', grösse: '1,78',
+      vorwurf: 'Kennt jedes Klo der Stadt',
+      sprite: function () { return Sprites.ecki('steh'); },
+      best: 'crazylineup.ecki.best', einheit: 'Pkt',
+      scripts: ['js/games/ecki.js']
     }
   ];
   window.CLKatalog = GAMES;

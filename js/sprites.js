@@ -304,6 +304,30 @@
     '..JJJjJ..JjJJJ..', '..JJJJ....JJJJ..', '.BBBBB....BBBBB.', '.BbBBB....BBbBB.'
   ];
 
+  // Ecki: kurze braune Haare, schwarze Brille mit blauem Innenrand, grauer Hoodie, rote Sneaker
+  var ECKI_PAL = {
+    H: '#7a5a3a', h: '#9a7650', S: '#f2c8b0', s: '#dca890', G: '#141418', g: '#3ab0e8', W: '#ffffff', E: '#4a3020', M: '#b06060', O: '#401818',
+    T: '#a8acb2', t: '#8a8e96', w: '#f2f2f2', J: '#3a4a6a', K: '#e84a3a', k: '#ffffff', R: '#e86a6a'
+  };
+  var ECKI_KOPF = [
+    '....hHHhHHhH....', '..hHHHHHHHHHHh..', '.HHHHHHHHHHHHHH.', '.HHHhHHHHHHhHHH.', '.HSHHSSHHSSHHSH.', '.SSSSSSSSSSSSSS.',
+    '.GGGGGGSSGGGGGG.', '.GgWEgGGGGgWEgG.', '.GGGGGGSSGGGGGG.', 'sSSSSSSssSSSSSSs', '.SSSSSSSSSSSSSS.', '.SSSSMMMMMMSSSS.',
+    '..SSSSOOOOSSSS..', '...ssSSSSSSss...', '......ssss......',
+    '..TTTTwSSwTTTT..', '.TTTTTwTTwTTTTT.', 'TTTtTTwTTwTTtTTT', 'TTTtTTTTTTTTtTTT', 'TTTTttttttttTTTT', 'STTTtTTTTTTtTTTS', 'S.TTTTTTTTTTTT.S'
+  ];
+  var ECKI_MOODS = {
+    druck: { 7: '.GgEEgGGGGgEEgG.', 9: 'sSRSSSSssSSSSRSs', 11: '.SSSSSMMMMSSSSS.', 12: '..SSSSSSSSSSSS..' },
+    puh: { 7: '.GgSSgGGGGgSSgG.', 11: '.SSSOWWWWWWOSSS.', 12: '..SSSSOOOOSSSS..' },
+    rot: { 4: '.RRHHRRHHRRHHRH.', 5: '.RRRRRRRRRRRRRR.', 7: '.GgEEgGGGGgEEgG.', 9: 'RRRRRRRRRRRRRRRR', 10: '.RRRRRRRRRRRRRR.', 11: '.RRRRRMMMMRRRRR.', 12: '..RRRROOOORRRR..' }
+  };
+  var ECKI_BEINE = {
+    steh: ['..JJJJJJJJJJJJ..', '..JJJJJ..JJJJJ..', '..JJJJJ..JJJJJ..', '..JJJJ....JJJJ..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'],
+    laufA: ['..JJJJJJJJJJJJ..', '..JJJJJ.JJJJJ...', '.JJJJJ...JJJJ...', 'JJJJ......JJJJ..', 'KKKK.......KKKK.', 'KkK........KkKK.'],
+    laufB: ['..JJJJJJJJJJJJ..', '...JJJJJJJJJ....', '....JJJJJJJ.....', '.....JJJJJ......', '....KKKKKKK.....', '....KkKKKkK.....'],
+    sprung: ['..JJJJJJJJJJJJ..', '..JJJJ..JJJJ....', '.JJJJ....JJJJ...', 'KKKK......KKKK..', 'KkK........KKk..', '................'],
+    duck: ['..JJJJJJJJJJJJ..', '.KKKKJJ..JJKKKK.', '.KkKK......KKkK.']
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -340,6 +364,10 @@
       x.drawImage(Pixel.sprite('moritz-menue', MORITZ, MORITZ_PAL), 0, 0);
       x.drawImage(Pixel.sprite('damon-menue', DAMON, DAMON_PAL), 18, 0);
       return c;
+    },
+    ecki: function (bild, mood) {
+      bild = ECKI_BEINE[bild] ? bild : 'steh'; mood = ECKI_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('ecki-' + bild + '-' + mood, withMood(ECKI_KOPF, ECKI_MOODS, mood).concat(ECKI_BEINE[bild]), ECKI_PAL);
     },
     timo: function (mood) {
       mood = mood || 'neutral';

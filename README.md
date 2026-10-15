@@ -17,6 +17,7 @@ siehe `render.yaml`) oder per Docker (`Dockerfile`, nginx).
 | Felix | Genosse Felix – als Chef der UdSSR alles aufessen, was kleiner ist, und wachsen: vom Brot bis zum Kreml | 3D (three.js) |
 | Julian | Reagenzbecken – im Becherglas kraulen, Atome sammeln, Moleküle bauen; Natrium knallt, Ashley zieht ihn magisch an | 3D (three.js) |
 | Damon & Moritz | Chaos-Dinner – die beiden auf einem Date: Fragen beantworten, Pannen abwenden, beide Herzen über drei Gänge oben halten | 2D-Pixel (Canvas) |
+| Ecki | Ecki muss mal! – Laufspiel: springen, ducken, Kamillentee schnappen und rechtzeitig die einzige FREIE Toilette finden | 2D-Pixel (Canvas) |
 
 ## Aufbau
 
