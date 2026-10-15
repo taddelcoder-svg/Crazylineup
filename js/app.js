@@ -48,6 +48,13 @@
       sprite: function () { return Sprites.felix(); },
       best: 'crazylineup.felix.best', einheit: 'm',
       scripts: PP.concat(['js/modelle/werkzeug.js', 'js/games/felix.js'])
+    },
+    {
+      id: 'julian', person: 'Julian', title: 'Reagenzbecken', grösse: '1,82',
+      vorwurf: 'Viel zu tief in der Chemie drin',
+      sprite: function () { return Sprites.julian(); },
+      best: 'crazylineup.julian.best', einheit: 'Pkt',
+      scripts: PP.concat(['js/games/julian.js'])
     }
   ];
   window.CLKatalog = GAMES;

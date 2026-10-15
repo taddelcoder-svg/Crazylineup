@@ -239,6 +239,46 @@
     happy: { 8: '.USEESSSSSSEESU.', 11: '..SSSSOWWOSSSS..' }
   };
 
+  // Julian: verwuschelte braune Haare, Schwimmbrille auf der Stirn, Laborkittel über grauem Polo, irres Grinsen
+  var JULIAN_PAL = {
+    H: '#6a4a2e', h: '#9a7048', G: '#2a2a30', B: '#5ac8f0', S: '#f0c4a6', s: '#d8a88a', W: '#ffffff', E: '#3a2a1e', O: '#3a1010',
+    L: '#f2f2ee', l: '#c8ccd0', P: '#6a7078', p: '#4a5058', R: '#d83a3a', b: '#3a6ad8', J: '#3a4a6a', K: '#e8e8e8', k: '#b0b0b0'
+  };
+  var JULIAN = [
+    '..h..H.h..Hh..h.',
+    '.hHH.HHhH.HHhHh.',
+    '..HHHHHHHHHHHHH.',
+    '.HHHhHHHHHhHHHH.',
+    '.HHHHHHHHHHHHHH.',
+    '.GGGGGGGGGGGGGG.',
+    '.GBBBGGGGGGBBBG.',
+    '.HSSSSSSSSSSSSH.',
+    'sSSWEWSSSSWEWSSs',
+    'sSSSSSSssSSSSSSs',
+    '.SSSSSSSSSSSSSS.',
+    '.SSSOWWWWWWOSSS.',
+    '..SSSOOOOOOSSS..',
+    '...ssSSSSSSss...',
+    '......ssss......',
+    '..LLLLPppPLLLL..',
+    '.LLLLLPPPPLLLLL.',
+    'LLLlLLPPPPLLRbLL',
+    'LLLlLLPPPPLLlLLL',
+    'LLLLLLLPPLLLLLLL',
+    'SLLLLLLLLLLLLLLS',
+    'S.LLLLLLLLLLLL.S',
+    '..JJJJJJJJJJJJ..',
+    '..JJJJJ..JJJJJ..',
+    '..JJJJJ..JJJJJ..',
+    '..JJJJ....JJJJ..',
+    '.KKKKK....KKKKK.',
+    '.KkKKK....KKkKK.'
+  ];
+  var JULIAN_MOODS = {
+    neutral: {},
+    traurig: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSSOOOOSSSSS.', 12: '..SSSOSSSSOSSS..' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -264,6 +304,10 @@
     felix: function (mood) {
       mood = mood || 'neutral';
       return Pixel.sprite('felix-' + mood, withMood(FELIX, FELIX_MOODS, mood), FELIX_PAL);
+    },
+    julian: function (mood) {
+      mood = mood || 'neutral';
+      return Pixel.sprite('julian-' + mood, withMood(JULIAN, JULIAN_MOODS, mood), JULIAN_PAL);
     },
     timo: function (mood) {
       mood = mood || 'neutral';

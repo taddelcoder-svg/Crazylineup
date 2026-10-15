@@ -15,6 +15,7 @@ siehe `render.yaml`) oder per Docker (`Dockerfile`, nginx).
 | Omar | Sahara Express – mit dem Kamel Waren durch Marokko liefern, Wasser, Tag/Nacht, Sandstürme | 3D (three.js) |
 | Mo | Ganz klein – Jump'n'Run/Escape-Room in 3 Levels: Schreibtisch, Bücherregal, unter der Tür durch | 2D-Pixel (Canvas) |
 | Felix | Genosse Felix – als Chef der UdSSR alles aufessen, was kleiner ist, und wachsen: vom Brot bis zum Kreml | 3D (three.js) |
+| Julian | Reagenzbecken – im Becherglas kraulen, Atome sammeln, Moleküle bauen; Natrium knallt, Exium zieht ihn magisch an | 3D (three.js) |
 
 ## Aufbau
 
