@@ -1,7 +1,7 @@
 // Julian: Reagenzbecken – 3D-Schwimmspiel (three.js).
 // Julian ist geschrumpft und schwimmt in einem riesigen Becherglas mitten im Chemielabor.
 // Er sammelt Atome und baut daraus Moleküle (H₂O, NaCl, CO₂ …). Natrium und Kalium reagieren
-// mit dem Wasser und knallen. Das Exium (Ex, Halbwertszeit: ewig) zieht ihn magisch an –
+// mit dem Wasser und knallen. Ashley (das Herz, Halbwertszeit: ewig) zieht ihn magisch an –
 // erwischt er es, treibt er traurig herum. Das Durchdreh-Meter steigt mit jedem Molekül.
 // Steuern: A/← und D/→ abwechselnd = kraulen (geradeaus), eine Seite mehrfach = Kurve.
 (function () {
@@ -38,7 +38,7 @@
     { f: 'H<sub>2</sub>SO<sub>4</sub>', name: 'Schwefelsäure', a: { H: 2, S: 1, O: 4 }, fakt: 'Lieber nicht drin schwimmen.', stufe: 3 }
   ];
   var SPRUECHE = ['Kovalente Bindung, Baby!', 'Avogadro wäre stolz!', 'Ich SEHE die Elektronen!', 'Ich bin das Lösungsmittel!', 'Mehr Protonen!!!', 'Exotherm!!', 'Ausgeglichen. Wie ich.', 'Stoffmenge: unendlich!'];
-  var TRAUER = ['Manche Bindungen halten nicht …', 'Exium … Halbwertszeit: ewig.', 'Wir waren so eine stabile Verbindung …', '*schnief* … unsere Elektronenpaare …'];
+  var TRAUER = ['Ashley …', 'Manche Bindungen halten nicht …', 'Ashley … Halbwertszeit: ewig.', 'Wir waren so eine stabile Verbindung …', '*schnief* … unsere Elektronenpaare …'];
   var FORMELN = ['pH 14!', 'C₆H₁₂O₆', 'Mol!', 'NaCl', 'ΔH < 0', '6,022·10²³', 'H⁺', 'Redox!', 'sp³', 'Ar', 'e⁻ e⁻ e⁻'];
 
   var CSS = [
@@ -386,7 +386,7 @@
         f.rotation.set(1.9 + rnd(-0.2, 0.2), a2, rnd(-0.3, 0.3));
       }
       // Regenwolke für traurige Momente
-      var wolke = new THREE.Group(); wolke.visible = false; julian.add(wolke);
+      var wolke = new THREE.Group(); wolke.visible = false; wolke.scale.setScalar(0.75); wolke.position.y = 0.9; julian.add(wolke);
       var wolkeM = std('#6a7484', { roughness: 1 });
       [[0, 0, 0, 0.5], [0.45, -0.05, 0, 0.38], [-0.45, -0.05, 0.05, 0.4], [0.15, 0.2, 0, 0.36]].forEach(function (p) { mesh(new THREE.SphereGeometry(p[3], 12, 8), wolkeM, p[0], p[1] + 2.3, p[2], wolke, false); });
       var tropfen = [];
@@ -432,14 +432,14 @@
       while (gesamt < 14 + stufe() * 2) { atomSetzen(pick(els)); gesamt++; }
     }
 
-    // Exium: das Herz-Atom, dem Julian hinterherschwimmt
+    // Ashley: das Herz, dem Julian hinterherschwimmt
     var exium = (function () {
       var gr = new THREE.Group(); gr.visible = false; scene.add(gr);
       var herzM = std('#ff5ab8', { emissive: farbe('#ff3aa0'), emissiveIntensity: 0.5, roughness: 0.3 });
       var herz = new THREE.Group(); gr.add(herz);
       mesh(new THREE.SphereGeometry(0.42, 18, 12), herzM, -0.3, 0.2, 0, herz); mesh(new THREE.SphereGeometry(0.42, 18, 12), herzM, 0.3, 0.2, 0, herz);
       var spitze = mesh(new THREE.ConeGeometry(0.58, 0.85, 18), herzM, 0, -0.32, 0, herz); spitze.rotation.z = Math.PI;
-      var schrift = textSprite('Ex', '#ffd0f0', 0.75); schrift.position.y = 1.15; gr.add(schrift);
+      var schrift = textSprite('Ashley', '#ffd0f0', 0.75); schrift.position.y = 1.15; gr.add(schrift);
       var schein = glow('#ff5ab8', 4, 0.5); gr.add(schein);
       return { g: gr, herz: herz, aktiv: false, x: 0, z: 0, t: 0, naechstes: rnd(16, 24) };
     })();
@@ -675,10 +675,10 @@
         if (g.trauer <= 0 && Math.hypot(g.x - a.x, g.z - a.z) < 0.9 + ELEMENTE[a.el].r) einsammeln(a);
       }
       if (g.t % 1 < dt) atomeAuffuellen();
-      // Exium
+      // Ashley
       if (!exium.aktiv) {
         exium.naechstes -= dt;
-        if (exium.naechstes <= 0 && g.trauer <= 0) { var p = freierPlatz(); exium.x = p[0]; exium.z = p[1]; exium.t = 0; exium.aktiv = true; exium.g.visible = true; melde('Oh nein … Exium!', 'Halbwertszeit: ewig. Nicht hinschwimmen!', 'pink'); }
+        if (exium.naechstes <= 0 && g.trauer <= 0) { var p = freierPlatz(); exium.x = p[0]; exium.z = p[1]; exium.t = 0; exium.aktiv = true; exium.g.visible = true; melde('Oh nein … Ashley!', 'Halbwertszeit: ewig. Nicht hinschwimmen!', 'pink'); }
       } else {
         exium.t += dt;
         exium.x += Math.sin(g.t * 0.5) * 1.4 * dt; exium.z += Math.cos(g.t * 0.43) * 1.4 * dt;
@@ -726,7 +726,7 @@
       });
       // gesammelte Atome kreisen um den Kopf
       orbit.forEach(function (o, i) { var w = g.t * 3 + i / orbit.length * Math.PI * 2; o.position.set(g.x + Math.cos(w) * 1.1, 1.3 + Math.sin(w * 2) * 0.1, g.z + Math.sin(w) * 1.1); });
-      // Exium
+      // Ashley
       if (exium.aktiv) { exium.g.position.set(exium.x, 0.6 + Math.sin(g.t * 3) * 0.15, exium.z); var pu = 1 + Math.sin(g.t * 6) * 0.08; exium.herz.scale.setScalar(pu); exium.herz.rotation.y += dt * 1.5; }
       // fertige Moleküle steigen auf
       for (var n = molekuele.length - 1; n >= 0; n--) { var mo = molekuele[n]; mo.t += dt; mo.g.position.y += dt * 2.2; mo.g.rotation.y += dt * 2; mo.g.scale.setScalar(Math.min(1, mo.t * 3) * (mo.t > 1.6 ? Math.max(0, 1 - (mo.t - 1.6) * 2) : 1)); if (mo.t > 2.1) { scene.remove(mo.g); molekuele.splice(n, 1); } }
@@ -818,7 +818,7 @@
         '<ul><li>🏊 Kraulen: <b>A</b> und <b>D</b> (oder ← →) abwechselnd. Eine Seite mehrmals = Kurve.</li>' +
         '<li>⚛️ Sammle die Atome für das Molekül oben – jedes Molekül gibt Punkte und Zeit.</li>' +
         '<li>💥 Natrium und Kalium zischen und knallen im Wasser. Schnell sein!</li>' +
-        '<li>💔 Vorsicht vor dem <b>Exium</b> – Julian kann nicht anders, als hinterherzuschwimmen.</li>' +
+        '<li>💔 Vorsicht vor <b>Ashley</b> – Julian kann nicht anders, als hinterherzuschwimmen.</li>' +
         '<li>🤪 Das Durchdreh-Meter steigt mit jedem Molekül. Voll = EUREKA!</li></ul>' +
         '<button class="jn-btn" data-act="los">Ab ins Becherglas!</button></div>';
     }
@@ -844,7 +844,7 @@
           '<div class="zeile"><span>Punkte</span><b>' + g.punkte.toLocaleString('de-DE') + (neu ? ' ★' : '') + '</b></div>' +
           '<div class="zeile"><span>Moleküle</span><b>' + g.anzahl + '</b></div>' +
           '<div class="zeile"><span>Explosionen abbekommen</span><b>' + g.knalle + '</b></div>' +
-          '<div class="zeile"><span>Trauerphasen wegen Exium</span><b>' + g.trauerAnz + '</b></div>' +
+          '<div class="zeile"><span>Trauerphasen wegen Ashley</span><b>' + g.trauerAnz + '</b></div>' +
           '<div class="zeile"><span>Bestmarke</span><b>' + Math.max(best, g.punkte).toLocaleString('de-DE') + '</b></div>' +
           '<button class="jn-btn" data-act="los">Nochmal reinspringen</button>' +
           '<button class="jn-btn zweit" data-act="exit">Menü</button></div>';
