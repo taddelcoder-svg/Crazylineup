@@ -41,6 +41,13 @@
       sprite: function () { return Sprites.omar('happy'); },
       best: 'crazylineup.omar.best', einheit: 'DH',
       scripts: PP.concat(['js/modelle/werkzeug.js', 'js/modelle/kamel.js', 'js/games/omar.js'])
+    },
+    {
+      id: 'felix', person: 'Felix', title: 'Genosse Felix', grösse: '1,76',
+      vorwurf: 'Isst dem ganzen Land den Kühlschrank leer',
+      sprite: function () { return Sprites.felix(); },
+      best: 'crazylineup.felix.best', einheit: 'm',
+      scripts: PP.concat(['js/modelle/werkzeug.js', 'js/games/felix.js'])
     }
   ];
   window.CLKatalog = GAMES;

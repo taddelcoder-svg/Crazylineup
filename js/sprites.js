@@ -199,6 +199,46 @@
     happy: { 7: 'sSSEESSSSSSEESSs', 10: '.SBSSOWWWWOSSBS.' }
   };
 
+  // Felix: dunkle Wuschellocken unter der Uschanka mit rotem Stern, Marschallmantel mit Orden
+  var FELIX_PAL = {
+    U: '#6e5a48', u: '#8a7460', R: '#c8102e', Y: '#e8b84a', H: '#3a2618', h: '#5a3e28', S: '#f2c4a8', s: '#dca88c',
+    W: '#ffffff', E: '#3a2a1e', r: '#ec9a8a', m: '#b0645c', O: '#3a1010', C: '#5a6a3c', B: '#5a3a1e', P: '#2a2c34', K: '#141418', k: '#3a3a42'
+  };
+  var FELIX = [
+    '.....uuuuuu.....',
+    '...uUUUUUUUUu...',
+    '..UUUUUYYUUUUU..',
+    '..UUUUURRUUUUU..',
+    '.uUUUUUUUUUUUUu.',
+    '.UUHhHHhHHhHHUU.',
+    '.UHSHHSHHSHHSHU.',
+    '.UHSSSSSSSSSSHU.',
+    '.USWESSSSSSEWSU.',
+    '.USSSSSssSSSSSU.',
+    '..SSrSSSSSSrSS..',
+    '..SSSSSmmSSSSS..',
+    '...sSSSSSSSSs...',
+    '.....ssssss.....',
+    '..RCCCCssCCCCR..',
+    '.RRCCCYCCYCCCRR.',
+    '.CCrYRCCCCCCCCC.',
+    'CCCCCCYCCYCCCCCC',
+    'CCCCCCCCCCCCCCCC',
+    'SCBBBBBYYBBBBBCS',
+    'S.CCCCCYCCYCCC.S',
+    '..CCCCCCCCCCCC..',
+    '..PPPRPPPPRPPP..',
+    '..PPPRP..PRPPP..',
+    '..PPPRP..PRPPP..',
+    '..KKKKK..KKKKK..',
+    '.KKKKKK..KKKKKK.',
+    '.KkKKKK..KKKKkK.'
+  ];
+  var FELIX_MOODS = {
+    neutral: {},
+    happy: { 8: '.USEESSSSSSEESU.', 11: '..SSSSOWWOSSSS..' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -220,6 +260,10 @@
     omar: function (mood) {
       mood = mood || 'neutral';
       return Pixel.sprite('omar-' + mood, withMood(OMAR, OMAR_MOODS, mood), OMAR_PAL);
+    },
+    felix: function (mood) {
+      mood = mood || 'neutral';
+      return Pixel.sprite('felix-' + mood, withMood(FELIX, FELIX_MOODS, mood), FELIX_PAL);
     },
     timo: function (mood) {
       mood = mood || 'neutral';
