@@ -76,6 +76,13 @@
       sprite: function () { return Sprites.philipp('cool'); },
       best: 'crazylineup.philipp.best', einheit: 'Pkt',
       scripts: ['js/games/philipp.js']
+    },
+    {
+      id: 'saro', person: 'Saro', title: 'Goldmine Frankfurt', grösse: '1,65',
+      vorwurf: 'Geht angeblich Gold graben in Frankfurt',
+      sprite: function () { return Sprites.saro('cool'); },
+      best: 'crazylineup.saro.best', einheit: 'm',
+      scripts: ['js/games/saro.js']
     }
   ];
   window.CLKatalog = GAMES;

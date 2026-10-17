@@ -362,6 +362,45 @@
     { H: '#5a3a22', S: '#e8b898', s: '#c89878', E: '#202020', W: '#fff', M: '#a85a5a', O: '#3a1a1a', C: '#e8a82a' }
   ];
 
+  // Saro: großer dunkler Lockenkopf, dicke Augenbrauen, Navy-Zip-Hoodie, gelbes Lanyard mit roter Karte, hellgraue Jogginghose
+  var SARO_PAL = {
+    H: '#24160e', h: '#4a3020', S: '#c8946e', s: '#a87452', B: '#1e120a', E: '#2a1608', W: '#ffffff', M: '#8a4e44', O: '#3a1410',
+    N: '#1c2238', n: '#2e3654', Z: '#c8c8d0', Y: '#e8d040', R: '#c83a2a', G: '#d2d2cc', g: '#a8a8a0', K: '#f2f2f2', k: '#9a9a9a', P: '#ff5a8a'
+  };
+  var SARO = [
+    '...hHHhHHhHHh...', '..HHhHHHHhHHHH..', '.hHHHhHHhHHHhHH.', 'HHhHHHHhHHHHhHHH', 'HhHHhHHHHhHHHhHH',
+    'HHHSHhSHHSHhSHHH', 'hHSSSSSSSSSSSSHh', 'HHSBBBSSSSBBBSHH', 'HsSWESSSSSSEWSsH', 'HSSSSSSssSSSSSSH',
+    '.SSSSSSssSSSSSS.', '.SSSSMMMMMMSSSS.', '..SSSSSSSSSSSS..', '...ssSSSSSSss...', '......ssss......',
+    '..NNNYNZZNYNNN..', '.NNNNNYZZYNNNNN.', '.NnNNNNYYNNNNnN.', 'NNnNNNNRRNNNNnNN', 'NNnNNNNRRNNNNnNN',
+    'SNNNNNNZZNNNNNNS', 'S.NNNNNZZNNNNN.S', '..GGGGGGGGGGGG..', '..GGGGG..GGGGG..', '..GGgGG..GGgGG..',
+    '..GGGG....GGGG..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'
+  ];
+  var SARO_MOODS = {
+    neutral: {},
+    cool: { 7: 'HHSSBBSSSSBBSSHH', 8: 'HsSBESSSSSSEBSsH', 11: '.SSSSSSMMMMMSSS.' },
+    stolz: { 8: 'HsSEESSSSSSEESsH', 11: '.SSSSMWWWWMSSSS.' },
+    verliebt: { 8: 'HsSPPSSSSSSPPSsH', 11: '.SSSSMWWWWMSSSS.' },
+    schock: { 7: 'HHBBBSSSSSSBBBHH', 8: 'HsSWEWSSSSWEWSsH', 11: '.SSSSSMOOMSSSSS.', 12: '..SSSSSOOSSSSS..' }
+  };
+  // Saros Freundin („Schatzi“, Nebenfigur): lange dunkle Haare, rosa Hoodie mit Herz
+  var SCHATZI_PAL = {
+    H: '#2a1a14', S: '#e8b898', s: '#c89878', E: '#2a1a10', W: '#ffffff', M: '#c8506a', O: '#3a1418', R: '#f08a9a',
+    P: '#f4a8c8', D: '#e83a6a', J: '#4a6aa8', K: '#f2f2f2', k: '#9a9a9a', X: '#ff5a8a'
+  };
+  var SCHATZI = [
+    '................', '....HHHHHHHH....', '...HHHHHHHHHH...', '..HHHHHHHHHHHH..', '..HHHHHHHHHHHH..',
+    '..HHSSSSSSSSHH..', '..HSSSSSSSSSSH..', '..HSSSSSSSSSSH..', '..HSWESSSSEWSH..', '.HHRSSSssSSSRHH.',
+    '.HHSSSSSSSSSSHH.', '.HHSSSMMMMSSSHH.', '.HHHSSSSSSSSHHH.', '.HHHHssSSssHHHH.', '.HHHH.ssss.HHHH.',
+    '.HHPPPPssPPPPHH.', '.HPPPPPPPPPPPPH.', '.HPPPDDPPDDPPPH.', 'PPPPPDDDDDDPPPPP', 'PPPPPPDDDDPPPPPP',
+    'SPPPPPPDDPPPPPPS', 'S.PPPPPPPPPPPP.S', '..JJJJJJJJJJJJ..', '..JJJJJ..JJJJJ..', '..JJJJJ..JJJJJ..',
+    '..JJJJ....JJJJ..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'
+  ];
+  var SCHATZI_MOODS = {
+    neutral: {},
+    verliebt: { 8: '..HSXXSSSSXXSH..', 11: '.HHSSMWWWWMSSHH.' },
+    sauer: { 7: '..HSHHSSSSHHSH..', 8: '..HSEESSSSEESH..', 11: '.HHSSSOOOOSSSHH.' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -406,6 +445,14 @@
     philipp: function (mood) {
       mood = PHILIPP_MOODS[mood] ? mood : 'neutral';
       return Pixel.sprite('philipp-' + mood, withMood(PHILIPP, PHILIPP_MOODS, mood), PHILIPP_PAL);
+    },
+    saro: function (mood) {
+      mood = SARO_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('saro-' + mood, withMood(SARO, SARO_MOODS, mood), SARO_PAL);
+    },
+    schatzi: function (mood) {
+      mood = SCHATZI_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('schatzi-' + mood, withMood(SCHATZI, SCHATZI_MOODS, mood), SCHATZI_PAL);
     },
     junge: function (nr, blick) {
       blick = JUNGE_BLICK[blick] ? blick : 'vorne';
