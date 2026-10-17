@@ -23,7 +23,9 @@ http.createServer((req, res) => {
   fs.readFile(datei, (fehler, inhalt) => {
     if (fehler) { res.writeHead(404, { 'Content-Type': 'text/plain' }); return res.end('Nicht gefunden\n'); }
     const typ = TYPEN[path.extname(datei)] || 'application/octet-stream';
-    res.writeHead(200, { 'Content-Type': typ, 'Cache-Control': typ.startsWith('text/html') ? 'no-cache' : 'public, max-age=3600' });
+    // Eigener Code (HTML/CSS/JS) immer frisch, sonst sieht man neue Spiele erst nach einer Stunde; vendor/ darf gecacht werden
+    const fest = rel.startsWith('vendor' + path.sep);
+    res.writeHead(200, { 'Content-Type': typ, 'Cache-Control': fest ? 'public, max-age=86400' : 'no-cache' });
     res.end(inhalt);
   });
 }).listen(PORT, '0.0.0.0', () => console.log('Crazy Lineup läuft auf Port ' + PORT));
