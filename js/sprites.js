@@ -382,6 +382,13 @@
     verliebt: { 8: 'HsSPPSSSSSSPPSsH', 11: '.SSSSMWWWWMSSSS.' },
     schock: { 7: 'HHBBBSSSSSSBBBHH', 8: 'HsSWEWSSSSWEWSsH', 11: '.SSSSSMOOMSSSSS.', 12: '..SSSSSOOSSSSS..' }
   };
+  // Aro, Saros großer Bruder aus Berlin (Mog-Off-Boss): gleiche Locken, Sonnenbrille, Bart, schwarzer Hoodie, Goldkette
+  var ARO_PAL = {
+    H: '#1e120a', h: '#3a2418', S: '#b8845e', s: '#966444', B: '#1e120a', E: '#2a1608', W: '#ffffff', M: '#7a443a', O: '#3a1410',
+    N: '#141418', n: '#2a2a32', Z: '#8a8a92', Y: '#ffd23f', R: '#ffd23f', G: '#1e1e24', g: '#34343c', K: '#f2f2f2', k: '#9a9a9a', X: '#0a0a0e', x: '#5a6a8a'
+  };
+  var ARO_ZEILEN = { 7: 'HHSXXXXSSXXXXSHH', 8: 'HsSXxXXSSXXxXSsH', 11: '.SSSSSSMMMMMSSS.', 12: '..sSsSsSsSsSsS..', 13: '...sssSSSSsss...' };
+
   // Saros Freundin („Schatzi“, Nebenfigur): lange dunkle Haare, rosa Hoodie mit Herz
   var SCHATZI_PAL = {
     H: '#2a1a14', S: '#e8b898', s: '#c89878', E: '#2a1a10', W: '#ffffff', M: '#c8506a', O: '#3a1418', R: '#f08a9a',
@@ -449,6 +456,9 @@
     saro: function (mood) {
       mood = SARO_MOODS[mood] ? mood : 'neutral';
       return Pixel.sprite('saro-' + mood, withMood(SARO, SARO_MOODS, mood), SARO_PAL);
+    },
+    aro: function () {
+      return Pixel.sprite('aro', withMood(SARO, { aro: ARO_ZEILEN }, 'aro'), ARO_PAL);
     },
     schatzi: function (mood) {
       mood = SCHATZI_MOODS[mood] ? mood : 'neutral';
