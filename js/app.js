@@ -87,8 +87,8 @@
       scripts: ['js/games/saro.js']
     },
     {
-      id: 'jule', person: 'Jule', title: 'Wo bin ich?!', grösse: '1,52',
-      vorwurf: 'Sucht ihr Handy (hat es in der Hand)',
+      id: 'jule', person: 'Jule', title: 'Kommt zu spät', grösse: '1,52',
+      vorwurf: 'Verliert alles außer dem Handy (in der Hand)',
       sprite: function () { return Sprites.jule('happy'); },
       best: 'crazylineup.jule.best', einheit: 'Pkt',
       scripts: ['js/games/jule.js']

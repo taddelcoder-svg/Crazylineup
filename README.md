@@ -20,7 +20,7 @@ siehe `render.yaml`) oder per Docker (`Dockerfile`, nginx).
 | Ecki | Ecki muss mal! – Laufspiel: springen, ducken, Kamillentee schnappen und rechtzeitig die einzige FREIE Toilette finden | 2D-Pixel (Canvas) |
 | Philipp | Lernt nie (angeblich) – heimlich lernen, solange keiner der Jungs guckt; bei jedem Blick sofort chillen und „Digga, ich lern nie“ | 2D-Pixel (Canvas) |
 | Saro | Goldmine Frankfurt – Klick-/Idle-Spiel: graben, Erze von Kupfer bis Aro-Kristall, Fake-Gangster-Business und Looksmaxx-Upgrades kaufen, Schatzi schnell antworten; Handy mit LooksMax (Mewing, Locken, Drip, Aura) und Mog-Offs gegen die ganze Klasse bis Boss Aro; Spielstand bleibt gespeichert | 2D-Pixel (Canvas) |
-| Jule | Wo bin ich?! – jeden Tag: passend zum Anlass anziehen (bevor sie vergisst, wohin sie will), Liste merken und im Zimmer einpacken (zu klein fürs Regal: klettern, Hocker schieben, strecken), dann den Weg durch die Stadt finden, obwohl sie nichts sieht und alles vergisst – HALLOOO! hilft | 2D-Pixel (Canvas) |
+| Jule | Kommt zu spät – Action-Lauf durch die Stadt: Sachen fallen ständig aus der Tasche und müssen wieder eingesammelt werden, alle sind größer als sie und rempeln, HALLOOO! fegt sie weg, an Kreuzungen dem Schild statt Jule glauben, Fashion-Combos | 2D-Pixel (Canvas) |
 
 ## Aufbau
 
