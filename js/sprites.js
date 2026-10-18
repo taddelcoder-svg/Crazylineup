@@ -408,6 +408,31 @@
     sauer: { 7: '..HSHHSSSSHHSH..', 8: '..HSEESSSSEESH..', 11: '.HHSSSOOOOSSSHH.' }
   };
 
+  // Jule: klein (16x24 statt 28), lange glatte braune Haare mit Mittelscheitel, rosige Wangen, feine Goldkette.
+  // T/B/K = Oberteil/Hose/Schuhe – werden im Spiel je nach Outfit umgefärbt (t/b/k = dunklere Schattierung).
+  var JULE_PAL = {
+    H: '#6a4228', h: '#8a5a38', S: '#f2d0b8', s: '#e0b098', E: '#3a2414', W: '#ffffff', R: '#f0a0a0', M: '#c86070', O: '#4a1a1a',
+    G: '#e8c050', T: '#1c1c22', t: '#101014', B: '#4a5a8a', b: '#3a4870', K: '#f2f2f2', k: '#9a9a9a'
+  };
+  var JULE = [
+    '.....HHHHHH.....', '...HHHHhHHHHH...', '..HHHHHhHHHHHH..', '..HHHHSSSSHHHH..', '..HHHSSSSSSHHH..',
+    '..HHSWESSEWSHH..', '..HHSRSSSSRSHH..', '..HHSSSMMSSSHH..', '..HHHsSSSSsHHH..', '.HHHHHssssHHHHH.',
+    '.HHTTTGSSGTTTHH.', '.HHTTTTGGTTTTHH.', '.TTTTTTTTTTTTTT.', 'TTTtTTTTTTTTtTTT', 'STTTTTTTTTTTTTTS',
+    '..TTTTTTTTTTTT..', '..BBBBBBBBBBBB..', '..BBBBBBBBBBBB..', '..BBBBB..BBBBB..', '..BBBBB..BBBBB..',
+    '..BbBBB..BBBbB..', '..BBBB....BBBB..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'
+  ];
+  var JULE_MOODS = {
+    neutral: {},
+    happy: { 5: '..HHSEESSEESHH..', 7: '..HHSSMWWMSSHH..' },
+    verwirrt: { 5: '..HHSEWSSEWSHH..', 7: '..HHSSSSOSSSHH..' },
+    schock: { 5: '..HHWEWSSWEWHH..', 7: '..HHSSSOOSSSHH..' },
+    traurig: { 4: '..HHHSEESSEEHH..', 5: '..HHSSESSESSHH..', 7: '..HHSSMSSMSSHH..' }
+  };
+  function schatten(hex) {
+    var n = parseInt(hex.slice(1), 16);
+    return '#' + [16, 8, 0].map(function (sh) { return ('0' + Math.round(((n >> sh) & 255) * 0.72).toString(16)).slice(-2); }).join('');
+  }
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -456,6 +481,17 @@
     saro: function (mood) {
       mood = SARO_MOODS[mood] ? mood : 'neutral';
       return Pixel.sprite('saro-' + mood, withMood(SARO, SARO_MOODS, mood), SARO_PAL);
+    },
+    // farben (optional): { T: Oberteil, B: Hose/Rock, K: Schuhe }
+    jule: function (mood, farben) {
+      mood = JULE_MOODS[mood] ? mood : 'neutral';
+      var pal = JULE_PAL, key = 'jule-' + mood;
+      if (farben) {
+        pal = {}; Object.keys(JULE_PAL).forEach(function (k) { pal[k] = JULE_PAL[k]; });
+        ['T', 'B', 'K'].forEach(function (k) { if (farben[k]) { pal[k] = farben[k]; pal[k.toLowerCase()] = schatten(farben[k]); } });
+        key += '-' + pal.T + pal.B + pal.K;
+      }
+      return Pixel.sprite(key, withMood(JULE, JULE_MOODS, mood), pal);
     },
     aro: function () {
       return Pixel.sprite('aro', withMood(SARO, { aro: ARO_ZEILEN }, 'aro'), ARO_PAL);

@@ -85,6 +85,13 @@
       sprite: function () { return Sprites.saro('cool'); },
       best: 'crazylineup.saro.best', einheit: 'm',
       scripts: ['js/games/saro.js']
+    },
+    {
+      id: 'jule', person: 'Jule', title: 'Wo bin ich?!', grösse: '1,52',
+      vorwurf: 'Sucht ihr Handy (hat es in der Hand)',
+      sprite: function () { return Sprites.jule('happy'); },
+      best: 'crazylineup.jule.best', einheit: 'Pkt',
+      scripts: ['js/games/jule.js']
     }
   ];
   window.CLKatalog = GAMES;
