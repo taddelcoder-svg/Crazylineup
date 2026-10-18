@@ -2,6 +2,8 @@
 // Ein Minigame registriert sich mit window.CLGames[id] = { start(root, onExit) -> stop() }.
 (function () {
   window.CLGames = window.CLGames || {};
+  // Version aus der eigenen URL (index.html: app.js?v=…) – hängt an jedes nachgeladene Spielskript, damit Browser keine alte Fassung aus dem Cache nehmen
+  var VERSION = ((document.currentScript && /[?&]v=([^&]+)/.exec(document.currentScript.src)) || [])[1] || '';
 
   var PP = ['vendor/three.min.js', 'vendor/CopyShader.js', 'vendor/LuminosityHighPassShader.js',
     'vendor/EffectComposer.js', 'vendor/RenderPass.js', 'vendor/ShaderPass.js', 'vendor/UnrealBloomPass.js'];
@@ -99,7 +101,7 @@
       var src = list[i++];
       if (loaded[src]) return next();
       var s = document.createElement('script');
-      s.src = src;
+      s.src = VERSION ? src + '?v=' + VERSION : src;
       s.onload = function () { loaded[src] = true; next(); };
       s.onerror = function () { fail(src); };
       document.body.appendChild(s);
