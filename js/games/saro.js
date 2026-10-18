@@ -188,7 +188,8 @@
     '.sa-karte .zeile b{font:11px/1.6 "Press Start 2P",monospace;color:#8a3b12}',
     '.sa-karte .px-btn{width:100%;margin-top:8px}',
     // Handy
-    '.sa-handyknopf{position:absolute;left:10px;bottom:10px;z-index:21;font:22px/1 sans-serif;width:50px;height:50px;border:3px solid #000;background:#ffd23f;cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.45)}',
+    '.sa-handyknopf{position:absolute;left:10px;bottom:10px;z-index:21;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px 5px;border:3px solid #000;background:#ffd23f;color:#241a12;cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.45)}',
+    '.sa-handyknopf span{font:24px/1 sans-serif}.sa-handyknopf b{font:8px/1 "Press Start 2P",monospace}',
     '.sa-handyknopf.neu{animation:saPuls 1s infinite}',
     '@keyframes saPuls{50%{transform:scale(1.12)}}',
     '.sa-hovl{position:absolute;inset:0;z-index:45;background:rgba(10,8,14,.72);display:flex;align-items:center;justify-content:center;padding:12px}',
@@ -281,7 +282,7 @@
           '<button class="ico" data-act="ton" aria-label="Ton an/aus"></button></div>' +
         '<div class="sa-meldung" data-el="meldung"></div>' +
         '<div class="sa-herz" data-act="herz" data-el="herz" hidden></div>' +
-        '<button class="sa-handyknopf" data-act="handy" data-el="handyknopf" aria-label="Handy">📱</button>' +
+        '<button class="sa-handyknopf" data-act="handy" data-el="handyknopf" aria-label="Handy"><span>📱</span><b>HANDY</b></button>' +
       '</div><div class="sa-shop" data-el="shop"></div>' +
       '<div class="sa-hovl aus" data-el="handy"><div class="sa-handy"><div class="sa-h-status"><span data-el="uhr"></span><span>5G ▮▮▮ 🔋</span></div>' +
         '<div class="sa-h-screen" data-el="app"></div><button class="sa-h-home" data-h="home" aria-label="Home"></button></div></div>' +
