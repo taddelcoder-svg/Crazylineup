@@ -77,6 +77,44 @@
     'Ich hab Connections, Bruder.', 'Mewing seit drei Wochen. Sieht man, oder?', 'Ich und Schatzi – unzertrennlich.', 'Locken sitzen. Auch unter Tage.',
     'Wenn Aro das sieht …', 'Gangster graben selber, Bruder.'];
   var NACHRICHTEN = ['„wo bist du 🥺“', '„vermiss dich“', '„ruf mich an!!“', '„wer ist die im Stollen?!“', '„Partnerlook morgen?“', '„bist du noch unter Tage?“', '„antworte 😤“'];
+  // Handy-App LooksMax: vier Looks-Werte (Level 0–10), jedes Level gibt +3 % auf alles
+  var LOOKS = [
+    { id: 'jaw', ic: '🗿', name: 'Jawline', app: 'Mewing', text: 'Zunge an den Gaumen. Kinn raus. Nicht reden.',
+      ok: ['Kinnlinie +1. Im richtigen Licht.', 'Man könnte damit Brot schneiden. Fast.'], fail: ['Kiefer verkrampft.', 'Zu doll gemewt – Zunge eingeschlafen.'] },
+    { id: 'locken', ic: '🌀', name: 'Locken', app: 'Lockenpflege', text: 'Curl-Cream, Diffusor, 45 Minuten im Bad.',
+      ok: ['Jede Locke sitzt.', 'Locken-Definition: Hollywood.'], fail: ['Frizz. Überall Frizz.', 'Diffusor zu heiß. Riecht verbrannt.'] },
+    { id: 'drip', ic: '🧥', name: 'Drip', app: 'Drip-Check', text: 'Neue Fits. „Original“ vom Flohmarkt in Offenbach.',
+      ok: ['Fit sitzt. Preis: geheim.', 'Sieht teuer aus. War es nicht.'], fail: ['Das Logo ist falsch rum.', '„Guci“ mit einem C.'] },
+    { id: 'aura', ic: '✨', name: 'Aura', app: 'Aura farmen', text: 'Sigma-Blick im Spiegel üben. 200 Mal.',
+      ok: ['Aura +1000. Angeblich.', 'Der Spiegel hat weggeschaut.'], fail: ['Hat gelacht. Aura weg.', 'Schatzi hat reingeguckt.'] }
+  ];
+  // Handy-App Mog-Off: der Reihe nach gegen die Klasse, am Ende Aro. s = Looks-Level [Jawline, Locken, Drip, Aura]
+  var GEGNER = [
+    { id: 'mo', name: 'Mo', s: [1, 1, 1, 3], spr: function () { return Sprites.mo('steh'); },
+      intro: 'Ich bin 3 cm groß. Du siehst mich gar nicht.', verliert: 'Von hier unten sieht halt alles groß aus.', gewinnt: 'Klein, aber moggt.' },
+    { id: 'matteo', name: 'Matteo', s: [2, 2, 3, 3], spr: function () { return Sprites.matteo('angry'); },
+      intro: 'Ich lehne dein Gesicht ab.', verliert: 'Abgelehnt … meine eigene Niederlage.', gewinnt: 'Antrag auf Aura: ABGELEHNT.' },
+    { id: 'ecki', name: 'Ecki', s: [2, 3, 3, 3], spr: function () { return Sprites.ecki('steh'); },
+      intro: 'Schnell, ich muss gleich aufs Klo.', verliert: 'Egal, ich muss eh los!', gewinnt: 'Gemoggt. Und jetzt Klo.' },
+    { id: 'philipp', name: 'Philipp', s: [3, 4, 4, 4], spr: function () { return Sprites.philipp('cool'); },
+      intro: 'Digga, ich mogge nie. Angeblich.', verliert: 'Hab eh nicht geübt.', gewinnt: 'Hab null geübt. Ehrlich.' },
+    { id: 'timo', name: 'Timo', s: [4, 5, 4, 5], spr: function () { return Sprites.timo('happy'); },
+      intro: 'Chill, Bro. Ich mogge auch bei 40 Knoten.', verliert: 'Alles entspannt, Bro.', gewinnt: 'Der Kapitän moggt immer.' },
+    { id: 'julian', name: 'Julian', s: [5, 4, 5, 6], spr: function () { return Sprites.julian(); },
+      intro: 'Mein Gesicht ist chemisch ausbalanciert.', verliert: 'Reaktion fehlgeschlagen.', gewinnt: 'Ashley hat für mich abgestimmt.' },
+    { id: 'omar', name: 'Omar', s: [6, 6, 5, 6], spr: function () { return Sprites.omar('happy'); },
+      intro: 'Selbst mein Kamel moggt dich.', verliert: 'Das Kamel ist enttäuscht.', gewinnt: 'Lieferung zugestellt: eine Niederlage.' },
+    { id: 'felix', name: 'Felix', s: [6, 5, 7, 7], spr: function () { return Sprites.felix(); },
+      intro: 'Im Kommunismus gehört deine Jawline allen.', verliert: 'Das Volk hat entschieden …', gewinnt: 'Genosse, du bist gemoggt.' },
+    { id: 'doppeldate', name: 'Damon & Moritz', s: [7, 7, 7, 7], spr: function () { return Sprites.doppeldate(); },
+      intro: 'Zwei gegen einen, Bruder.', verliert: 'Okay, zurück zum Date.', gewinnt: 'Doppelt gemoggt.' },
+    { id: 'leon', name: 'Leon', s: [8, 7, 7, 8], spr: function () { return Sprites.leon('happy'); },
+      intro: '1,95 m. Ich mogge dich von oben.', verliert: 'Von hier oben sah das anders aus.', gewinnt: 'Längerer Hals, längere Aura.' },
+    { id: 'aro', name: 'Aro (Boss)', s: [9, 9, 9, 10], spr: function () { return Sprites.aro(); },
+      intro: 'Kleiner Bruder … du willst MICH moggen?', verliert: 'Respekt, Kleiner. Berlin ist stolz.', gewinnt: 'Komm wieder, wenn du Bart hast.' }
+  ];
+  var MOG_SIEG = ['Kinn hoch, Licht von oben.', 'Die Locken haben entschieden.', 'Filter auf Maximum.', 'Aura: unfassbar (sagt er).'];
+  var MOG_NIEDERLAGE = ['Filter war aus.', 'Licht von unten. Fatal.', 'Locken sitzen nicht.', 'Schatzi findet ihn trotzdem gut.'];
   var SKYLINE = [[2, 8, 10], [11, 6, 14], [18, 10, 22, 'messe'], [30, 7, 12], [38, 9, 18, 'antenne'], [49, 6, 9], [56, 11, 24, 'antenne'], [69, 7, 13],
     [78, 8, 16], [88, 6, 10], [96, 10, 20, 'messe'], [108, 7, 11], [117, 9, 15, 'antenne'], [128, 6, 8], [136, 10, 17], [148, 8, 12]];
 
@@ -148,7 +186,65 @@
     '.sa-karte li{margin-bottom:4px}',
     '.sa-karte .zeile{display:flex;justify-content:space-between;border-top:2px dashed rgba(36,26,18,.3);padding:6px 0;font-size:17px}',
     '.sa-karte .zeile b{font:11px/1.6 "Press Start 2P",monospace;color:#8a3b12}',
-    '.sa-karte .px-btn{width:100%;margin-top:8px}'
+    '.sa-karte .px-btn{width:100%;margin-top:8px}',
+    // Handy
+    '.sa-handyknopf{position:absolute;left:10px;bottom:10px;z-index:21;font:22px/1 sans-serif;width:50px;height:50px;border:3px solid #000;background:#ffd23f;cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.45)}',
+    '.sa-handyknopf.neu{animation:saPuls 1s infinite}',
+    '@keyframes saPuls{50%{transform:scale(1.12)}}',
+    '.sa-hovl{position:absolute;inset:0;z-index:45;background:rgba(10,8,14,.72);display:flex;align-items:center;justify-content:center;padding:12px}',
+    '.sa-hovl.aus{display:none}',
+    '.sa-handy{position:relative;width:min(350px,100%);height:min(680px,100%);background:#0c0a12;border:6px solid #000;outline:3px solid #3b3746;border-radius:30px;',
+    ' display:flex;flex-direction:column;overflow:hidden;box-shadow:8px 8px 0 rgba(0,0,0,.5)}',
+    '.sa-h-status{display:flex;justify-content:space-between;padding:9px 20px 5px;font:8px "Press Start 2P",monospace;color:#c8c4d4}',
+    '.sa-h-screen{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:4px 12px 12px;background:linear-gradient(#2a1e3a,#15111c)}',
+    '.sa-h-home{flex:none;height:24px;border:0;background:#0c0a12;cursor:pointer;position:relative}',
+    '.sa-h-home:after{content:"";position:absolute;left:35%;right:35%;top:9px;height:5px;border-radius:3px;background:#8a8698}',
+    '.sa-h-kopf{display:flex;align-items:center;justify-content:space-between;margin:2px 0 10px;gap:6px}',
+    '.sa-h-kopf b{font:10px/1.4 "Press Start 2P",monospace;color:#ffd23f;text-align:center;flex:1}',
+    '.sa-h-kopf button,.sa-h-kopf span{width:34px;flex:none}',
+    '.sa-h-kopf button{height:34px;border:2px solid #000;background:#3b3746;color:#fff;font-size:18px;cursor:pointer}',
+    '.sa-h-uhr{text-align:center;font:30px/1.2 "Press Start 2P",monospace;margin:18px 0 4px}',
+    '.sa-h-wall{text-align:center;font-size:14px;opacity:.75}',
+    '.sa-h-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;margin:18px 0}',
+    '.sa-h-grid button{border:0;background:none;color:#fff;font:13px "Pixelify Sans",sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px}',
+    '.sa-h-grid i{font-style:normal;font-size:28px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:3px solid #000;background:#ffd23f;box-shadow:3px 3px 0 rgba(0,0,0,.4)}',
+    '.sa-h-grid button:nth-child(2) i{background:#e8343f}.sa-h-grid button:nth-child(3) i{background:#3fae5a}.sa-h-grid button:nth-child(4) i{background:#3b3746}',
+    '.sa-h-widget{background:rgba(255,255,255,.08);border:2px solid #000;padding:10px;text-align:center;font-size:14px;line-height:1.4}',
+    '.sa-h-widget b{display:block;font:15px/1.5 "Press Start 2P",monospace;color:#ffd23f}',
+    '.sa-handy canvas{position:static;height:56px;width:auto;image-rendering:pixelated;image-rendering:crisp-edges}',
+    '.sa-h-karte{display:flex;gap:10px;align-items:center;background:#f4ecd8;color:#241a12;border:3px solid #000;padding:8px 10px;margin-bottom:10px;box-shadow:3px 3px 0 rgba(0,0,0,.4);font-size:14px;line-height:1.35}',
+    '.sa-h-karte b{font:13px/1.5 "Press Start 2P",monospace;color:#8a3b12}',
+    '.sa-h-row{display:flex;gap:8px;align-items:center;width:100%;text-align:left;background:#f4ecd8;color:#241a12;border:3px solid #000;padding:6px 8px;margin:0 0 6px;font:inherit;cursor:pointer;box-shadow:3px 3px 0 rgba(0,0,0,.4)}',
+    '.sa-h-row.zu{background:#3b3746;color:#8a8698;cursor:default}',
+    '.sa-h-row .ic{font-size:22px;width:28px;text-align:center;flex:none}',
+    '.sa-h-row .mid{flex:1;min-width:0}.sa-h-row .mid>span{display:block}',
+    '.sa-h-row .nm{font-weight:700;font-size:15px}',
+    '.sa-h-row .tx{font-size:12px;opacity:.75}',
+    '.sa-h-row .pr{font:8px/1.5 "Press Start 2P",monospace;white-space:nowrap;text-align:right}',
+    '.sa-h-row canvas{height:40px}',
+    '.sa-lv{display:flex;gap:2px;margin-top:3px}.sa-lv i{width:10px;height:7px;background:#c8c0b0;border:1px solid #241a12}.sa-lv i.an{background:#e8343f}',
+    '.sa-h-btn{display:block;width:100%;font:11px/1.3 "Press Start 2P",monospace;padding:12px;border:3px solid #000;background:#ffd23f;color:#241a12;cursor:pointer;margin-top:8px;box-shadow:3px 3px 0 rgba(0,0,0,.45)}',
+    '.sa-h-btn.alt{background:#d8cfb8}.sa-h-btn:disabled{opacity:.5;cursor:default}',
+    '.sa-h-info{font-size:14px;opacity:.85;margin:4px 0 8px;line-height:1.35}',
+    '.sa-tim{position:relative;height:36px;background:#2c2836;border:3px solid #000;margin:14px 0 4px;overflow:hidden}',
+    '.sa-tim .z{position:absolute;top:0;bottom:0;background:#3fae5a}',
+    '.sa-tim .p{position:absolute;left:33%;width:34%;top:0;bottom:0;background:#ffd23f}',
+    '.sa-tim .n{position:absolute;top:0;bottom:0;width:4px;margin-left:-2px;background:#fff;box-shadow:0 0 0 2px #000}',
+    '.sa-tap{font-size:15px;padding:18px}',
+    '.sa-h-fb{min-height:46px;text-align:center;margin-top:8px;font-size:14px}',
+    '.sa-h-fb b{display:block;font:12px/1.5 "Press Start 2P",monospace;color:#ffd23f}',
+    '.sa-h-fb b.rot{color:#ff6a6a}.sa-h-fb b.gruen{color:#5ae87a}',
+    '.sa-h-vs{display:flex;align-items:flex-end;justify-content:center;gap:14px;margin:6px 0}',
+    '.sa-h-vs b{font:14px "Press Start 2P",monospace;color:#e8343f;align-self:center}',
+    '.sa-h-vs canvas{height:84px}',
+    '.sa-h-quip{background:#fff;color:#14141a;border:3px solid #14141a;padding:6px 8px;font-size:14px;margin:6px 0 10px;text-align:center}',
+    '.sa-h-tab{width:100%;border-collapse:collapse;font-size:14px;margin:4px 0}',
+    '.sa-h-tab td{padding:4px;border-top:1px dashed rgba(255,255,255,.2)}',
+    '.sa-h-tab td+td{text-align:center;font:9px "Press Start 2P",monospace}',
+    '.sa-h-score{text-align:center;font:12px/1.6 "Press Start 2P",monospace;margin:4px 0}',
+    '.sa-h-chat{margin-bottom:14px}.sa-h-chat h4{margin:0 0 6px;font:9px "Press Start 2P",monospace;color:#ffd23f}',
+    '.sa-h-msg{width:fit-content;max-width:80%;padding:5px 8px;margin:4px 0;font-size:14px;border:2px solid #000;background:#f4ecd8;color:#241a12}',
+    '.sa-h-msg.ich{margin-left:auto;background:#5ac8f0}'
   ].join('\n');
 
   function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -185,7 +281,10 @@
           '<button class="ico" data-act="ton" aria-label="Ton an/aus"></button></div>' +
         '<div class="sa-meldung" data-el="meldung"></div>' +
         '<div class="sa-herz" data-act="herz" data-el="herz" hidden></div>' +
+        '<button class="sa-handyknopf" data-act="handy" data-el="handyknopf" aria-label="Handy">📱</button>' +
       '</div><div class="sa-shop" data-el="shop"></div>' +
+      '<div class="sa-hovl aus" data-el="handy"><div class="sa-handy"><div class="sa-h-status"><span data-el="uhr"></span><span>5G ▮▮▮ 🔋</span></div>' +
+        '<div class="sa-h-screen" data-el="app"></div><button class="sa-h-home" data-h="home" aria-label="Home"></button></div></div>' +
       '<div class="sa-ovl aus" data-el="ovl"></div></div>';
     root.appendChild(style);
     var wrap = root.querySelector('.sa'), szeneEl = root.querySelector('[data-el=szene]'), cv = root.querySelector('canvas'), ctx = cv.getContext('2d');
@@ -206,7 +305,7 @@
 
     // ---------- Spielstand ----------
     var g, r, d;
-    function neu() { return { para: 0, gesamt: 0, klicks: 0, prod: {}, upg: {}, tiefe: 0, erze: {}, herzen: 0, t: Date.now() }; }
+    function neu() { return { para: 0, gesamt: 0, klicks: 0, prod: {}, upg: {}, tiefe: 0, erze: {}, herzen: 0, looks: {}, mog: {}, t: Date.now() }; }
     function laden() {
       var s = null;
       try { s = JSON.parse(Pixel.get(SAVE_KEY, 'null')); } catch (e) {}
@@ -233,8 +332,13 @@
     function ppsBasis() {
       var s = 0;
       PROD.forEach(function (p) { s += (g.prod[p.id] || 0) * p.pps * d.prodM[p.id]; });
-      return s * tiefMult(g.tiefe);
+      return s * tiefMult(g.tiefe) * lookMult();
     }
+    // Looks und gewonnene Mog-Offs geben einen Bonus auf alles
+    function lv(id) { return g.looks[id] || 0; }
+    function lookSumme() { return LOOKS.reduce(function (s, l) { return s + lv(l.id); }, 0); }
+    function gemoggt() { return GEGNER.filter(function (x) { return g.mog[x.id]; }).length; }
+    function lookMult() { return 1 + 0.03 * lookSumme() + 0.05 * gemoggt(); }
     function ppsJetzt() { return ppsBasis() * (r.klebe > 0 ? 7 : 1) * (r.eifer > 0 ? 0.5 : 1); }
 
     // ---------- Erze in der Wand ----------
@@ -278,7 +382,7 @@
       var frei = [];
       r.kacheln.forEach(function (k, i) { if (k.weg <= 0) frei.push(i); });
       var i = frei.length ? pick(frei) : Math.floor(Math.random() * 18), k = r.kacheln[i], e = k.erz;
-      var wert = e.wert * erzMult(g.tiefe) * d.klick * (r.power > 0 ? 17 : 1) + d.anteil * ppsJetzt();
+      var wert = e.wert * erzMult(g.tiefe) * d.klick * (r.power > 0 ? 17 : 1) * lookMult() + d.anteil * ppsJetzt();
       g.para += wert; g.gesamt += wert; g.klicks++;
       g.erze[e.id] = (g.erze[e.id] || 0) + 1;
       if (g.erze[e.id] === 1 && e.id !== 'kies') {
@@ -377,11 +481,18 @@
       r.herzchen = r.herzchen.filter(function (h) { h.t += dt; return h.t < 1.6; });
       r.kacheln.forEach(function (k) { if (k.weg > 0) { k.weg -= dt; if (k.weg <= 0) { k.erz = erzZiehen(); k.muster = Math.floor(Math.random() * 4); } } });
       r.hack = Math.max(0, r.hack - dt); r.stolz = Math.max(0, r.stolz - dt); r.beben = Math.max(0, r.beben - dt);
+      var tm = r.timing;
+      if (tm) {
+        tm.pos += tm.dir * tm.speed * dt;
+        if (tm.pos > 1) { tm.pos = 1; tm.dir = -1; } else if (tm.pos < 0) { tm.pos = 0; tm.dir = 1; }
+        tm.el.style.left = (tm.pos * 100) + '%';
+      }
       if (r.modus !== 'spiel') return;
       if (r.klebe > 0) { r.klebe = Math.max(0, r.klebe - dt); if (Math.random() < dt * 3) r.herzchen.push({ x: SX - 6 + rnd(-6, 10), y: DECKE + rnd(4, 14), t: 0 }); }
       r.eifer = Math.max(0, r.eifer - dt); r.power = Math.max(0, r.power - dt);
       var plus = ppsJetzt() * dt; g.para += plus; g.gesamt += plus;
-      if (r.herz) { r.herz.t -= dt; if (r.herz.t <= 0) herzVerpasst(); }
+      if (r.handy) { /* Schatzi wartet, solange das Handy offen ist */ }
+      else if (r.herz) { r.herz.t -= dt; if (r.herz.t <= 0) herzVerpasst(); }
       else { r.herzAb -= dt; if (r.herzAb <= 0) herzZeigen(); }
       r.spruchAb -= dt; if (r.spruchAb <= 0) { r.spruchAb = rnd(14, 24); if (!r.blasen.length) sag('saro', pick(SPRUECHE), 2.6); }
       saveT += dt; if (saveT > 10) { saveT = 0; speichern(); }
@@ -521,6 +632,7 @@
       if (r.power > 0) b += '<span class="power">⚡ KLICK ×17 ' + Math.ceil(r.power) + 'S</span>';
       if (r.eifer > 0) b += '<span class="boese">😤 EIFERSUCHT ' + Math.ceil(r.eifer) + 'S</span>';
       if (b !== r.buffHtml) { $('buff').innerHTML = b; r.buffHtml = b; }
+      $('handyknopf').classList.toggle('neu', !lookSumme() && !gemoggt() && g.klicks >= 30);
       r.blasen.forEach(blasenPos);
     }
     function tick(now) {
@@ -598,12 +710,13 @@
       });
       var st = shop.querySelector('[data-el=stat]');
       if (st) st.innerHTML = 'Insgesamt gegraben: ' + fmt(g.gesamt) + ' Para<br>Klicks: ' + fmt(g.klicks) + ' · pro Klick ca. ' + fmt(klickSchnitt()) + ' Para<br>Schatzi geantwortet: ' + g.herzen + '×' +
-        '<br>Rekord-Tiefe: ' + Math.max(+Pixel.get(BEST_KEY, 0), meter(g.tiefe)) + ' m';
+        '<br>Rekord-Tiefe: ' + Math.max(+Pixel.get(BEST_KEY, 0), meter(g.tiefe)) + ' m' +
+        '<br>Looks-Bonus: +' + Math.round((lookMult() - 1) * 100) + ' % · Gemoggt: ' + gemoggt() + '/' + GEGNER.length;
     }
     function klickSchnitt() {
       var s = 0, w = 0;
       ERZE.forEach(function (e) { if (e.sohle > g.tiefe) return; var x = e.gewicht || (e.sohle === g.tiefe ? 3 : e.sohle === g.tiefe - 1 ? 2 : 1); s += e.wert * x; w += x; });
-      return s / w * erzMult(g.tiefe) * d.klick + d.anteil * ppsBasis();
+      return s / w * erzMult(g.tiefe) * d.klick * lookMult() + d.anteil * ppsBasis();
     }
 
     // ---------- Bildschirme ----------
@@ -616,7 +729,8 @@
           '<ul><li>⛏️ <b>Tippen/Klicken</b> auf die Mine (oder Leertaste) = graben.</li>' +
           '<li>💼 Para ausgeben: Crew &amp; Business graben für dich weiter – auch wenn du weg bist.</li>' +
           '<li>⬇️ <b>Tiefer graben</b> = neue Erze. Ganz unten wartet Gold. Und noch mehr.</li>' +
-          '<li>💛 Schatzi schreibt? <b>Schnell antippen!</b> Ignorieren = Eifersucht.</li></ul>' +
+          '<li>💛 Schatzi schreibt? <b>Schnell antippen!</b> Ignorieren = Eifersucht.</li>' +
+          '<li>📱 <b>Handy</b>: Looksmaxxing trainieren und Mog-Offs gegen die ganze Klasse. Bringt Bonus auf alles.</li></ul>' +
           '<button class="px-btn" data-act="los">Los, graben</button></div>';
       } else {
         ovl.innerHTML = '<div class="sa-karte"><h1>Willkommen zurück</h1><div class="unter">' +
@@ -634,7 +748,197 @@
     }
     function zuruecksetzen() {
       if (!window.confirm('Wirklich alles löschen? Die Mine wird zugeschüttet.')) return;
-      g = neu(); rechnen(); r.klebe = r.eifer = r.power = 0; herzWeg(); r.herzAb = 25; wandFuellen(); speichern(); sig = ''; shopBauen(); intro(0, 0); r.modus = 'intro';
+      g = neu(); rechnen(); handyZu(); r.klebe = r.eifer = r.power = 0; herzWeg(); r.herzAb = 25; wandFuellen(); speichern(); sig = ''; shopBauen(); intro(0, 0); r.modus = 'intro';
+    }
+
+    // ---------- Handy: LooksMax, Mog-Off, Chats ----------
+    var handyEl = $('handy'), appEl = $('app');
+    function handyAuf() {
+      if (r.modus !== 'spiel') return;
+      r.handy = true; handyEl.classList.remove('aus');
+      var j = new Date(); $('uhr').textContent = String(j.getHours()).padStart(2, '0') + ':' + String(j.getMinutes()).padStart(2, '0');
+      handyNav('home');
+      Pixel.sfx.tone(1200, 0.04, 'sine', 0.04); Pixel.sfx.tone(1600, 0.05, 'sine', 0.04, null, 0.05);
+    }
+    function handyZu() { r.handy = false; r.timing = null; handyEl.classList.add('aus'); }
+    function bild(img) {
+      var c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      c.getContext('2d').drawImage(img, 0, 0); return c;
+    }
+    // zeigt eine App-Seite; Platzhalter <span data-spr="saro:mood"> / <span data-spr="g:3"> werden zu Pixel-Figuren
+    function zeige(h) {
+      appEl.innerHTML = h; appEl.scrollTop = 0;
+      appEl.querySelectorAll('[data-spr]').forEach(function (el) {
+        var t = el.getAttribute('data-spr').split(':');
+        el.appendChild(bild(t[0] === 'g' ? GEGNER[+t[1]].spr() : Sprites.saro(t[1])));
+      });
+    }
+    function kopf(titel, zurueck) {
+      return '<div class="sa-h-kopf">' + (zurueck ? '<button data-h="' + zurueck + '" aria-label="Zurück">‹</button>' : '<span></span>') + '<b>' + titel + '</b><span></span></div>';
+    }
+    function lvBalken(n) { var h = '<span class="sa-lv">'; for (var i = 0; i < 10; i++) h += '<i' + (i < n ? ' class="an"' : '') + '></i>'; return h + '</span>'; }
+    function psl(filter) { return Math.min(10, 2 + lookSumme() / 40 * 6 + (filter ? 2.5 : 0)).toFixed(1).replace('.', ','); }
+    function trainPreis(id) { return Math.round(200 * Math.pow(4, lv(id))); }
+    function look(id) { return LOOKS.filter(function (l) { return l.id === id; })[0]; }
+    function handyNav(ziel) {
+      if (ziel === 'tap') return tap();
+      r.timing = null;
+      var t = ziel.split(':');
+      if (t[0] === 'zu') return handyZu();
+      if (t[0] === 'home') return homeScreen();
+      if (t[0] === 'looks') return looksApp();
+      if (t[0] === 'train') return training(t[1]);
+      if (t[0] === 'trainlos') return trainLos(t[1]);
+      if (t[0] === 'mog') return mogApp();
+      if (t[0] === 'gegner') return gegnerSeite(+t[1]);
+      if (t[0] === 'moglos') return mogLos(+t[1]);
+      if (t[0] === 'chats') return chats();
+    }
+    function homeScreen() {
+      var wall = g.upg.name ? 'Hintergrund: Schatzi 💛' : 'Hintergrund: Spiegel-Selfie (Kinn hoch)';
+      zeige('<div class="sa-h-uhr">' + $('uhr').textContent + '</div><div class="sa-h-wall">' + wall + '</div>' +
+        '<div class="sa-h-grid"><button data-h="looks"><i>🗿</i>LooksMax</button><button data-h="mog"><i>⚔️</i>Mog-Off</button>' +
+        '<button data-h="chats"><i>💬</i>Chats</button><button data-h="zu"><i>✕</i>Weglegen</button></div>' +
+        '<div class="sa-h-widget">PSL-Rating<b>' + psl(false) + '</b>mit Filter: ' + psl(true) + '<br>Bonus auf alles: +' + Math.round((lookMult() - 1) * 100) + ' %<br>Gemoggt: ' + gemoggt() + '/' + GEGNER.length + '</div>');
+    }
+    function looksApp() {
+      var h = kopf('LooksMax', 'home') +
+        '<div class="sa-h-karte"><span data-spr="saro:' + (lookSumme() >= 20 ? 'stolz' : 'cool') + '"></span><span>PSL <b>' + psl(false) + '</b><br>mit Filter: ' + psl(true) +
+        '<br>Jedes Level: +3 % Para</span></div>';
+      LOOKS.forEach(function (l) {
+        var n = lv(l.id);
+        h += '<button class="sa-h-row" data-h="train:' + l.id + '"><span class="ic">' + l.ic + '</span><span class="mid"><span class="nm">' + l.name + ' · Lv ' + n + '</span>' +
+          '<span class="tx">' + l.app + '</span>' + lvBalken(n) + '</span><span class="pr">' + (n >= 10 ? 'MAX' : fmt(trainPreis(l.id)) + ' P') + '</span></button>';
+      });
+      zeige(h);
+    }
+    function training(id) {
+      var l = look(id), n = lv(id), pr = trainPreis(id);
+      if (n >= 10) {
+        zeige(kopf(l.app, 'looks') + '<div class="sa-h-info">' + l.name + ' ist auf Level 10. Mehr geht nicht. Sagt sogar der Filter.</div>' +
+          '<button class="sa-h-btn alt" data-h="looks">Zurück</button>');
+        return;
+      }
+      zeige(kopf(l.app, 'looks') + '<div class="sa-h-karte"><span class="ic" style="font-size:30px">' + l.ic + '</span><span>' + l.text + '</span></div>' +
+        '<div class="sa-h-info"><b>' + l.name + ' Lv ' + n + ' → ' + (n + 1) + '</b><br>3 Versuche: Tipp auf STOP (oder Leertaste), wenn die Nadel im grünen Feld ist. Gelb = perfekt (zählt doppelt). ' +
+        'Du brauchst 3 Punkte. Je höher das Level, desto schneller und kleiner.</div>' +
+        '<button class="sa-h-btn" data-h="trainlos:' + id + '"' + (g.para < pr ? ' disabled' : '') + '>Training starten · ' + fmt(pr) + ' P</button>' +
+        (g.para < pr ? '<div class="sa-h-info">Zu wenig Para. Erst graben, dann glänzen.</div>' : ''));
+    }
+    function timingHtml(f) {
+      return '<div class="sa-tim"><div class="z" style="left:' + (f.a * 100) + '%;width:' + (f.w * 100) + '%"><div class="p"></div></div><div class="n"></div></div>' +
+        '<button class="sa-h-btn sa-tap" data-h="tap">STOP!</button><div class="sa-h-fb" data-el="fb"></div>';
+    }
+    // startet eine Timing-Runde: Seite zeigen, dann Nadel laufen lassen
+    function timingRunde(h, breite, tempo, fertig) {
+      var t = { pos: 0, dir: 1, speed: tempo, a: rnd(0.08, 0.92 - breite), w: breite, fertig: fertig };
+      zeige(h + timingHtml(t));
+      t.el = appEl.querySelector('.sa-tim .n'); r.timing = t;
+    }
+    function tap() {
+      var t = r.timing; if (!t) return;
+      r.timing = null;
+      var mitte = t.a + t.w / 2, ab = Math.abs(t.pos - mitte), q = ab <= t.w * 0.17 ? 2 : ab <= t.w / 2 ? 1 : 0;
+      var fb = appEl.querySelector('[data-el=fb]');
+      if (fb) fb.innerHTML = q === 2 ? '<b>PERFEKT!</b>' : q === 1 ? '<b class="gruen">GUT</b>' : '<b class="rot">DANEBEN</b>';
+      appEl.querySelectorAll('[data-h=tap]').forEach(function (b) { b.disabled = true; });
+      if (q === 2) { Pixel.sfx.tone(880, 0.06, 'square', 0.05); Pixel.sfx.tone(1320, 0.1, 'square', 0.05, null, 0.06); }
+      else if (q === 1) Pixel.sfx.tone(660, 0.08, 'square', 0.05);
+      else Pixel.sfx.tone(150, 0.15, 'sawtooth', 0.05, 110);
+      t.fertig(q);
+    }
+    function spaeter(fn, ms) { setTimeout(function () { if (alive && r.handy) fn(); }, ms); }
+    function trainLos(id) {
+      var pr = trainPreis(id); if (g.para < pr || lv(id) >= 10) return training(id);
+      g.para -= pr; r.training = { id: id, versuch: 0, punkte: 0 };
+      trainRunde();
+    }
+    function trainRunde() {
+      var tr = r.training, l = look(tr.id), n = lv(tr.id);
+      timingRunde(kopf(l.app, '') + '<div class="sa-h-score">VERSUCH ' + (tr.versuch + 1) + '/3 · PUNKTE ' + tr.punkte + '/3</div><div class="sa-h-info" style="text-align:center">' + l.text + '</div>',
+        Math.max(0.1, 0.3 - n * 0.02), 0.9 + n * 0.13,
+        function (q) { tr.punkte += q; tr.versuch++; spaeter(tr.versuch < 3 ? trainRunde : trainEnde, 750); });
+    }
+    function trainEnde() {
+      var tr = r.training, l = look(tr.id), ok = tr.punkte >= 3;
+      if (ok) { g.looks[tr.id] = lv(tr.id) + 1; speichern(); sig = ''; }
+      zeige(kopf(l.app, 'looks') + '<div style="text-align:center"><span data-spr="saro:' + (ok ? 'stolz' : 'schock') + '"></span></div>' +
+        '<div class="sa-h-fb">' + (ok ? '<b class="gruen">LEVEL UP! ' + l.name.toUpperCase() + ' ' + lv(tr.id) + '</b>' + pick(l.ok) : '<b class="rot">FEHLGESCHLAGEN</b>' + pick(l.fail) + ' (' + tr.punkte + '/3 Punkte)') + '</div>' +
+        (lv(tr.id) < 10 ? '<button class="sa-h-btn" data-h="train:' + tr.id + '">Nochmal · ' + fmt(trainPreis(tr.id)) + ' P</button>' : '') +
+        '<button class="sa-h-btn alt" data-h="looks">Zurück zu LooksMax</button>');
+      if (ok) { Pixel.sfx.tone(523, 0.08, 'square', 0.05); Pixel.sfx.tone(784, 0.08, 'square', 0.05, null, 0.08); Pixel.sfx.tone(1047, 0.16, 'square', 0.05, null, 0.16); }
+    }
+    function frei(i) { return i === 0 || !!g.mog[GEGNER[i - 1].id]; }
+    function mogApp() {
+      var h = kopf('Mog-Off', 'home') + '<div class="sa-h-info">Leg dich mit der Klasse an: drei Runden, zufällige Kategorie, Pose im richtigen Moment. Wer zuerst 2 Runden holt, moggt. ' +
+        'Erster Sieg gegen jemanden: +5 % auf alles.</div>';
+      GEGNER.forEach(function (x, i) {
+        var ok = frei(i), siege = g.mog[x.id] || 0, schnitt = (x.s.reduce(function (a, b) { return a + b; }, 0) / 4).toFixed(1).replace('.', ',');
+        h += ok ? '<button class="sa-h-row" data-h="gegner:' + i + '"><span data-spr="g:' + i + '"></span><span class="mid"><span class="nm">' + x.name + '</span>' +
+            '<span class="tx">Ø Looks-Level ' + schnitt + '</span></span><span class="pr">' + (siege ? '✓ ×' + siege : 'Fordern') + '</span></button>'
+          : '<div class="sa-h-row zu"><span class="ic">🔒</span><span class="mid"><span class="nm">???</span><span class="tx">Erst ' + GEGNER[i - 1].name + ' moggen</span></span></div>';
+      });
+      zeige(h);
+    }
+    function gegnerSeite(i) {
+      var x = GEGNER[i], cd = (r.mogCd[x.id] || 0) - r.t, h = kopf(x.name, 'mog') +
+        '<div class="sa-h-vs"><span data-spr="saro:cool"></span><b>VS</b><span data-spr="g:' + i + '"></span></div>' +
+        '<div class="sa-h-quip">' + x.name.replace(' (Boss)', '') + ': „' + x.intro + '“</div><table class="sa-h-tab"><tr><td></td><td>SARO</td><td>' + x.name.split(' ')[0].toUpperCase() + '</td></tr>';
+      LOOKS.forEach(function (l, k) { h += '<tr><td>' + l.ic + ' ' + l.name + '</td><td>' + lv(l.id) + '</td><td>' + x.s[k] + '</td></tr>'; });
+      h += '</table><div class="sa-h-info">' + (g.mog[x.id] ? (cd > 0 ? 'Revanche-Preis wieder in ' + Math.ceil(cd) + ' s.' : 'Revanche-Preis: etwas Para.') : 'Erster Sieg: +5 % auf alles und ein dicker Para-Preis.') + '</div>' +
+        '<button class="sa-h-btn" data-h="moglos:' + i + '">MOG-OFF!</button>';
+      zeige(h);
+    }
+    function mogLos(i) {
+      var k = [0, 1, 2, 3].sort(function () { return Math.random() - 0.5; });
+      r.mog = { i: i, runde: 0, sw: 0, gw: 0, kats: k };
+      Pixel.sfx.tone(220, 0.1, 'square', 0.05); Pixel.sfx.tone(330, 0.1, 'square', 0.05, null, 0.1);
+      mogRunde();
+    }
+    function mogRunde() {
+      var m = r.mog, x = GEGNER[m.i], k = m.kats[m.runde % 4], l = LOOKS[k];
+      timingRunde(kopf('Runde ' + (m.runde + 1), '') + '<div class="sa-h-vs"><span data-spr="saro:cool"></span><b>VS</b><span data-spr="g:' + m.i + '"></span></div>' +
+        '<div class="sa-h-score">SARO ' + m.sw + ' : ' + m.gw + ' ' + x.name.split(' ')[0].toUpperCase() + '</div>' +
+        '<div class="sa-h-info" style="text-align:center">Kategorie: <b>' + l.ic + ' ' + l.name + '</b> (Lv ' + lv(l.id) + ' gegen ' + x.s[k] + ')<br>Pose im richtigen Moment!</div>',
+        Math.max(0.12, 0.26 - m.i * 0.01), 1.1 + m.i * 0.09,
+        function (q) {
+          var saro = lv(l.id) * 10 + [0, 9, 18][q] + rnd(0, 6), geg = x.s[k] * 10 + rnd(0, 10), sieg = saro > geg;
+          if (sieg) m.sw++; else m.gw++;
+          var fb = appEl.querySelector('[data-el=fb]');
+          if (fb) fb.innerHTML += sieg ? '<b class="gruen">SARO MOGGT!</b>' + pick(MOG_SIEG) : '<b class="rot">GEMOGGT …</b>' + pick(MOG_NIEDERLAGE);
+          m.runde++;
+          spaeter(m.sw >= 2 || m.gw >= 2 ? mogEnde : mogRunde, 1500);
+        });
+    }
+    function mogEnde() {
+      var m = r.mog, x = GEGNER[m.i], sieg = m.sw > m.gw, erst = sieg && !g.mog[x.id], preis = 0;
+      if (sieg) {
+        if (erst) preis = Math.max(500, ppsBasis() * 120) * (m.i + 1);
+        else if ((r.mogCd[x.id] || 0) <= r.t) { preis = ppsBasis() * 20 + 100; r.mogCd[x.id] = r.t + 60; }
+        g.mog[x.id] = (g.mog[x.id] || 0) + 1; g.para += preis; g.gesamt += preis; speichern(); sig = '';
+        Pixel.sfx.tone(523, 0.1, 'square', 0.05); Pixel.sfx.tone(659, 0.1, 'square', 0.05, null, 0.1); Pixel.sfx.tone(784, 0.1, 'square', 0.05, null, 0.2); Pixel.sfx.tone(1047, 0.25, 'square', 0.05, null, 0.3);
+      } else Pixel.sfx.tone(330, 0.25, 'triangle', 0.05, 220);
+      var name = x.name.replace(' (Boss)', '');
+      zeige(kopf(sieg ? 'Gemoggt!' : 'Verloren', 'mog') + '<div class="sa-h-vs"><span data-spr="saro:' + (sieg ? 'stolz' : 'schock') + '"></span><b>' + m.sw + ':' + m.gw + '</b><span data-spr="g:' + m.i + '"></span></div>' +
+        '<div class="sa-h-quip">' + name + ': „' + (sieg ? x.verliert : x.gewinnt) + '“</div>' +
+        '<div class="sa-h-fb">' + (sieg ? '<b class="gruen">' + (x.id === 'aro' ? 'BOSS GEMOGGT!' : 'SARO MOGGT ' + name.toUpperCase() + '!') + '</b>' +
+          (preis ? '+' + fmt(preis) + ' Para' : 'Revanche-Preis noch nicht bereit.') + (erst ? '<br>+5 % auf alles, dauerhaft.' : '')
+          : '<b class="rot">GEMOGGT VON ' + name.toUpperCase() + '</b>Tipp: in LooksMax trainieren.') + '</div>' +
+        '<button class="sa-h-btn" data-h="gegner:' + m.i + '">Revanche</button>' +
+        (sieg && GEGNER[m.i + 1] ? '<button class="sa-h-btn" data-h="gegner:' + (m.i + 1) + '">Nächster: ' + GEGNER[m.i + 1].name + '</button>' : '') +
+        '<button class="sa-h-btn alt" data-h="mog">Zur Liste</button>');
+      if (sieg && erst) sag('saro', x.id === 'aro' ? 'ICH HAB ARO GEMOGGT!' : 'Hab ' + name + ' gemoggt. Easy.', 2.4);
+    }
+    function chats() {
+      function chat(wer, zeilen) {
+        return '<div class="sa-h-chat"><h4>' + wer + '</h4>' + zeilen.map(function (z) { return '<div class="sa-h-msg' + (z[0] ? ' ich' : '') + '">' + esc(z[1]) + '</div>'; }).join('') + '</div>';
+      }
+      var m = meter(g.tiefe);
+      zeige(kopf('Chats', 'home') +
+        chat('💛 Schatzi', [[0, 'vermiss dich 🥺'], [1, 'bin unter tage schatz'], [0, 'schon wieder??'], [1, 'für uns 💍'], [0, 'partnerlook morgen?']]) +
+        chat('🐻 Aro (Berlin)', [[0, 'Kleiner, wie läuft die Mine?'], [1, 'Läuft. Bin bei ' + m + ' m.'], [0, 'In Berlin wären das doppelt so viele.'], [1, 'Glaub ich dir, Bruder.'],
+          [0, gemoggt() >= GEGNER.length ? 'Okay. Du hast mich gemoggt. Respekt.' : 'Komm mal moggen, wenn du dich traust.']]) +
+        chat('👥 Die Jungs', [[0, 'Bro, zeig mal das Gold.'], [1, 'Kommt, kommt.'], [0, g.erze.gold ? 'Ist das … echt?' : 'Das ist Kies, Saro.'], [1, g.erze.gold ? 'Gold aus Frankfurt, Digga.' : 'Das ist Rohgold.'], [0, 'Wir glauben dir nicht.']]));
     }
 
     // ---------- Eingabe ----------
@@ -644,11 +948,15 @@
       e.preventDefault(); graben();
     });
     function kd(e) {
-      if (e.key === 'Escape') { stop(); onExit(); return; }
+      if (e.key === 'Escape') { if (r.handy) { handyZu(); return; } stop(); onExit(); return; }
+      if (r.handy) { if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat) { e.preventDefault(); tap(); } return; }
       if (r.modus !== 'spiel') { if (e.key === 'Enter' || e.key === ' ') { var b = ovl.querySelector('[data-act=los]'); if (b) { e.preventDefault(); b.click(); } } return; }
       if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat) { e.preventDefault(); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); graben(); }
     }
     function onClick(e) {
+      if (e.target === handyEl) { handyZu(); return; }
+      var hn = e.target.closest && e.target.closest('[data-h]');
+      if (hn) { handyNav(hn.getAttribute('data-h')); return; }
       var k = e.target.closest && e.target.closest('[data-kauf]');
       if (k) { kaufen(k.getAttribute('data-kauf')); return; }
       var m = e.target.closest && e.target.closest('[data-menge]');
@@ -658,6 +966,7 @@
       var a = b.getAttribute('data-act');
       if (a === 'los') los();
       if (a === 'herz') herzAntworten();
+      if (a === 'handy') handyAuf();
       if (a === 'reset') zuruecksetzen();
       if (a === 'exit') { stop(); onExit(); }
       if (a === 'ton') { Pixel.setMuted(!Pixel.isMuted()); tonBtn.textContent = Pixel.isMuted() ? '🔇' : '🔊'; }
@@ -675,7 +984,9 @@
     // ---------- Start ----------
     g = laden(); rechnen();
     r = { modus: 'intro', t: 0, kacheln: [], partikel: [], herzchen: [], blasen: [], hack: 0, stolz: 0, beben: 0, klebe: 0, eifer: 0, power: 0,
-      herz: null, herzAb: g.herzen ? herzAbstand() : 25, spruchAb: 8, menge: 1, buffHtml: '' };
+      herz: null, herzAb: g.herzen ? herzAbstand() : 25, spruchAb: 8, menge: 1, buffHtml: '', handy: false, timing: null, training: null, mog: null, mogCd: {} };
+    if (typeof g.looks !== 'object' || !g.looks) g.looks = {};
+    if (typeof g.mog !== 'object' || !g.mog) g.mog = {};
     var sek = clamp((Date.now() - g.t) / 1000, 0, 8 * 3600), offline = sek > 60 ? ppsBasis() * sek * 0.5 : 0;
     if (offline > 0) { g.para += offline; g.gesamt += offline; }
     wandFuellen();
@@ -684,7 +995,7 @@
     document.addEventListener('visibilitychange', sichtbar); window.addEventListener('pagehide', speichern);
     root.addEventListener('click', onClick);
     resize(); shopBauen(); intro(offline, sek); speichern();
-    window.__saro = { g: function () { return g; }, r: function () { return r; }, graben: graben, kaufen: kaufen, herz: herzZeigen, antworten: herzAntworten };
+    window.__saro = { g: function () { return g; }, r: function () { return r; }, graben: graben, kaufen: kaufen, herz: herzZeigen, antworten: herzAntworten, handy: handyNav, tap: tap };
     raf = requestAnimationFrame(tick);
     return stop;
   }
