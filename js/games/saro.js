@@ -92,8 +92,6 @@
   var GEGNER = [
     { id: 'mo', name: 'Mo', s: [1, 1, 1, 3], spr: function () { return Sprites.mo('steh'); },
       intro: 'Ich bin 3 cm groß. Du siehst mich gar nicht.', verliert: 'Von hier unten sieht halt alles groß aus.', gewinnt: 'Klein, aber moggt.' },
-    { id: 'matteo', name: 'Matteo', s: [2, 2, 3, 3], spr: function () { return Sprites.matteo('angry'); },
-      intro: 'Ich lehne dein Gesicht ab.', verliert: 'Abgelehnt … meine eigene Niederlage.', gewinnt: 'Antrag auf Aura: ABGELEHNT.' },
     { id: 'ecki', name: 'Ecki', s: [2, 3, 3, 3], spr: function () { return Sprites.ecki('steh'); },
       intro: 'Schnell, ich muss gleich aufs Klo.', verliert: 'Egal, ich muss eh los!', gewinnt: 'Gemoggt. Und jetzt Klo.' },
     { id: 'philipp', name: 'Philipp', s: [3, 4, 4, 4], spr: function () { return Sprites.philipp('cool'); },
@@ -110,6 +108,8 @@
       intro: 'Zwei gegen einen, Bruder.', verliert: 'Okay, zurück zum Date.', gewinnt: 'Doppelt gemoggt.' },
     { id: 'leon', name: 'Leon', s: [8, 7, 7, 8], spr: function () { return Sprites.leon('happy'); },
       intro: '1,95 m. Ich mogge dich von oben.', verliert: 'Von hier oben sah das anders aus.', gewinnt: 'Längerer Hals, längere Aura.' },
+    { id: 'matteo', name: 'Kanzler Matteo', kurz: 'Matteo', s: [9, 8, 9, 9], spr: function () { return Sprites.matteo('angry'); },
+      intro: 'Ich lehne dein Gesicht ab. Offiziell. Mit Stempel.', verliert: 'Abgelehnt … meine EIGENE Niederlage?!', gewinnt: 'Antrag auf Aura: ABGELEHNT. Gestempelt.' },
     { id: 'aro', name: 'Aro (Boss)', s: [9, 9, 9, 10], spr: function () { return Sprites.aro(); },
       intro: 'Kleiner Bruder … du willst MICH moggen?', verliert: 'Respekt, Kleiner. Berlin ist stolz.', gewinnt: 'Komm wieder, wenn du Bart hast.' }
   ];
@@ -884,7 +884,7 @@
     function gegnerSeite(i) {
       var x = GEGNER[i], cd = (r.mogCd[x.id] || 0) - r.t, h = kopf(x.name, 'mog') +
         '<div class="sa-h-vs"><span data-spr="saro:cool"></span><b>VS</b><span data-spr="g:' + i + '"></span></div>' +
-        '<div class="sa-h-quip">' + x.name.replace(' (Boss)', '') + ': „' + x.intro + '“</div><table class="sa-h-tab"><tr><td></td><td>SARO</td><td>' + x.name.split(' ')[0].toUpperCase() + '</td></tr>';
+        '<div class="sa-h-quip">' + x.name.replace(' (Boss)', '') + ': „' + x.intro + '“</div><table class="sa-h-tab"><tr><td></td><td>SARO</td><td>' + (x.kurz || x.name.split(' ')[0]).toUpperCase() + '</td></tr>';
       LOOKS.forEach(function (l, k) { h += '<tr><td>' + l.ic + ' ' + l.name + '</td><td>' + lv(l.id) + '</td><td>' + x.s[k] + '</td></tr>'; });
       h += '</table><div class="sa-h-info">' + (g.mog[x.id] ? (cd > 0 ? 'Revanche-Preis wieder in ' + Math.ceil(cd) + ' s.' : 'Revanche-Preis: etwas Para.') : 'Erster Sieg: +5 % auf alles und ein dicker Para-Preis.') + '</div>' +
         '<button class="sa-h-btn" data-h="moglos:' + i + '">MOG-OFF!</button>';
@@ -899,7 +899,7 @@
     function mogRunde() {
       var m = r.mog, x = GEGNER[m.i], k = m.kats[m.runde % 4], l = LOOKS[k];
       timingRunde(kopf('Runde ' + (m.runde + 1), '') + '<div class="sa-h-vs"><span data-spr="saro:cool"></span><b>VS</b><span data-spr="g:' + m.i + '"></span></div>' +
-        '<div class="sa-h-score">SARO ' + m.sw + ' : ' + m.gw + ' ' + x.name.split(' ')[0].toUpperCase() + '</div>' +
+        '<div class="sa-h-score">SARO ' + m.sw + ' : ' + m.gw + ' ' + (x.kurz || x.name.split(' ')[0]).toUpperCase() + '</div>' +
         '<div class="sa-h-info" style="text-align:center">Kategorie: <b>' + l.ic + ' ' + l.name + '</b> (Lv ' + lv(l.id) + ' gegen ' + x.s[k] + ')<br>Pose im richtigen Moment!</div>',
         Math.max(0.12, 0.26 - m.i * 0.01), 1.1 + m.i * 0.09,
         function (q) {
