@@ -88,7 +88,7 @@
     },
     {
       id: 'matti', person: 'Matti', title: 'Korbsammler', grösse: '1,55',
-      vorwurf: 'Sammelt Körbe wie andere Sammelkarten',
+      vorwurf: 'Sammelt Körbe wie andere Sammelkarten – und keine einzige Nummer',
       sprite: function () { return Sprites.matti('flirt'); },
       best: 'crazylineup.matti.best', einheit: 'Pkt',
       scripts: ['js/games/matti.js']
