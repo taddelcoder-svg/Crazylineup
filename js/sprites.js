@@ -441,6 +441,24 @@
     lacht: { 8: '..HSEESSSSEESH..', 11: '.HHSSMWWWWMSSHH.' }
   };
 
+  // Sinan: schwarze, nach hinten gestylte Haare mit Fade an den Seiten, schwarzer Pulli mit kleinem Logo; „kampf“ = Mongkol (rotes Stirnband) + rote Handschuhe
+  var SINAN_PAL = {
+    H: '#16110e', h: '#3a2c22', F: '#6a5444', S: '#e6b994', s: '#c6976f', E: '#2a1a10', W: '#ffffff', M: '#a85a50', O: '#3a1010',
+    B: '#141418', b: '#2a2a32', R: '#d02a2a', w: '#f2f2f2', N: '#1e2a6a', J: '#2a2a34', K: '#f2f2f2', k: '#9a9a9a'
+  };
+  var SINAN = [
+    '................', '....hHHHHHHh....', '..hHHHHHHHHHHh..', '.HHHHhHHHHhHHHH.', '.HHHHHHHHHHHHHH.', '.FHHHHHHHHHHHHF.',
+    '.FSSSSSSSSSSSSF.', '.FSHHSSSSSSHHSF.', 'sSSWESSSSSSWESSs', 'sSSSSSSssSSSSSSs', '.SSSSSSsSSSSSSS.', '.SSSSSSMMMMMSSS.',
+    '..SSSSSSSSSSSS..', '...ssSSSSSSss...', '......ssss......', '..BBBBBssBBBBB..', '.BBBBBBBBBBBBBB.', 'BBBbBBBBBBNwRBBB',
+    'BBBbBBBBBBBBbBBB', 'BBBBBBBBBBBBBBBB', 'SBBBBBBBBBBBBBBS', 'S.BBBBBBBBBBBB.S', '..JJJJJJJJJJJJ..', '..JJJJJ..JJJJJ..',
+    '..JJJJJ..JJJJJ..', '..JJJJ....JJJJ..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'
+  ];
+  var SINAN_MOODS = {
+    neutral: {},
+    kampf: { 5: '.RRRRwRRRRwRRRR.', 7: '.FSSHHSSSSHHSSF.', 11: '.SSSSSMMMMMSSSS.', 20: 'RBBBBBBBBBBBBBBR', 21: 'R.BBBBBBBBBBBB.R' },
+    au: { 7: '.FHHSSSSSSSSHHF.', 8: 'sSSHHSSSSSSHHSSs', 11: '.SSSSSMOOMSSSSS.', 12: '..SSSSSOOSSSSS..' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -497,6 +515,10 @@
     maedchen: function (nr, mood) {
       mood = MAEDCHEN_MOODS[mood] ? mood : 'neutral';
       return Pixel.sprite('maedchen-' + nr + '-' + mood, withMood(SCHATZI, MAEDCHEN_MOODS, mood), MAEDCHEN_PAL[nr % MAEDCHEN_PAL.length]);
+    },
+    sinan: function (mood) {
+      mood = SINAN_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('sinan-' + mood, withMood(SINAN, SINAN_MOODS, mood), SINAN_PAL);
     },
     aro: function () {
       return Pixel.sprite('aro', withMood(SARO, { aro: ARO_ZEILEN }, 'aro'), ARO_PAL);

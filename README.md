@@ -21,6 +21,7 @@ siehe `render.yaml`) oder per Docker (`Dockerfile`, nginx).
 | Philipp | Lernt nie (angeblich) – heimlich lernen, solange keiner der Jungs guckt; bei jedem Blick sofort chillen und „Digga, ich lern nie“ | 2D-Pixel (Canvas) |
 | Saro | Goldmine Frankfurt – Klick-/Idle-Spiel: graben, Erze von Kupfer bis Aro-Kristall, Fake-Gangster-Business und Looksmaxx-Upgrades kaufen, Schatzi schnell antworten; Handy mit LooksMax (Mewing, Locken, Drip, Aura) und Mog-Offs gegen die ganze Klasse bis Boss Aro; Spielstand bleibt gespeichert | 2D-Pixel (Canvas) |
 | Matti | Korbsammler – auf dem Schulhof Mädchen ansprechen (Timing-Leiste), jeden Korb mit dem Kopf fangen und so auf 1,80 anwachsen | 2D-Pixel (Canvas) |
+| Sinan | Krabbe vs. Sinan – als Krabbe gegen den Muay-Thai-Kämpfer im Ring am Strand: Low Kicks überspringen, dem Stampfer ausweichen, Zeh-, Nasen- und Po-Zwick, Krabben-Tornado | 3D (three.js, Bloom) |
 
 ## Aufbau
 

@@ -92,6 +92,13 @@
       sprite: function () { return Sprites.matti('flirt'); },
       best: 'crazylineup.matti.best', einheit: 'Pkt',
       scripts: ['js/games/matti.js']
+    },
+    {
+      id: 'sinan', person: 'Sinan', title: 'Krabbe vs. Sinan', grösse: '1,78',
+      vorwurf: 'Muay-Thai-Kämpfer, verliert gegen Meeresfrüchte',
+      sprite: function () { return Sprites.sinan('kampf'); },
+      best: 'crazylineup.sinan.best', einheit: 'Pkt',
+      scripts: PP.concat(['js/games/sinan.js'])
     }
   ];
   window.CLKatalog = GAMES;
