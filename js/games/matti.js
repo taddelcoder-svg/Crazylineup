@@ -198,8 +198,12 @@
       var gi = g.girl; if (!gi) return;
       var x0 = gi.x + 4, y0 = GY - 36;
       var tx = clamp(mitte() + rnd(-22, 22), links() + 8, platz() - 20);
-      var T = rnd(1.5, 1.9) / (1 + Math.min(g.stufe, 15) * 0.015);
-      g.koerbeFlug.push({ x: x0, y: y0, vx: (tx - x0) / T, vy: (GY - y0 - 0.5 * GRAV * T * T) / T, rot: 0, verz: verzoegert || 0 });
+      // Bogen immer über Mattis Korbstapel: Scheitelpunkt liegt höher als die Fanghöhe, sonst wäre der Korb nicht fangbar
+      var fang = GY - MATTI_H - Math.min(g.koerbe + (verzoegert ? 1 : 0), MAX_STAPEL) * 4;
+      var gipfel = Math.min(fang, y0) - rnd(22, 34);
+      var vy = -Math.sqrt(2 * GRAV * (y0 - gipfel));
+      var T = (-vy / GRAV + Math.sqrt(2 * (fang - gipfel) / GRAV));
+      g.koerbeFlug.push({ x: x0, y: y0, vx: (tx - x0) / T, vy: vy, rot: 0, verz: verzoegert || 0 });
       if (!verzoegert) Pixel.sfx.tone(330, 0.1, 'square', 0.03, 520);
     }
     function reagieren() {
