@@ -20,6 +20,7 @@ siehe `render.yaml`) oder per Docker (`Dockerfile`, nginx).
 | Ecki | Ecki muss mal! – Laufspiel: springen, ducken, Kamillentee schnappen und rechtzeitig die einzige FREIE Toilette finden | 2D-Pixel (Canvas) |
 | Philipp | Lernt nie (angeblich) – heimlich lernen, solange keiner der Jungs guckt; bei jedem Blick sofort chillen und „Digga, ich lern nie“ | 2D-Pixel (Canvas) |
 | Saro | Goldmine Frankfurt – Klick-/Idle-Spiel: graben, Erze von Kupfer bis Aro-Kristall, Fake-Gangster-Business und Looksmaxx-Upgrades kaufen, Schatzi schnell antworten; Handy mit LooksMax (Mewing, Locken, Drip, Aura) und Mog-Offs gegen die ganze Klasse bis Boss Aro; Spielstand bleibt gespeichert | 2D-Pixel (Canvas) |
+| Matti | Korbsammler – auf dem Schulhof Mädchen ansprechen (Timing-Leiste), jeden Korb mit dem Kopf fangen und so auf 1,80 anwachsen | 2D-Pixel (Canvas) |
 
 ## Aufbau
 
