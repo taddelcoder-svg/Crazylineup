@@ -12,17 +12,18 @@
     'Bist du ne Fünf in Mathe? Ich denk nur an dich.', 'Ich hab zwei Mensa-Gutscheine. Zufällig.', 'Hi. Ich bin Matti. Gern geschehen.',
     'Bist du Google? Du hast alles, was ich suche.', 'Ich bin nicht klein, ich bin kompakt gebaut.', 'Ich hab Insta, Snap und ne Mutter, die mich abholt.',
     'Komm, gib mir deine Nummer, bevor ich wachse.', 'Ich steh auf Zehenspitzen nur für dich.', 'Na, schon mal mit nem Model im Taschenformat geredet?',
-    'Ich bin nicht verzweifelt. Das ist nur Versuch Nummer 47 heute.', 'Ey Schatz, meine Mama sagt, ich bin hübsch.'
+    'Ich bin nicht verzweifelt. Das ist nur Versuch Nummer 47 heute.', 'Ey Schatz, meine Mama sagt, ich bin hübsch.',
+    'Deine Freundin hat nein gesagt, also bist du dran.', 'Ich bin wie ein Lottogewinn. Nur unwahrscheinlicher.', 'Lass mal Pausenbrot teilen. Deins.'
   ];
   var KORB = {
-    perfekt: ['Süß … aber nein.', 'Netter Versuch, Kleiner.', 'Du bist lieb. Wie ein kleiner Bruder. Den keiner mag.', '10/10 für Mut. 0/10 für alles andere.', 'Aww. Nein. Niemals.', 'Frag nochmal, wenn du über die Theke gucken kannst.'],
-    ok: ['Ähm … nein danke.', 'Hab grad keine Zeit. Nie.', 'Ich steh auf Große. Also nicht auf dich.', 'Ich hab schon nen Freund. Bald. Irgendwen, nur nicht dich.', 'Bist du überhaupt schon in der Fünften?', 'Ich date keine Leute mit Kindersitz.'],
-    cringe: ['Was war DAS denn?!', 'Bitte verpiss dich einfach.', 'Hast du den Spruch aus nem Überraschungsei?', 'Nope. Nope. Ekelhaft. Nope.', 'Ich ruf gleich die Pausenaufsicht.', 'Da nehm ich lieber meinen Ex zurück.', 'Junge, du riechst nach Verzweiflung.', 'Ich blockier dich auch im echten Leben.'],
-    uebersehen: ['Hä? Hat da wer was gesagt?', 'Komisch, ich dachte da war wer.', 'Ist hier irgendwo ein Kind?', 'Hat jemand sein Geschwisterkind verloren?', 'Ich glaub, der Mülleimer hat geredet.']
+    perfekt: ['Süß … aber nein.', 'Netter Versuch, Kleiner.', 'Du bist lieb. Wie ein kleiner Bruder. Den keiner mag.', '10/10 für Mut. 0/10 für alles andere.', 'Aww. Nein. Niemals.', 'Frag nochmal, wenn du über die Theke gucken kannst.', 'Du bist süß. Wie ein Welpe, den man ins Tierheim bringt.'],
+    ok: ['Ähm … nein danke.', 'Hab grad keine Zeit. Nie.', 'Ich steh auf Große. Also nicht auf dich.', 'Ich hab schon nen Freund. Bald. Irgendwen, nur nicht dich.', 'Bist du überhaupt schon in der Fünften?', 'Ich date keine Leute mit Kindersitz.', 'Sorry, ich steh nicht auf Gartenzwerge.', 'Wächst du noch oder ist das schon alles?'],
+    cringe: ['Was war DAS denn?!', 'Bitte verpiss dich einfach.', 'Hast du den Spruch aus nem Überraschungsei?', 'Nope. Nope. Ekelhaft. Nope.', 'Ich ruf gleich die Pausenaufsicht.', 'Da nehm ich lieber meinen Ex zurück.', 'Junge, du riechst nach Verzweiflung.', 'Ich blockier dich auch im echten Leben.', 'Geh lieber Sandkasten, da passt du hin.', 'Ich hab Brechreiz. Danke.', 'Selbst mein Hund hat mehr Rizz.', 'Ich sag deiner Mama, dass du mich belästigst.'],
+    uebersehen: ['Hä? Hat da wer was gesagt?', 'Komisch, ich dachte da war wer.', 'Ist hier irgendwo ein Kind?', 'Hat jemand sein Geschwisterkind verloren?', 'Ich glaub, der Mülleimer hat geredet.', 'Hab ich auf was getreten?']
   };
   var UNTEN = ['HALLO?! HIER UNTEN!', 'Ich bin hier! Unten! Wie immer!', 'Ey! Hier! Bück dich halt!'];
-  var JUNGS_JA = ['Ehrenmann!', 'Der Korb steht dir besser als jede Freundin.', 'Sammelt die wie Pokémon.', 'Korb-König!', 'Bro hat mehr Körbe als Follower.', 'Der Korb ist das Einzige, was ihn je umarmt hat.', 'Weiter so, du Opfer! 😂'];
-  var JUNGS_NEIN = ['Nicht mal den Korb gefangen …', 'Bro … erbärmlich.', 'Selbst der Korb will dich nicht.', 'Uff. Peinlich, Digga.', 'Der Korb hat dich auch abgelehnt.', 'Wir kennen den nicht.'];
+  var JUNGS_JA = ['Ehrenmann!', 'Der Korb steht dir besser als jede Freundin.', 'Sammelt die wie Pokémon.', 'Korb-König!', 'Bro hat mehr Körbe als Follower.', 'Der Korb ist das Einzige, was ihn je umarmt hat.', 'Weiter so, du Opfer! 😂', 'Matti, du bist ne Legende. Ne traurige.', 'Bro baut ne Korb-Sammlung, keine Beziehung.'];
+  var JUNGS_NEIN = ['Nicht mal den Korb gefangen …', 'Bro … erbärmlich.', 'Selbst der Korb will dich nicht.', 'Uff. Peinlich, Digga.', 'Der Korb hat dich auch abgelehnt.', 'Wir kennen den nicht.', 'Nicht mal Körbe fangen kann der.', 'Bro verliert sogar gegen nen Korb.'];
   var NAMEN = ['Lena', 'Sophie', 'Mia', 'Emma', 'Hannah', 'Lea', 'Marie', 'Nele', 'Clara', 'Lina'];
 
   var CSS = [
@@ -153,14 +154,14 @@
         if (!gi) { sag('matti', pick(['Noch keine da …', 'Die verstecken sich vor mir. Logisch.']), 1); }
         return;
       }
-      if (Math.abs(mitte() - (gi.x + 16)) > 42) { sag('matti', pick(UNTEN), 1.1); Pixel.sfx.tone(660, 0.06, 'square', 0.03); return; }
-      var m = g.meter, d = Math.abs(m.pos - m.mitte), q = d <= m.breite * 0.3 ? 'perfekt' : d <= m.breite * 0.5 ? 'ok' : 'cringe';
+      if (Math.abs(mitte() - (gi.x + 16)) > 60) { sag('matti', pick(UNTEN), 1.1); Pixel.sfx.tone(660, 0.06, 'square', 0.03); return; }
+      var m = g.meter, d = Math.abs(m.pos - m.mitte), q = d <= m.breite * 0.35 ? 'perfekt' : d <= m.breite * 0.6 ? 'ok' : 'cringe';
       g.meter = null; gi.zustand = 'hoert'; gi.timer = 1.1; gi.q = q; g.versuche++;
       g.mood = 'flirt'; g.moodT = 1.2;
       sag('matti', pick(SPRUECHE), 1.8);
       if (q === 'perfekt') { g.punkte += 30; g.perfekt++; g.ego = Math.min(100, g.ego + 5); Pixel.sfx.tone(784, 0.08, 'triangle', 0.05); Pixel.sfx.tone(1046, 0.14, 'triangle', 0.05, null, 0.08); }
       else if (q === 'ok') { g.punkte += 15; Pixel.sfx.tone(587, 0.12, 'triangle', 0.05); }
-      else { g.punkte += 5; g.ego -= 12; Pixel.sfx.tone(196, 0.22, 'sawtooth', 0.05, 140); }
+      else { g.punkte += 5; g.ego -= 6; Pixel.sfx.tone(196, 0.22, 'sawtooth', 0.05, 140); }
       for (var i = 0; i < (q === 'perfekt' ? 5 : q === 'ok' ? 3 : 0); i++) g.herzen.push({ x: mitte() + rnd(-4, 6), y: GY - MATTI_H - 6, vx: rnd(4, 18), t: 0 });
     }
 
@@ -196,8 +197,8 @@
     function korbWerfen(verzoegert) {
       var gi = g.girl; if (!gi) return;
       var x0 = gi.x + 4, y0 = GY - 36;
-      var tx = clamp(rnd(links() + 10, Math.min(platz() - 20, links() + 120)), links() + 8, platz() - 20);
-      var T = rnd(1.15, 1.6) / (1 + Math.min(g.stufe, 15) * 0.035);
+      var tx = clamp(mitte() + rnd(-22, 22), links() + 8, platz() - 20);
+      var T = rnd(1.5, 1.9) / (1 + Math.min(g.stufe, 15) * 0.015);
       g.koerbeFlug.push({ x: x0, y: y0, vx: (tx - x0) / T, vy: (GY - y0 - 0.5 * GRAV * T * T) / T, rot: 0, verz: verzoegert || 0 });
       if (!verzoegert) Pixel.sfx.tone(330, 0.1, 'square', 0.03, 520);
     }
@@ -214,24 +215,24 @@
       sag('girl', pick(KORB[q]), 1.8, q === 'cringe' ? 'rot' : '');
       g.mood = 'korb'; g.moodT = 1.4;
       korbWerfen(0);
-      if (g.stufe >= 5 && Math.random() < 0.3 + Math.min(0.3, g.stufe * 0.015)) korbWerfen(0.55);
+      if (g.stufe >= 10 && Math.random() < 0.15 + Math.min(0.2, g.stufe * 0.01)) korbWerfen(0.7);
       gi.zustand = 'wirft'; gi.timer = 0.9;
     }
     function uebersehen() {
       var gi = g.girl; gi.mood = 'neutral'; gi.zustand = 'geht';
-      sag('girl', pick(KORB.uebersehen), 1.8); g.ego -= 15; g.mood = 'korb'; g.moodT = 1.4; g.meter = null; g.versuche++;
+      sag('girl', pick(KORB.uebersehen), 1.8); g.ego -= 8; g.mood = 'korb'; g.moodT = 1.4; g.meter = null; g.versuche++;
       Pixel.sfx.tone(262, 0.25, 'triangle', 0.05, 196);
     }
     function gefangen(k) {
       g.koerbe++; g.gefangen++; g.wackel = 0.4;
-      var bonus = 10 * (1 + Math.floor(g.koerbe / 5)); g.punkte += bonus; g.ego = Math.min(100, g.ego + 2);
+      var bonus = 10 * (1 + Math.floor(g.koerbe / 5)); g.punkte += bonus; g.ego = Math.min(100, g.ego + 4);
       Pixel.sfx.tone(523, 0.06, 'square', 0.04); Pixel.sfx.tone(784, 0.1, 'square', 0.04, null, 0.06);
       if (Math.random() < 0.4) sag('jungs', pick(JUNGS_JA), 1.3, 'gruen');
       if (!g.hatte180 && 1.55 + g.koerbe * 0.03 >= 1.795) { g.hatte180 = true; melde('ENDLICH 1,80!', 'Mit Körben zählt das. Sonst nie.'); g.mood = 'jubel'; g.moodT = 1.5; }
       else if (g.koerbe % 10 === 0) melde(g.koerbe + ' KÖRBE!', 'Ablehnungs-Großhändler');
     }
     function verpasst(k) {
-      g.verpasst++; g.ego -= 10; g.liegen.push({ x: k.x, t: 0 });
+      g.verpasst++; g.ego -= 5; g.liegen.push({ x: k.x, t: 0 });
       Pixel.sfx.noise(0.12, 0.08, 900);
       if (Math.random() < 0.5) sag('jungs', pick(JUNGS_NEIN), 1.3, 'rot');
     }
@@ -249,7 +250,7 @@
       var r = richtung();
       if (r) { g.blick = r; g.lauf += dt; }
       var grenze = g.girl && g.girl.zustand !== 'geht' ? g.girl.x - 34 : rechts() - 34;
-      g.mx = clamp(g.mx + r * (70 + Math.min(g.stufe, 12) * 2) * dt, links(), Math.min(grenze, rechts() - 34));
+      g.mx = clamp(g.mx + r * (95 + Math.min(g.stufe, 12) * 2) * dt, links(), Math.min(grenze, rechts() - 34));
 
       // Mädchen
       var gi = g.girl;
@@ -260,8 +261,8 @@
           gi.x -= dt * 40; gi.lauf += dt;
           if (gi.x <= platz()) {
             gi.x = platz(); gi.zustand = 'wartet';
-            var lim = Math.max(2.6, 4.6 - g.stufe * 0.12);
-            g.meter = { pos: 0, phase: rnd(0, 6), tempo: 2.4 + Math.min(g.stufe, 20) * 0.2, mitte: rnd(0.25, 0.75), breite: Math.max(0.14, 0.34 - g.stufe * 0.012), rest: lim, max: lim };
+            var lim = Math.max(4, 6.5 - g.stufe * 0.08);
+            g.meter = { pos: 0, phase: rnd(0, 6), tempo: 1.5 + Math.min(g.stufe, 20) * 0.07, mitte: rnd(0.3, 0.7), breite: Math.max(0.3, 0.5 - g.stufe * 0.008), rest: lim, max: lim };
           }
         } else if (gi.zustand === 'wartet') {
           var m = g.meter; m.phase += dt * m.tempo; m.pos = 0.5 + 0.5 * Math.sin(m.phase); m.rest -= dt;
@@ -284,7 +285,7 @@
         if (k.verz > 0) { k.verz -= dt; if (k.verz <= 0) Pixel.sfx.tone(330, 0.1, 'square', 0.03, 520); return true; }
         var yAlt = k.y;
         k.vy += GRAV * dt; k.x += k.vx * dt; k.y += k.vy * dt; k.rot += dt * 8;
-        if (k.vy > 0 && yAlt <= top + 2 && k.y >= top - 3 && Math.abs(k.x - mitte()) < 11) { gefangen(k); return false; }
+        if (k.vy > 0 && yAlt <= top + 2 && k.y >= top - 4 && Math.abs(k.x - mitte()) < 17) { gefangen(k); return false; }
         if (k.y >= GY - 3) { verpasst(k); return false; }
         return true;
       });
@@ -343,14 +344,14 @@
       var bob = gi.zustand === 'kommt' || gi.zustand === 'geht' ? Math.floor(gi.lauf * 8) % 2 : 0;
       R(gi.x + 2, GY - 1, 28, 2, 'rgba(0,0,0,.2)');
       Pixel.draw(ctx, Sprites.maedchen(gi.nr, gi.mood), OX + gi.x, OY + GY - 56 - bob, 2);
-      if (gi.zustand === 'wartet' && Math.abs(mitte() - (gi.x + 16)) > 42) {
+      if (gi.zustand === 'wartet' && Math.abs(mitte() - (gi.x + 16)) > 60) {
         var hop = Math.floor(t * 4) % 2;
         Pixel.text(ctx, 'HIN DA!', OX + gi.x - 26 + hop, OY + GY - 30, 1, '#14141a');
       }
     }
     function meter(t) {
       var m = g.meter; if (!m) return;
-      var w = 90, x = 90 - w / 2, y = 16, nah = Math.abs(mitte() - (g.girl.x + 16)) <= 42;
+      var w = 90, x = 90 - w / 2, y = 16, nah = Math.abs(mitte() - (g.girl.x + 16)) <= 60;
       R(x - 2, y - 2, w + 4, 14, '#14141a'); R(x, y, w, 10, '#f4f2ea');
       var z0 = (m.mitte - m.breite / 2) * w, zp = m.breite * 0.3 * w;
       R(x + z0, y, m.breite * w, 10, '#ffb8c8'); R(x + m.mitte * w - zp, y, zp * 2, 10, '#f06a8a');
