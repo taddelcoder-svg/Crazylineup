@@ -408,6 +408,39 @@
     sauer: { 7: '..HSHHSSSSHHSH..', 8: '..HSEESSSSEESH..', 11: '.HHSSSOOOOSSSHH.' }
   };
 
+  // Matti: sehr klein, dunkelblonder Wuschelkopf mit Pony, Labor-Schutzbrille mit grünen Bügeln, schwarzes Henley-Shirt mit Knöpfen
+  var MATTI_PAL = {
+    H: '#a8824a', h: '#cca468', S: '#f0c8ac', s: '#d6a68a', W: '#ffffff', E: '#4a3420', M: '#b0665c', O: '#3a1414', R: '#f29a8e',
+    G: '#d4ecf2', g: '#3ad84a', B: '#1c1c22', b: '#34343e', k: '#050508', T: '#f2f2f2', J: '#3a4a6a', K: '#f2f2f2', x: '#9a9a9a'
+  };
+  var MATTI = [
+    '....hHHhHHhH....', '..hHHHHHHHHHHh..', '.HHHhHHHHHHhHHH.', '.HHHHHHHHHHHHHH.', '.HHSHHHHHHHHSHH.', '.HSSSSHSSHSSSSH.',
+    'gGGGGGGSSGGGGGGg', 'sGGWEGSSSSGWEGGs', '.GGGGGGSSGGGGGG.', '.SSSSSSssSSSSSS.', '.SSSSSMMMMSSSSS.', '..SSSSSSSSSSSS..',
+    '...ssSSSSSSss...', '......ssss......', '..BBBBBTTBBBBB..', '.BBBBBBkBBBBBBB.', 'BBBbBBBkBBBBbBBB', 'SBBBBBBBBBBBBBBS',
+    '..JJJJJJJJJJJJ..', '..JJJJ....JJJJ..', '.KKKKK....KKKKK.', '.KxKKK....KKxKK.'
+  ];
+  var MATTI_MOODS = {
+    neutral: {},
+    flirt: { 7: 'sGGEEGSSSSGWEGGs', 9: '.SRRSSSssSSSRRS.', 10: '.SSSSMWWWWMSSSS.' },
+    korb: { 5: '.HSSHHSSSSHHSSH.', 10: '.SSSSSSSSSSSSSS.', 11: '..SSSSMMMMSSSS..' },
+    schock: { 7: 'sGWEWGSSSSWEWGGs', 10: '.SSSSSMOOMSSSSS.', 11: '..SSSSSOOSSSSS..' },
+    skeptisch: { 7: 'sGGEWGSSSSGEWGGs', 10: '.SSSSSMMMSSSSSS.' },
+    jubel: { 7: 'sGGEEGSSSSGEEGGs', 9: '.SRRSSSssSSSRRS.', 10: '.SSSSOWWWWOSSSS.' }
+  };
+  // Mädchen auf dem Schulhof (Nebenfiguren, keine echten Personen) – gleiche Form wie Schatzi, eigene Farben
+  var MAEDCHEN_PAL = [
+    { H: '#e8c870', S: '#f2cdb4', s: '#d6a88e', E: '#2a3a5a', W: '#fff', M: '#c8506a', O: '#3a1418', R: '#f0a090', P: '#8ac8e8', D: '#8ac8e8', J: '#2a3450', K: '#f2f2f2', k: '#9a9a9a' },
+    { H: '#5a3420', S: '#e8b898', s: '#c89878', E: '#2a1a10', W: '#fff', M: '#c04a5a', O: '#3a1418', R: '#f08a9a', P: '#f2f2ea', D: '#e8c040', J: '#4a6aa8', K: '#2a2a2a', k: '#5a5a5a' },
+    { H: '#b8482a', S: '#f6d6c2', s: '#dcb09a', E: '#2a4a2a', W: '#fff', M: '#c8506a', O: '#3a1418', R: '#f0a090', P: '#5aa86a', D: '#5aa86a', J: '#1e1e24', K: '#f2f2f2', k: '#9a9a9a' },
+    { H: '#18120e', S: '#a8724e', s: '#8a5a3a', E: '#1a0e08', W: '#fff', M: '#7a3a3a', O: '#2a1010', R: '#c87a6a', P: '#b88ae8', D: '#b88ae8', J: '#d8d2c4', K: '#f2f2f2', k: '#9a9a9a' }
+  ];
+  var MAEDCHEN_MOODS = {
+    neutral: {},
+    augenrollen: { 8: '..HSWWSSSSWWSH..', 11: '.HHSSSMMMMSSSHH.' },
+    genervt: { 7: '..HSHHSSSSHHSH..', 8: '..HSEESSSSEESH..', 11: '.HHSSSOOOOSSSHH.' },
+    lacht: { 8: '..HSEESSSSEESH..', 11: '.HHSSMWWWWMSSHH.' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -456,6 +489,14 @@
     saro: function (mood) {
       mood = SARO_MOODS[mood] ? mood : 'neutral';
       return Pixel.sprite('saro-' + mood, withMood(SARO, SARO_MOODS, mood), SARO_PAL);
+    },
+    matti: function (mood) {
+      mood = MATTI_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('matti-' + mood, withMood(MATTI, MATTI_MOODS, mood), MATTI_PAL);
+    },
+    maedchen: function (nr, mood) {
+      mood = MAEDCHEN_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('maedchen-' + nr + '-' + mood, withMood(SCHATZI, MAEDCHEN_MOODS, mood), MAEDCHEN_PAL[nr % MAEDCHEN_PAL.length]);
     },
     aro: function () {
       return Pixel.sprite('aro', withMood(SARO, { aro: ARO_ZEILEN }, 'aro'), ARO_PAL);

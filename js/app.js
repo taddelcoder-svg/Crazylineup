@@ -85,6 +85,13 @@
       sprite: function () { return Sprites.saro('cool'); },
       best: 'crazylineup.saro.best', einheit: 'm',
       scripts: ['js/games/saro.js']
+    },
+    {
+      id: 'matti', person: 'Matti', title: 'Korbsammler', grösse: '1,55',
+      vorwurf: 'Sammelt Körbe wie andere Sammelkarten',
+      sprite: function () { return Sprites.matti('flirt'); },
+      best: 'crazylineup.matti.best', einheit: 'Pkt',
+      scripts: ['js/games/matti.js']
     }
   ];
   window.CLKatalog = GAMES;
