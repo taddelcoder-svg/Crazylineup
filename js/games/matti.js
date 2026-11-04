@@ -8,20 +8,21 @@
   var BEST_KEY = 'crazylineup.matti.best';
   var SW0 = 180, SH0 = 140, GY = 124, GRAV = 130, MATTI_H = 44, MAX_STAPEL = 14;
   var SPRUECHE = [
-    'Bist du WLAN? Ich spür ne Verbindung.', 'Glaubst du an Liebe auf den ersten Blick?', 'Hast du ne Karte? Ich hab mich in deinen Augen verlaufen.',
-    'Ich bin klein, aber mein Herz ist riesig!', 'Bist du Chemie? Weil zwischen uns stimmt sie.', 'Trotz Schutzbrille – du blendest.',
-    'Bist du ne Fünf in Mathe? Ich denk nur an dich.', 'Darf ich dich auf nen Kakao einladen?', 'Kommst du öfter auf diesen Schulhof?',
-    'Bist du Google? Du hast alles, was ich suche.', 'Ich hab zwei Mensa-Gutscheine. Zufällig.', 'Hi. Ich bin Matti. Und du bist … wow.'
+    'Bist du WLAN? Ich spür ne Verbindung.', 'Hast du ne Karte? Ich hab mich in deinen Augen verlaufen.', 'Ich bin klein, aber mein Ego ist 2 Meter.',
+    'Bist du ne Fünf in Mathe? Ich denk nur an dich.', 'Ich hab zwei Mensa-Gutscheine. Zufällig.', 'Hi. Ich bin Matti. Gern geschehen.',
+    'Bist du Google? Du hast alles, was ich suche.', 'Ich bin nicht klein, ich bin kompakt gebaut.', 'Ich hab Insta, Snap und ne Mutter, die mich abholt.',
+    'Komm, gib mir deine Nummer, bevor ich wachse.', 'Ich steh auf Zehenspitzen nur für dich.', 'Na, schon mal mit nem Model im Taschenformat geredet?',
+    'Ich bin nicht verzweifelt. Das ist nur Versuch Nummer 47 heute.', 'Ey Schatz, meine Mama sagt, ich bin hübsch.'
   ];
   var KORB = {
-    perfekt: ['Süß … aber nein.', 'Netter Versuch, Kleiner.', 'Du bist lieb. Wie ein kleiner Bruder.', '10/10 für Mut. Trotzdem nein.', 'Aww. Nein.'],
-    ok: ['Ähm … nein danke.', 'Hab grad keine Zeit. Nie.', 'Frag nächstes Jahr nochmal.', 'Ich steh auf Große, sorry.', 'Ich hab schon nen Freund. Bald.'],
-    cringe: ['Was war DAS denn?!', 'Bitte geh einfach.', 'Hast du das aus TikTok?', 'Nope. Nope. Nope.', 'Ich tu so, als hätt ich nix gehört.'],
-    uebersehen: ['Hä? Hat da wer was gesagt?', 'Komisch, ich dachte da war wer.', 'Ist hier irgendwo ein Kind?']
+    perfekt: ['Süß … aber nein.', 'Netter Versuch, Kleiner.', 'Du bist lieb. Wie ein kleiner Bruder. Den keiner mag.', '10/10 für Mut. 0/10 für alles andere.', 'Aww. Nein. Niemals.', 'Frag nochmal, wenn du über die Theke gucken kannst.'],
+    ok: ['Ähm … nein danke.', 'Hab grad keine Zeit. Nie.', 'Ich steh auf Große. Also nicht auf dich.', 'Ich hab schon nen Freund. Bald. Irgendwen, nur nicht dich.', 'Bist du überhaupt schon in der Fünften?', 'Ich date keine Leute mit Kindersitz.'],
+    cringe: ['Was war DAS denn?!', 'Bitte verpiss dich einfach.', 'Hast du den Spruch aus nem Überraschungsei?', 'Nope. Nope. Ekelhaft. Nope.', 'Ich ruf gleich die Pausenaufsicht.', 'Da nehm ich lieber meinen Ex zurück.', 'Junge, du riechst nach Verzweiflung.', 'Ich blockier dich auch im echten Leben.'],
+    uebersehen: ['Hä? Hat da wer was gesagt?', 'Komisch, ich dachte da war wer.', 'Ist hier irgendwo ein Kind?', 'Hat jemand sein Geschwisterkind verloren?', 'Ich glaub, der Mülleimer hat geredet.']
   };
-  var UNTEN = ['HALLO?! HIER UNTEN!', 'Ich bin hier!', 'Ey! Hier!'];
-  var JUNGS_JA = ['Ehrenmann!', 'Der Korb steht dir!', 'Sammelt die wie Pokémon.', 'Korb-König!', 'Starker Fang, Bro!'];
-  var JUNGS_NEIN = ['Nicht mal den Korb gefangen …', 'Bro …', 'Den nächsten!', 'Uff.'];
+  var UNTEN = ['HALLO?! HIER UNTEN!', 'Ich bin hier! Unten! Wie immer!', 'Ey! Hier! Bück dich halt!'];
+  var JUNGS_JA = ['Ehrenmann!', 'Der Korb steht dir besser als jede Freundin.', 'Sammelt die wie Pokémon.', 'Korb-König!', 'Bro hat mehr Körbe als Follower.', 'Der Korb ist das Einzige, was ihn je umarmt hat.', 'Weiter so, du Opfer! 😂'];
+  var JUNGS_NEIN = ['Nicht mal den Korb gefangen …', 'Bro … erbärmlich.', 'Selbst der Korb will dich nicht.', 'Uff. Peinlich, Digga.', 'Der Korb hat dich auch abgelehnt.', 'Wir kennen den nicht.'];
   var NAMEN = ['Lena', 'Sophie', 'Mia', 'Emma', 'Hannah', 'Lea', 'Marie', 'Nele', 'Clara', 'Lina'];
 
   var CSS = [
@@ -149,7 +150,7 @@
       if (g.modus !== 'spiel') return;
       var gi = g.girl;
       if (!gi || gi.zustand !== 'wartet') {
-        if (!gi) { sag('matti', pick(['Noch keine da …', 'Ich wart mal kurz.']), 1); }
+        if (!gi) { sag('matti', pick(['Noch keine da …', 'Die verstecken sich vor mir. Logisch.']), 1); }
         return;
       }
       if (Math.abs(mitte() - (gi.x + 16)) > 42) { sag('matti', pick(UNTEN), 1.1); Pixel.sfx.tone(660, 0.06, 'square', 0.03); return; }
@@ -204,7 +205,7 @@
       var gi = g.girl, q = gi.q;
       // ganz selten: ein kurzer Moment Hoffnung
       if (q === 'perfekt' && Math.random() < 0.06) {
-        gi.mood = 'lacht'; sag('girl', 'Hmm … vielleicht morgen?', 1.5, 'gruen'); melde('VIELLEICHT?!', '+100 Hoffnung');
+        gi.mood = 'lacht'; sag('girl', 'Hmm … vielleicht, wenn du 1,80 bist?', 1.5, 'gruen'); melde('VIELLEICHT?!', '+100 Hoffnung · 0 Chance');
         g.punkte += 100; g.mood = 'jubel'; g.moodT = 1.5;
         Pixel.sfx.tone(523, 0.1, 'square', 0.05); Pixel.sfx.tone(659, 0.1, 'square', 0.05, null, 0.1); Pixel.sfx.tone(784, 0.25, 'square', 0.05, null, 0.2);
         gi.zustand = 'hoffnung'; gi.timer = 1.6; return;
@@ -226,8 +227,8 @@
       var bonus = 10 * (1 + Math.floor(g.koerbe / 5)); g.punkte += bonus; g.ego = Math.min(100, g.ego + 2);
       Pixel.sfx.tone(523, 0.06, 'square', 0.04); Pixel.sfx.tone(784, 0.1, 'square', 0.04, null, 0.06);
       if (Math.random() < 0.4) sag('jungs', pick(JUNGS_JA), 1.3, 'gruen');
-      if (!g.hatte180 && 1.55 + g.koerbe * 0.03 >= 1.795) { g.hatte180 = true; melde('ENDLICH 1,80!', 'Mit Körben zählt das.'); g.mood = 'jubel'; g.moodT = 1.5; }
-      else if (g.koerbe % 10 === 0) melde(g.koerbe + ' KÖRBE!', 'Sammelleidenschaft');
+      if (!g.hatte180 && 1.55 + g.koerbe * 0.03 >= 1.795) { g.hatte180 = true; melde('ENDLICH 1,80!', 'Mit Körben zählt das. Sonst nie.'); g.mood = 'jubel'; g.moodT = 1.5; }
+      else if (g.koerbe % 10 === 0) melde(g.koerbe + ' KÖRBE!', 'Ablehnungs-Großhändler');
     }
     function verpasst(k) {
       g.verpasst++; g.ego -= 10; g.liegen.push({ x: k.x, t: 0 });
@@ -268,7 +269,7 @@
         } else if (gi.zustand === 'hoert') {
           if (gi.timer <= 0) reagieren();
         } else if (gi.zustand === 'hoffnung') {
-          if (gi.timer <= 0) { gi.q = 'perfekt'; sag('girl', '… nee, doch nicht. Sorry!', 1.6); gi.mood = 'augenrollen'; g.mood = 'korb'; g.moodT = 1.4; korbWerfen(0); gi.zustand = 'wirft'; gi.timer = 0.9; }
+          if (gi.timer <= 0) { gi.q = 'perfekt'; sag('girl', '… nee, Spaß. Als ob. 😂', 1.6); gi.mood = 'augenrollen'; g.mood = 'korb'; g.moodT = 1.4; korbWerfen(0); gi.zustand = 'wirft'; gi.timer = 0.9; }
         } else if (gi.zustand === 'wirft') {
           if (gi.timer <= 0) gi.zustand = 'geht';
         } else if (gi.zustand === 'geht') {
@@ -385,7 +386,7 @@
     function intro() {
       ovl.classList.remove('aus');
       var best = +Pixel.get(BEST_KEY, 0);
-      ovl.innerHTML = '<div class="mt-karte"><h1>Korbsammler</h1><div class="unter">Matti ist 1,55 m groß und hat 2 m Selbstbewusstsein. Noch.</div><div data-el="fig"></div>' +
+      ovl.innerHTML = '<div class="mt-karte"><h1>Korbsammler</h1><div class="unter">Matti ist 1,55 m groß und hat 2 m Selbstbewusstsein. Noch ca. 30 Sekunden.</div><div data-el="fig"></div>' +
         (best ? '<div class="zeile"><span>Bestmarke</span><b>' + best + '</b></div>' : '') +
         '<ul><li>🚶 <b>A/D</b> oder <b>←/→</b>: Matti läuft. Erst nah ran – sonst sieht sie ihn gar nicht.</li>' +
         '<li>💬 <b>Leertaste</b>, wenn der Zeiger im <b style="color:#c83a6a">pinken Feld</b> ist. Mitte = perfekter Spruch.</li>' +
@@ -399,19 +400,19 @@
       if (g.ende) { g.blasen.forEach(function (b) { b.el.remove(); }); reset(); }
       g.modus = 'spiel'; ovl.classList.add('aus'); $('hud').classList.add('an'); allesLos();
       melde('SCHULHOF', 'Große Pause · Matti ist bereit');
-      spaeter(function () { if (g.modus === 'spiel') sag('matti', pick(['Heute klappt’s. Safe.', 'Ich hab nen guten Lauf.', 'Okay Matti, du schaffst das.']), 1.6); }, 700);
+      spaeter(function () { if (g.modus === 'spiel') sag('matti', pick(['Heute klappt’s. Safe.', 'Ich bin ein Alpha. Ein kleiner.', 'Okay Matti, die wollen dich alle.']), 1.6); }, 700);
       Pixel.sfx.tone(392, 0.08, 'square', 0.05); Pixel.sfx.tone(523, 0.08, 'square', 0.05, null, 0.09); Pixel.sfx.tone(659, 0.15, 'square', 0.05, null, 0.18);
     }
     function ende() {
       if (g.modus === 'ende') return;
       g.modus = 'ende'; g.ende = true; g.meter = null; allesLos();
       var best = +Pixel.get(BEST_KEY, 0), neu = g.punkte > best; if (neu) Pixel.set(BEST_KEY, g.punkte);
-      sag('jungs', 'Kopf hoch, Matti!', 2.2, 'gruen');
+      sag('jungs', 'Kopf hoch, Matti! Ah ne, kommst eh nicht hoch.', 2.2, 'gruen');
       Pixel.sfx.tone(392, 0.3, 'triangle', 0.06, 370); Pixel.sfx.tone(349, 0.3, 'triangle', 0.06, 330, 0.3); Pixel.sfx.tone(294, 0.7, 'triangle', 0.06, 220, 0.6);
       spaeter(function () {
         $('hud').classList.remove('an'); ovl.classList.remove('aus');
-        ovl.innerHTML = '<div class="mt-karte"><h1>Ego am Boden</h1><div class="unter">Für heute reicht’s. Morgen ist ein neuer Schulhof.</div><div data-el="fig"></div>' +
-          '<div class="zitat"><b>Matti:</b> „Die wollen alle nur nicht zugeben, dass sie mich mögen.“</div>' +
+        ovl.innerHTML = '<div class="mt-karte"><h1>Ego am Boden</h1><div class="unter">Für heute reicht’s. Morgen gibt’s neue Körbe.</div><div data-el="fig"></div>' +
+          '<div class="zitat"><b>Matti:</b> „Die sind nur eingeschüchtert von so viel Mann auf so wenig Fläche.“</div>' +
           '<div class="zeile"><span>Punkte</span><b>' + g.punkte + (neu ? ' ★' : '') + '</b></div>' +
           '<div class="zeile"><span>Anmachversuche</span><b>' + g.versuche + '</b></div>' +
           '<div class="zeile"><span>Perfekte Sprüche</span><b>' + g.perfekt + '</b></div>' +
