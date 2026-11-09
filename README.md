@@ -23,6 +23,7 @@ siehe `render.yaml`) oder per Docker (`Dockerfile`, nginx).
 | Matti | Korbsammler – auf dem Schulhof Mädchen ansprechen (Timing-Leiste), jeden Korb mit dem Kopf fangen und so auf 1,80 anwachsen | 2D-Pixel (Canvas) |
 | Sinan | Krabbe vs. Sinan – als Krabbe gegen den Muay-Thai-Kämpfer im Ring am Strand: Low Kicks überspringen, dem Stampfer ausweichen, Zeh-, Nasen- und Po-Zwick, Krabben-Tornado | 3D (three.js, Bloom) |
 | Paul | Zunge raus! – in der Bar mit der viel zu langen Zunge seine weißen Päckchen und Snacks aus der Luft fangen; Chili, Zitrone und Wespe meiden | 2D-Pixel (Canvas) |
+| Leon (Locken-Leon) als Leonie Lockenpracht | Showtime! – Drag-Show als Rhythmusspiel: Outfit zum Jury-Motto wählen, im Takt Posen treffen, Haar-Flips, Publikums-Hype halten, nach 3 Songs vergibt die Jury die Krone | 2D-Pixel (Canvas) |
 
 ## Aufbau
 
