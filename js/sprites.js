@@ -459,6 +459,28 @@
     au: { 7: '.FHHSSSSSSSSHHF.', 8: 'sSSHHSSSSSSHHSSs', 11: '.SSSSSMOOMSSSSS.', 12: '..SSSSSOOSSSSS..' }
   };
 
+  // Paul: schwarze Beanie mit kleinem Patch, dunkelbrauner Wuschelpony, schwarzer Zip-Hoodie mit Kordeln und kleinem rotem Logo; „zunge“ = Augen zu, Zunge raus
+  var PAUL_PAL = {
+    Q: '#18181c', q: '#2e2e36', P: '#d8d8d8', H: '#3a2418', h: '#5a3a26', S: '#f2cfb8', s: '#d8aa92', E: '#2a1a10', W: '#ffffff', M: '#a85a5a', O: '#3a1414',
+    T: '#f08a9a', t: '#d86a7a', F: '#ee6a5a', B: '#1a1a20', b: '#2c2c36', Z: '#b8b8c0', R: '#c8302a', J: '#3a4a6a', K: '#f2f2f2', k: '#9a9a9a'
+  };
+  var PAUL = [
+    '....qQQQQQQq....', '..QQQQQQQQQQQQ..', '.QQQQQQQQQQQPPQ.', '.QQQQQQQQQQQPPQ.', '.qqqqqqqqqqqqqq.', '.HHhHHHhHHHhHHH.',
+    '.HSHHSSHHSSHHSH.', '.SSSSSSSSSSSSSS.', 'sSSWESSSSSSEWSSs', 'sSSSSSSssSSSSSSs', '.SSSSSSssSSSSSS.', '.SSSSMMMMMMSSSS.',
+    '..SSSSSSSSSSSS..', '...ssSSSSSSss...', '......ssss......', '..BBbBBBZBBbBB..', '.BBBZBBBZBBBZBB.', 'BBBbZBBBZBBRZbBB',
+    'BBBbBBBBZBBBBbBB', 'BBBBBBBBZBBBBBBB', 'SBBBBBBBZBBBBBBS', 'S.BBBBBBZBBBBB.S', '..JJJJJJJJJJJJ..', '..JJJJJ..JJJJJ..',
+    '..JJJJJ..JJJJJ..', '..JJJJ....JJJJ..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'
+  ];
+  var PAUL_MOODS = {
+    neutral: {},
+    zunge: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSOOOOOOSSSS.', 12: '..SSSSTTTTSSSS..', 13: '...ssSTTTTSss...', 14: '......tTTt......' },
+    offen: { 11: '.SSSSOOOOOOSSSS.', 12: '..SSSSOOOOSSSS..' },
+    happy: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSMWWWWMSSSS.' },
+    sauer: { 6: '.HSHHSSHHSSHHSH.', 8: 'sSSEESSSSSSEESSs', 10: '.SSSSSSssSSSSSS.', 11: '.SSSSSSMMSSSSSS.' },
+    scharf: { 7: '.FFFFFFFFFFFFFF.', 8: 'FFFWEFFFFFFEWFFF', 9: 'FFFFFFFssFFFFFFF', 10: '.FFFFFFssFFFFFF.', 11: '.FFFFOOOOOOFFFF.', 12: '..FFFFOOOOFFFF..' },
+    aua: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSOOOOOOSSSS.', 12: '..SSSSFFFFSSSS..', 13: '...ssSFFFFSss...', 14: '......FFFF......' }
+  };
+
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
     return base.map(function (row, i) { return o[i] || row; });
@@ -519,6 +541,10 @@
     sinan: function (mood) {
       mood = SINAN_MOODS[mood] ? mood : 'neutral';
       return Pixel.sprite('sinan-' + mood, withMood(SINAN, SINAN_MOODS, mood), SINAN_PAL);
+    },
+    paul: function (mood) {
+      mood = PAUL_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('paul-' + mood, withMood(PAUL, PAUL_MOODS, mood), PAUL_PAL);
     },
     aro: function () {
       return Pixel.sprite('aro', withMood(SARO, { aro: ARO_ZEILEN }, 'aro'), ARO_PAL);

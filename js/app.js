@@ -99,6 +99,13 @@
       sprite: function () { return Sprites.sinan('kampf'); },
       best: 'crazylineup.sinan.best', einheit: 'Pkt',
       scripts: PP.concat(['js/games/sinan.js'])
+    },
+    {
+      id: 'paul', person: 'Paul', title: 'Zunge raus!', grösse: '1,78',
+      vorwurf: 'Fängt alles mit der Zunge – am liebsten seine Päckchen',
+      sprite: function () { return Sprites.paul('zunge'); },
+      best: 'crazylineup.paul.best', einheit: 'Pkt',
+      scripts: ['js/games/paul.js']
     }
   ];
   window.CLKatalog = GAMES;
