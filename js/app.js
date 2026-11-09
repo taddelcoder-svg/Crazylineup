@@ -106,6 +106,13 @@
       sprite: function () { return Sprites.paul('zunge'); },
       best: 'crazylineup.paul.best', einheit: 'Pkt',
       scripts: ['js/games/paul.js']
+    },
+    {
+      id: 'leonie', person: 'Leonie Lockenpracht', title: 'Showtime!', grösse: '1,78',
+      vorwurf: 'Tagsüber Leon, nachts die Queen der Bühne',
+      sprite: function () { return Sprites.leonie(0, 'huefte', 'zwinker'); },
+      best: 'crazylineup.leonie.best', einheit: 'Pkt',
+      scripts: ['js/games/leonie.js']
     }
   ];
   window.CLKatalog = GAMES;
@@ -139,7 +146,7 @@
       var best = +Pixel.get(g.best, 0);
       b.innerHTML =
         '<canvas></canvas>' +
-        '<div class="plate"><span class="nr">' + String(i + 1).padStart(2, '0') + '</span>' + g.person.toUpperCase() + '</div>' +
+        '<div class="plate' + (g.person.length > 14 ? ' lang' : '') + '"><span class="nr">' + String(i + 1).padStart(2, '0') + '</span>' + g.person.toUpperCase() + '</div>' +
         '<div class="charge"><b>' + g.title + '</b><small>' + g.vorwurf + '</small>' +
         (best ? '<em>Rekord: ' + best + ' ' + g.einheit + '</em>' : '') + '</div>';
       var cv = b.querySelector('canvas'), img = g.sprite();

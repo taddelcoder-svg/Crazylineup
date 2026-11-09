@@ -57,6 +57,7 @@ canvas.px { image-rendering: pixelated; image-rendering: crisp-edges; }
 .suspect:active canvas { transform: translateY(2px) scale(.98); }
 .plate { font-family: 'Press Start 2P', monospace; font-size: 11px; background: #111; color: #fff; padding: 8px 10px; border: 3px solid #ddd; letter-spacing: .05em; white-space: nowrap; }
 .plate .nr { color: var(--gelb); margin-right: 8px; }
+.plate.lang { white-space: normal; text-align: center; max-width: 170px; line-height: 1.6; }
 .charge { display: flex; flex-direction: column; gap: 2px; text-align: center; }
 .charge b { color: var(--gelb); font-size: 18px; }
 .charge small { opacity: .7; font-size: 14px; }
