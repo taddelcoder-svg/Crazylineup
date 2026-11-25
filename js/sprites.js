@@ -478,7 +478,12 @@
     happy: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSMWWWWMSSSS.' },
     sauer: { 6: '.HSHHSSHHSSHHSH.', 8: 'sSSEESSSSSSEESSs', 10: '.SSSSSSssSSSSSS.', 11: '.SSSSSSMMSSSSSS.' },
     scharf: { 7: '.FFFFFFFFFFFFFF.', 8: 'FFFWEFFFFFFEWFFF', 9: 'FFFFFFFssFFFFFFF', 10: '.FFFFFFssFFFFFF.', 11: '.FFFFOOOOOOFFFF.', 12: '..FFFFOOOOFFFF..' },
-    aua: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSOOOOOOSSSS.', 12: '..SSSSFFFFSSSS..', 13: '...ssSFFFFSss...', 14: '......FFFF......' }
+    aua: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSOOOOOOSSSS.', 12: '..SSSSFFFFSSSS..', 13: '...ssSFFFFSss...', 14: '......FFFF......' },
+    links: { 8: 'sSSEWSSSSSSEWSSs' },
+    rechts: { 8: 'sSSWESSSSSSWESSs' },
+    runter: { 8: 'sSSHHSSSSSSHHSSs', 11: '.SSSSSMMMMSSSSS.' },
+    wut: { 7: '.SSHHSSSSSSHHSS.', 8: 'sSSEWSSSSSSEWSSs', 11: '.SSSSSOOOOSSSSS.' },
+    schock: { 7: '.SSHHSSSSSSHHSS.', 8: 'sSWEWSSSSSSWEWSs', 11: '.SSSSOOOOOOSSSS.', 12: '..SSSSOOOOSSSS..' }
   };
 
   // Leon (der zweite Leon, Locken-Leon): vorher = lockiger Schopf mit Fade, Navy-Hoodie, graue Jogginghose
@@ -523,6 +528,26 @@
     if (gesicht === 'strahl') { setz(11, 8, 'L'); setz(11, 9, 'W'); setz(11, 10, 'W'); setz(11, 11, 'L'); }
     return r.map(function (z) { return z.join(''); });
   }
+
+  // Yassin: dunkler Lockenkopf mit Locken in der Stirn und Fade an den Seiten, grauer Hoodie mit kleinem weißen Schriftzug
+  var YASSIN_PAL = {
+    H: '#2a1a12', h: '#4a3020', F: '#8a6a52', S: '#d8a682', s: '#b88866', E: '#2a1608', W: '#ffffff', M: '#9a5a4a', O: '#3a1410', B: '#2a1a12',
+    G: '#9a9c98', g: '#7e807c', w: '#f2f2f2', J: '#2a2a34', K: '#f2f2f2', k: '#9a9a9a'
+  };
+  var YASSIN = [
+    '...hHh.hHh.hH...', '..hHHHhHHHhHHh..', '.hHHhHHHhHHHhHH.', '.HHhHHHhHHHhHHH.', '.FHHHhHHHhHHHHF.', '.FSHhSHHShHSSSF.', '.FSSSSSSSSSSSSF.',
+    '.FSBBSSSSSSBBSF.', 'sSSWESSSSSSEWSSs', 'sSSSSSSssSSSSSSs', '.SSSSSSssSSSSSS.', '.SSSSSMMMMMSSSS.', '..SSSSSSSSSSSS..', '...ssSSSSSSss...',
+    '......ssss......', '..GGGGGssGGGGG..', '.GGGGgGGGGgGGGG.', 'GGGgGGGGGGGGgGGG', 'GGGgGGwwwGGGgGGG', 'GGGGGGGGGGGGGGGG', 'SGGGGGGGGGGGGGGS',
+    'S.GGGGGGGGGGGG.S', '..JJJJJJJJJJJJ..', '..JJJJJ..JJJJJ..', '..JJJJJ..JJJJJ..', '..JJJJ....JJJJ..', '.KKKKK....KKKKK.', '.KkKKK....KKkKK.'
+  ];
+  var YASSIN_MOODS = {
+    neutral: {},
+    grins: { 11: '.SSSSMWWWWMSSSS.' },
+    rechts: { 8: 'sSSWESSSSSSWESSs', 11: '.SSSSSSMMMMSSSS.' },
+    unschuldig: { 7: '.FBBSSSSSSSSBBF.', 8: 'sSSEESSSSSSEESSs', 11: '.SSSSSSOOSSSSSS.' },
+    panik: { 7: '.FBBSSSSSSSSBBF.', 8: 'sSWEWSSSSSSWEWSs', 11: '.SSSSSMOOMSSSSS.', 12: '..SSSSSOOSSSSS..' },
+    stolz: { 8: 'sSSEESSSSSSEESSs', 11: '.SSSSMWWWWMSSSS.' }
+  };
 
   function withMood(base, moods, mood) {
     var o = moods[mood] || {};
@@ -594,6 +619,10 @@
       outfit = (outfit || 0) % LEONIE_OUTFITS.length; pose = pose || 'steh'; gesicht = gesicht || 'normal';
       var pal = {}, k; for (k in LEONIE_BASIS) pal[k] = LEONIE_BASIS[k]; for (k in LEONIE_OUTFITS[outfit]) pal[k] = LEONIE_OUTFITS[outfit][k];
       return Pixel.sprite('leonie-' + outfit + '-' + pose + '-' + gesicht, leonieZeilen(pose, gesicht), pal);
+    },
+    yassin: function (mood) {
+      mood = YASSIN_MOODS[mood] ? mood : 'neutral';
+      return Pixel.sprite('yassin-' + mood, withMood(YASSIN, YASSIN_MOODS, mood), YASSIN_PAL);
     },
     aro: function () {
       return Pixel.sprite('aro', withMood(SARO, { aro: ARO_ZEILEN }, 'aro'), ARO_PAL);

@@ -113,6 +113,13 @@
       sprite: function () { return Sprites.leonie(0, 'huefte', 'zwinker'); },
       best: 'crazylineup.leonie.best', einheit: 'Pkt',
       scripts: ['js/games/leonie.js']
+    },
+    {
+      id: 'yassin', person: 'Yassin', title: 'Pencil-Dieb', grösse: '1,78',
+      vorwurf: 'Klaut Pauls Pencil – und vernichtet die Beweise',
+      sprite: function () { return Sprites.yassin('grins'); },
+      best: 'crazylineup.yassin.best', einheit: 'Pkt',
+      scripts: ['js/games/yassin.js']
     }
   ];
   window.CLKatalog = GAMES;
